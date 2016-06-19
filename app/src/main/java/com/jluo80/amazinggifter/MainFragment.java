@@ -1,4 +1,4 @@
-package net.simplifiedcoding.androidlogin;
+package com.jluo80.amazinggifter;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;

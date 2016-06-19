@@ -1,4 +1,4 @@
-package com.jluo80.mas;
+package com.jluo80.amazinggifter;
 
 import org.junit.Test;
 

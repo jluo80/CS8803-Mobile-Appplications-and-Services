@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">AndroidLogin</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Amazing Gifter</string>
+    <string name="facebook_app_id">1036730073091285</string>
     <string name="action_settings">Settings</string>
-    <string name="app_id">364110757118850</string>
+    <string name="title_activity_logout">LogoutActivity</string>
+    <string name="login_with_facebook">Login with Facebook</string>
 </resources>

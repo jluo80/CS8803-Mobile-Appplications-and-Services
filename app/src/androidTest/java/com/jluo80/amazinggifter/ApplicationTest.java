@@ -1,4 +1,4 @@
-package net.simplifiedcoding.androidlogin;
+package com.jluo80.amazinggifter;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
