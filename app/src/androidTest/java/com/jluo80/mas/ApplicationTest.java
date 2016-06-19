@@ -1,4 +1,4 @@
-package com.jluo80.amazinggifter;
+package com.jluo80.mas;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
