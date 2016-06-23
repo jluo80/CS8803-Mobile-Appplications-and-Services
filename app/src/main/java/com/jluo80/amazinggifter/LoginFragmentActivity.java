@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -17,15 +15,10 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
-import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +28,7 @@ import java.util.Arrays;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainFragment extends Fragment {
+public class LoginFragmentActivity extends Fragment {
 
     private CallbackManager callbackManager;
 //    private TextView textView;
@@ -60,7 +53,7 @@ public class MainFragment extends Fragment {
                         Log.e("GraphResponse", response.toString());
                         try
                         {
-                            Intent intent = new Intent(MainFragment.this.getActivity(), AllGiftsList.class);
+                            Intent intent = new Intent(LoginFragmentActivity.this.getActivity(), NavigationActivity.class);
                             intent.putExtra("user_id", object.getString("id"));
                             intent.putExtra("full_name", object.getString("name"));
                             startActivity(intent);
@@ -86,7 +79,7 @@ public class MainFragment extends Fragment {
         }
     };
 
-    public MainFragment() {
+    public LoginFragmentActivity() {
 
     }
 
