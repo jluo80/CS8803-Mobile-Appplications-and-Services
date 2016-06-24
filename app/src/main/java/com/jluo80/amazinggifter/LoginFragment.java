@@ -28,7 +28,7 @@ import java.util.Arrays;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LoginFragmentActivity extends Fragment {
+public class LoginFragment extends Fragment {
 
     private CallbackManager callbackManager;
 //    private TextView textView;
@@ -53,7 +53,7 @@ public class LoginFragmentActivity extends Fragment {
                         Log.e("GraphResponse", response.toString());
                         try
                         {
-                            Intent intent = new Intent(LoginFragmentActivity.this.getActivity(), NavigationActivity.class);
+                            Intent intent = new Intent(LoginFragment.this.getActivity(), NavigationActivity.class);
                             intent.putExtra("user_id", object.getString("id"));
                             intent.putExtra("full_name", object.getString("name"));
                             startActivity(intent);
@@ -79,7 +79,7 @@ public class LoginFragmentActivity extends Fragment {
         }
     };
 
-    public LoginFragmentActivity() {
+    public LoginFragment() {
 
     }
 

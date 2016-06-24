@@ -17,6 +17,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+        <!--MainActivity-->
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -34,10 +35,8 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".AllGiftsList"
-            android:label="@string/app_name" />
-        <activity android:name=".NavigationActivity"></activity>
+
+        <activity android:name=".NavigationActivity" />
     </application>
 
 </manifest>

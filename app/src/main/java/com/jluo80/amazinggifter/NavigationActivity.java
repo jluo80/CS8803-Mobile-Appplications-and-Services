@@ -1,66 +1,53 @@
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.jluo80.amazinggifter;
 
-import android.content.Intent;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnMenuTabSelectedListener;
+import com.jluo80.amazinggifter.R;
 
 public class NavigationActivity extends AppCompatActivity {
-    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_navigation);
-
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.navigation_activity);
-
-        BottomBar bottomBar = BottomBar.attach(this, savedInstanceState);
-        bottomBar.setItemsFromMenu(R.menu.navigation_menu, new OnMenuTabSelectedListener() {
-            @Override
-            public void onMenuItemSelected(int itemId) {
-                switch (itemId) {
-                    case R.id.my_gifts_item:
-                        Intent intent = new Intent(NavigationActivity.this, AllGiftsList.class);
-                        startActivity(intent);
-//                        Snackbar.make(coordinatorLayout, "My Gifts Item Selected", Snackbar.LENGTH_LONG).show();
-//                        break;
-                    case R.id.friends_item:
-                        Snackbar.make(coordinatorLayout, "Friends Item Selected", Snackbar.LENGTH_LONG).show();
-                        break;
-                    case R.id.about_me_item:
-                        Snackbar.make(coordinatorLayout, "About Me Item Selected", Snackbar.LENGTH_LONG).show();
-                        break;
-                }
-            }
-        });
-
-        // Set the color for the active tab. Ignored on mobile when there are more than three tabs.
-        bottomBar.setActiveTabColor("#C2185B");
-
-        // Use the dark theme. Ignored on mobile when there are more than three tabs.
-        //bottomBar.useDarkTheme(true);
-
-        // Use custom text appearance in tab titles.
-        //bottomBar.setTextAppearance(R.style.MyTextAppearance);
-
-        // Use custom typeface that's located at the "/src/main/assets" directory. If using with
-        // custom text appearance, set the text appearance first.
-        //bottomBar.setTypeFace("MyFont.ttf");
 
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         // Create an adapter that knows which fragment should be shown on each page
-        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
+        CategoryAdapter adapter = new CategoryAdapter(this, getSupportFragmentManager());
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
 
+        // Find the tab layout that shows the tabs
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        // Connect the tab layout with the view pager. This will
+        //   1. Update the tab layout when the view pager is swiped
+        //   2. Update the view pager when a tab is selected
+        //   3. Set the tab layout's tab names with the view pager's adapter's titles
+        //      by calling onPageTitle()
+        tabLayout.setupWithViewPager(viewPager);
     }
 }

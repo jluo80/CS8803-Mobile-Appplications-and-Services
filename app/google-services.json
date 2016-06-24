@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "637700817889",
+    "firebase_url": "https://amazinggifter-b2662.firebaseio.com",
+    "project_id": "amazinggifter-b2662",
+    "storage_bucket": "amazinggifter-b2662.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637700817889:android:f755ee2207bd9389",
+        "android_client_info": {
+          "package_name": "com.jluo80.amazinggifter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637700817889-diorgo67sll1e250qc66f12od8ouc239.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrw2rHmb03pjVxDz1npKZCP9ryAQgdtjA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
