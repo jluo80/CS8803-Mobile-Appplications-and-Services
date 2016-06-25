@@ -16,6 +16,7 @@
 package com.jluo80.amazinggifter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -75,4 +76,6 @@ public class CategoryAdapter extends FragmentPagerAdapter {
             return mContext.getString(R.string.about_me);
         }
     }
+
+
 }

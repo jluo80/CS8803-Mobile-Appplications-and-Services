@@ -4,5 +4,6 @@
     <color name="primary_dark_color">#303F9F</color>
     <color name="accent_color">#FF4081</color>
     <color name="tan_background">#FFF7DA</color>
+    <color name="floating_action_button_color">#FF5733</color>
 
 </resources>

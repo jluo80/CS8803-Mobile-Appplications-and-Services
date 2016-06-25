@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
+        if(id == R.id.action_refresh){
+            Toast.makeText(MainActivity.this, "Refresh App", Toast.LENGTH_LONG).show();
+        }
         return super.onOptionsItemSelected(item);
     }
 }
