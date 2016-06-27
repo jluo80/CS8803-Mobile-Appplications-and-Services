@@ -216,7 +216,7 @@
                 android:text="modification"
                 android:layout_gravity="center"
                 android:layout_margin="20px"
-                android:background="@color/tan_background"/>
+                android:background="@color/button"/>
 
         </LinearLayout>
 

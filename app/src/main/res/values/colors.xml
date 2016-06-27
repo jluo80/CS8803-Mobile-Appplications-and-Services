@@ -5,8 +5,9 @@
     <color name="accent_color">#FF4081</color>
     <color name="tan_background">#FFF7DA</color>
     <color name="floating_action_button_color">#FF5733</color>
-    <color name="one_color">#AA5666</color>
-    <color name="two_color">#AA6666</color>
+    <color name="one_color">#ccffff</color>
+    <color name="two_color">#99ffff</color>
+    <color name="button">#ccff66</color>
 
 
 
