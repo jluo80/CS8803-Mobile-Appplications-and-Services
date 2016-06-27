@@ -1,20 +1,22 @@
 package com.jluo80.amazinggifter;
 
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.facebook.FacebookActivity;
+import com.facebook.login.LoginManager;
+
+public class AmazonSearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_amazon_search);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -35,7 +37,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if(id == R.id.action_refresh){
-            Toast.makeText(MainActivity.this, "Refresh App", Toast.LENGTH_LONG).show();
+            finish();
+            startActivity(getIntent());
+        }
+        if(id == android.R.id.home){
+            LoginManager.getInstance().logOut();
+            Intent logoutIntent = new Intent(AmazonSearchActivity.this, MainActivity.class);
+            startActivity(logoutIntent);
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

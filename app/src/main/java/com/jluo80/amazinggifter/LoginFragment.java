@@ -16,6 +16,10 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -24,22 +28,17 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-
-/**
- * A placeholder fragment containing a simple view.
- */
 public class LoginFragment extends Fragment {
 
     private CallbackManager callbackManager;
-//    private TextView textView;
-
     private AccessTokenTracker accessTokenTracker;
-//    private ProfileTracker profileTracker;
+    private ProfileTracker profileTracker;
 
-    /**
-     * The CallbackManager manages the callbacks into the FacebookSdk from an Activity's or
-     * Fragment's onActivityResult() method.
-     */
+    public static final String PROFILE_USER_ID = "USER_ID";
+    public static final String PROFILE_FIRST_NAME = "PROFILE_FIRST_NAME";
+    public static final String PROFILE_LAST_NAME = "PROFILE_LAST_NAME";
+    public static final String PROFILE_IMAGE_URL = "PROFILE_IMAGE_URL";
+    
     private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
@@ -57,6 +56,7 @@ public class LoginFragment extends Fragment {
                             intent.putExtra("user_id", object.getString("id"));
                             intent.putExtra("full_name", object.getString("name"));
                             startActivity(intent);
+                            getActivity().finish();
                         }
                         catch (JSONException e)
                         {
@@ -87,26 +87,27 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
-
         callbackManager = CallbackManager.Factory.create();
-
         accessTokenTracker= new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
 
+                Log.v("AccessTokenTracker", "oldAccessToken=" + oldToken + "||" + "newToken" + newToken);
+
             }
         };
 
-//        profileTracker = new ProfileTracker() {
-//            @Override
-//            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
-//                displayMessage(newProfile);
-//            }
-//        };
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
+                Log.v("Session Tracker", "oldProfile=" + oldProfile + "||" + "currentProfile" +newProfile);
+            }
+        };
 
         accessTokenTracker.startTracking();
-//        profileTracker.startTracking();
+        profileTracker.startTracking();
+        LoginManager.getInstance().registerCallback(callbackManager, callback);
+
     }
 
     @Override
@@ -116,8 +117,8 @@ public class LoginFragment extends Fragment {
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Load fragment_main.xml
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        // Load fragment_login.xml
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
     @Override
@@ -125,8 +126,6 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         LoginButton loginButton = (LoginButton) view.findViewById(R.id.login_button);
-
-//        textView = (TextView) view.findViewById(R.id.textView);
 
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends"));
 
@@ -144,23 +143,25 @@ public class LoginFragment extends Fragment {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-//    private void displayMessage(Profile profile){
-//        if(profile != null){
-//            textView.setText(profile.getFirstName());
-//        }
-//    }
 
     @Override
     public void onStop() {
         super.onStop();
         accessTokenTracker.stopTracking();
-//        profileTracker.stopTracking();
+        profileTracker.stopTracking();
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
 //        Profile profile = Profile.getCurrentProfile();
-//        displayMessage(profile);
+        AppEventsLogger.activateApp(this.getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this.getActivity());
     }
 }

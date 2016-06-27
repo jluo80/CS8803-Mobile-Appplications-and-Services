@@ -15,6 +15,7 @@
  */
 package com.jluo80.amazinggifter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.facebook.FacebookActivity;
+import com.facebook.login.LoginManager;
 import com.jluo80.amazinggifter.R;
 
 public class NavigationActivity extends AppCompatActivity {
@@ -93,7 +96,15 @@ public class NavigationActivity extends AppCompatActivity {
             return true;
         }
         if(id == R.id.action_refresh){
-            Toast.makeText(NavigationActivity.this, "Refresh App", Toast.LENGTH_LONG).show();
+            finish();
+            startActivity(getIntent());
+        }
+        if(id == android.R.id.home){
+            LoginManager.getInstance().logOut();
+            Intent logoutIntent = new Intent(NavigationActivity.this, MainActivity.class);
+            startActivity(logoutIntent);
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

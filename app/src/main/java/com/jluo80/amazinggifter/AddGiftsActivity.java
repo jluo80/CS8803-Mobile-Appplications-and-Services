@@ -96,7 +96,8 @@ public class AddGiftsActivity extends AppCompatActivity {
             return true;
         }
         if(id == R.id.action_refresh){
-            Toast.makeText(AddGiftsActivity.this, "Refresh App", Toast.LENGTH_LONG).show();
+            finish();
+            startActivity(getIntent());
         }
         if(id == android.R.id.home){
             finish();
