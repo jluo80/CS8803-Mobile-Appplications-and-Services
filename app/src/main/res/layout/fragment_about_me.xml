@@ -5,9 +5,224 @@
     android:background="@color/tan_background"
     tools:context="com.jluo80.amazinggifter.AboutMeFragment">
 
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="About me fragment" />
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:background="@color/one_color"
+            android:orientation="horizontal"
+            android:layout_weight="3"
+            android:padding="30px">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Porfile photo"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="20px"/>
+            <ImageView
+
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:paddingLeft="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:background="@color/two_color"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:padding="30px">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Name"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginLeft="20px"/>
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Tongzhe Zhang"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="20px"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:background="@color/one_color"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:padding="30px">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Brithday"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginLeft="20px"/>
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="1992-11-3"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="20px"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:background="@color/two_color"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:padding="30px">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="E-mail"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginLeft="20px"/>
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Tzhang357@gatech.edu"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="20px"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:background="@color/one_color"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:padding="30px">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Mobile"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginLeft="20px"/>
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="4702328282"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="20px"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:background="@color/two_color"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:padding="30px">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Address"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginLeft="20px"/>
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Ethel street"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="20px"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:background="@color/one_color"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:padding="30px">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Payment"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginLeft="20px"/>
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Paypal"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="20px"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:background="@color/two_color"
+            android:orientation="horizontal"
+            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:padding="30px">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="modification"
+                android:layout_gravity="center"
+                android:layout_margin="20px"
+                android:background="@color/tan_background"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
 
 </FrameLayout>
