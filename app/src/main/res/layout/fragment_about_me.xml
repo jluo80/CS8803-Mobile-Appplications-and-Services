@@ -1,204 +1,256 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/tan_background"
     tools:context="com.jluo80.amazinggifter.AboutMeFragment">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linear">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/profile_background"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <ImageView
+                android:id="@+id/picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/userimg"
+                android:layout_gravity="right" />
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:background="@color/one_color"
-            android:orientation="horizontal"
-            android:layout_weight="3"
-            android:padding="30px">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Porfile photo"
-                android:layout_gravity="center"
+            <customfonts.MyTextView
+                android:text="@string/username"
                 android:layout_weight="1"
-                android:layout_marginLeft="20px"/>
-            <ImageView
-
-                android:layout_width="0px"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFF"
-                android:paddingLeft="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon"
-                android:layout_weight="1"/>
+                android:textColor="#a2a1b8"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left" />
 
+            <customfonts.MyTextView
+                android:id="@+id/username"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#181737"
+                android:textColor="#181737"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="right" />
         </LinearLayout>
 
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dad8d8"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:background="@color/two_color"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:padding="30px">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Name"
-                android:layout_gravity="center_vertical"
+            <customfonts.MyTextView
+                android:text="@string/email"
                 android:layout_weight="1"
-                android:layout_marginLeft="20px"/>
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Tongzhe Zhang"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:layout_marginRight="20px"/>
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#a2a1b8"
+                android:maxLength="20"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left"/>
 
+            <customfonts.MyTextView
+                android:id="@+id/email"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#1b193b"
+                android:textColor="#181737"
+                android:maxLength="20"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="right" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dad8d8"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:background="@color/one_color"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:padding="30px">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Brithday"
-                android:layout_gravity="center_vertical"
+            <customfonts.MyTextView
+                android:text="@string/birthday"
                 android:layout_weight="1"
-                android:layout_marginLeft="20px"/>
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="1992-11-3"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:layout_marginRight="20px"/>
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#a2a1b8"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left" />
 
+            <customfonts.MyTextView
+                android:id="@+id/birthday"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#1b193b"
+                android:textColor="#181737"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="right" />
         </LinearLayout>
-        <LinearLayout
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:background="@color/two_color"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:padding="30px">
-
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="E-mail"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:layout_marginLeft="20px"/>
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Tzhang357@gatech.edu"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:layout_marginRight="20px"/>
-
-        </LinearLayout>
+            android:layout_height="1dp"
+            android:background="#dad8d8"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:background="@color/one_color"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:padding="30px">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Mobile"
-                android:layout_gravity="center_vertical"
+            <customfonts.MyTextView
+                android:text="@string/mobile"
                 android:layout_weight="1"
-                android:layout_marginLeft="20px"/>
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="4702328282"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:layout_marginRight="20px"/>
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#a2a1b8"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left" />
 
+            <customfonts.MyTextView
+                android:id="@+id/mobile"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#1b193b"
+                android:textColor="#181737"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="right" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dad8d8"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:background="@color/two_color"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:padding="30px">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Address"
-                android:layout_gravity="center_vertical"
+            <customfonts.MyTextView
+                android:text="@string/address"
                 android:layout_weight="1"
-                android:layout_marginLeft="20px"/>
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Ethel street"
-                android:layout_gravity="center_vertical"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#a2a1b8"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left" />
+
+            <customfonts.MyTextView
+                android:id="@+id/address"
                 android:layout_weight="1"
-                android:layout_marginRight="20px"/>
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#1b193b"
+                android:textColor="#181737"
+                android:maxLength="20"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="right" />
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dad8d8" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:background="@color/one_color"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:padding="30px">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Payment"
-                android:layout_gravity="center_vertical"
+            <customfonts.MyTextView
+                android:text="@string/payment"
                 android:layout_weight="1"
-                android:layout_marginLeft="20px"/>
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Paypal"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:layout_marginRight="20px"/>
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#a2a1b8"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="left" />
 
+            <customfonts.MyTextView
+                android:id="@+id/payment"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="#1b193b"
+                android:textColor="#181737"
+                android:maxLength="12"
+                android:background="#0000"
+                android:padding="16dp"
+                android:gravity="right" />
         </LinearLayout>
 
         <LinearLayout
@@ -216,13 +268,10 @@
                 android:text="modification"
                 android:layout_gravity="center"
                 android:layout_margin="20px"
-                android:background="@color/button"/>
+                android:background="#a2a1b8"/>
 
         </LinearLayout>
 
-
-
     </LinearLayout>
 
-
-</FrameLayout>
+</RelativeLayout>

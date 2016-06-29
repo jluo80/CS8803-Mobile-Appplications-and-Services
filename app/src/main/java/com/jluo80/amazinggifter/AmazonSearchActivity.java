@@ -3,6 +3,7 @@ package com.jluo80.amazinggifter;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -16,6 +17,17 @@ public class AmazonSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amazon_search);
+
+        // Set the toolbar of the add gifts activity
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setLogoDescription(getResources().getString(R.string.app_name));
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     @Override
@@ -41,11 +53,7 @@ public class AmazonSearchActivity extends AppCompatActivity {
             startActivity(getIntent());
         }
         if(id == android.R.id.home){
-            LoginManager.getInstance().logOut();
-            Intent logoutIntent = new Intent(AmazonSearchActivity.this, MainActivity.class);
-            startActivity(logoutIntent);
             finish();
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }

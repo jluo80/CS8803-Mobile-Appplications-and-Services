@@ -16,6 +16,7 @@
     <string name="choose_date">choose date</string>
     <string name="due_date">Due Date</string>
     <string name="reason">Reason</string>
+    <string name="gift">Gift</string>
     <string name="search_from_amazon">Search From Amazon</string>
 
     <!-- Reason spinners -->
@@ -26,5 +27,14 @@
         <item>Fathers\' Day</item>
         <item>Other</item>
     </string-array>
+
+    <!-- About me content -->
+    <string name="profile_picture">Profile picture</string>
+    <string name="username">Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="email">E-mail</string>
+    <string name="mobile">Mobile</string>
+    <string name="address">Address</string>
+    <string name="payment">Payment</string>
 
 </resources>

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_color">#3F51B5</color>
+    <color name="primary_color">#20282b</color>
     <color name="primary_dark_color">#303F9F</color>
     <color name="accent_color">#FF4081</color>
-    <color name="tan_background">#FFF7DA</color>
+    <color name="tan_background">#ffffff</color>
     <color name="floating_action_button_color">#FF5733</color>
-    <color name="one_color">#ccffff</color>
-    <color name="two_color">#99ffff</color>
+    <color name="one_color">#ffffff</color>
+    <color name="two_color">#f8f8f8</color>
     <color name="button">#ccff66</color>
-
-
-
 </resources>

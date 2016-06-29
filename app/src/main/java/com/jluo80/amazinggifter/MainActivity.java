@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
             Intent logoutIntent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(logoutIntent);
             finish();
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
