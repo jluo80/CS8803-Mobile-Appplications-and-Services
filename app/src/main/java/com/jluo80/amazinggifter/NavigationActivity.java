@@ -45,8 +45,6 @@ public class NavigationActivity extends AppCompatActivity {
         // Set the toolbar of the navigation activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setLogo(R.mipmap.ic_launcher);
-        toolbar.setLogoDescription(getResources().getString(R.string.app_name));
 
         // Set the image button onClick event
         ImageButton floatingActionButton = (ImageButton) findViewById(R.id.fab);
@@ -101,7 +99,7 @@ public class NavigationActivity extends AppCompatActivity {
         }
         if(id == android.R.id.home){
             LoginManager.getInstance().logOut();
-            Intent logoutIntent = new Intent(NavigationActivity.this, MainActivity.class);
+            Intent logoutIntent = new Intent(NavigationActivity.this, FacebookLoginActivity.class);
             startActivity(logoutIntent);
             finish();
             return true;

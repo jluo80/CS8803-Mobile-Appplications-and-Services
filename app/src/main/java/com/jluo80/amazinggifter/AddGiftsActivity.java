@@ -28,7 +28,6 @@ public class AddGiftsActivity extends AppCompatActivity {
         // Set the toolbar of the add gifts activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setLogoDescription(getResources().getString(R.string.app_name));
 
         // add back arrow to toolbar
         if (getSupportActionBar() != null){

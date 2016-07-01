@@ -13,6 +13,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 
 
@@ -36,7 +38,7 @@ public class DatePickerFragment extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        EditText dueDateEditText= (EditText) getActivity().findViewById(R.id.dueDateEditText);
-        dueDateEditText.setText(view.getMonth() + " /" + view.getDayOfMonth() + " /" + view.getYear());
+        TextView selectDateTextView = (TextView) getActivity().findViewById(R.id.selectDateTextView);
+        selectDateTextView.setText(view.getMonth() + " /" + view.getDayOfMonth() + " /" + view.getYear());
     }
 }

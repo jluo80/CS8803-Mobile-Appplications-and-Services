@@ -13,11 +13,16 @@
     <string name="about_me">About Me</string>
 
     <!-- Date picker -->
+    <string name="add_new_gift">Add New Gift</string>
     <string name="choose_date">choose date</string>
     <string name="due_date">Due Date</string>
     <string name="reason">Reason</string>
     <string name="gift">Gift</string>
     <string name="search_from_amazon">Search From Amazon</string>
+    <string name="amazon">Amazon</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+
 
     <!-- Reason spinners -->
     <string-array name="reason_array">
@@ -37,4 +42,20 @@
     <string name="address">Address</string>
     <string name="payment">Payment</string>
 
+
+    <string name="login_with_facebook">Login with Facebook</string>
+    <string name="firebase_url">https://amazinggifter-b2662.firebaseio.com/</string>
+
+
+
+
+    <!-- TEST -->
+    <string name="facebook_status_fmt">Facebook User: %s</string>
+    <string name="facebook_title_text">Facebook Login</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="loading">Loading…</string>
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
 </resources>

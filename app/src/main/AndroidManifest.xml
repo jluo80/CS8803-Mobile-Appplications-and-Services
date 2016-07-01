@@ -18,7 +18,7 @@
 
         <!-- MainActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".FacebookLoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +36,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".NavigationActivity" />
         <activity android:name=".AddGiftsActivity" />
-        <activity android:name=".AmazonSearchActivity"></activity>
+        <activity android:name=".AmazonSearchActivity" />
+        <activity android:name=".BaseActivity"></activity>
     </application>
 
 </manifest>
