@@ -16,6 +16,7 @@
         <item name="elevation">0dp</item>
     </style>
 
+
     <!-- Style for a tab that displays a category name -->
     <style name="CategoryTab" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@android:color/white</item>
@@ -28,7 +29,7 @@
         <item name="android:textColor">#A8A19E</item>
     </style>
 
-    <!-- TEST -->
+    <!-- Firebase TEST -->
 
     <!-- Activity with no Title -->
     <style name="ThemeOverlay.MyNoTitleActivity" parent="AppTheme">

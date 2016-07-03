@@ -47,9 +47,7 @@
     <string name="firebase_url">https://amazinggifter-b2662.firebaseio.com/</string>
 
 
-
-
-    <!-- TEST -->
+    <!-- TEST 1 -->
     <string name="facebook_status_fmt">Facebook User: %s</string>
     <string name="facebook_title_text">Facebook Login</string>
     <string name="sign_out">Sign Out</string>
@@ -58,4 +56,12 @@
     <string name="signed_out">Signed Out</string>
     <string name="firebase_status_fmt">Firebase User: %s</string>
     <string name="firebase_user_management">Firebase User Management</string>
+
+    <!-- TEST 2 -->
+    <string name="nav_item_attachment">Attachment</string>
+    <string name="nav_item_images">Images</string>
+    <string name="nav_item_location">My Location</string>
+    <string name="nav_sub_menu">Sub Menu</string>
+    <string name="nav_sub_menu_item01">Sub Menu Item 1</string>
+    <string name="nav_sub_menu_item02">Sub Menu Item 2</string>
 </resources>

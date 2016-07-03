@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_color">#20282b</color>
-    <color name="primary_dark_color">#303F9F</color>
-    <color name="accent_color">#FF4081</color>
+    <color name="primary_color">#121617</color>
+    <color name="primary_dark_color">#2c3e50</color>
+    <color name="accent_color">#f1c40f</color>
 
-    <color name="floating_action_button_color">#FF5733</color>
+    <color name="floating_action_button_color">#f1c40f</color>
     <color name="divide_line_color">#a2a1b8</color>
     <color name="modify_button_color">#a2a1b8</color>
 
@@ -15,6 +15,6 @@
 
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_300">#E0E0E0</color>
-    <color name="colorAccent">#FFA000</color>
+    <color name="colorAccent">#f1c40f</color>
 
 </resources>

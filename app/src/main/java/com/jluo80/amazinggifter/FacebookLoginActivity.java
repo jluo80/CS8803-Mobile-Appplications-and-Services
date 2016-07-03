@@ -16,6 +16,7 @@
 
 package com.jluo80.amazinggifter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -57,9 +58,6 @@ public class FacebookLoginActivity extends BaseActivity implements
 
     private static final String TAG = "FacebookLogin";
 
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
-
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
@@ -81,9 +79,6 @@ public class FacebookLoginActivity extends BaseActivity implements
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_facebook_login);
 
-        // Views
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
         findViewById(R.id.button_facebook_signout).setOnClickListener(this);
 
         // [START initialize_auth]
@@ -139,7 +134,8 @@ public class FacebookLoginActivity extends BaseActivity implements
         facebookLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                facebookLoginButton.setVisibility(View.GONE);
+
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
 //                Profile profile = Profile.getCurrentProfile();
@@ -152,8 +148,6 @@ public class FacebookLoginActivity extends BaseActivity implements
 
                         if (object != null)
                         {
-                            Log.e("GraphResponse", response.toString());
-
                             try
                             {
                                 String id = object.getString("id");
@@ -164,7 +158,7 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 Log.e("Picture", profileImageUrl);
                                 Log.e("Email = ", email);
                                 Log.e("Birthday = ", birthday);
-                                Intent intent = new Intent(FacebookLoginActivity.this, NavigationActivity.class);
+                                Intent intent = new Intent(FacebookLoginActivity.this, MainScreenActivity.class);
                                 intent.putExtra("id", id);
                                 intent.putExtra("username", name);
                                 intent.putExtra("email", email);
@@ -274,15 +268,9 @@ public class FacebookLoginActivity extends BaseActivity implements
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.facebook_status_fmt, user.getDisplayName()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
             findViewById(R.id.button_facebook_login).setVisibility(View.GONE);
             findViewById(R.id.button_facebook_signout).setVisibility(View.VISIBLE);
         } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
             findViewById(R.id.button_facebook_login).setVisibility(View.VISIBLE);
             findViewById(R.id.button_facebook_signout).setVisibility(View.GONE);
         }
