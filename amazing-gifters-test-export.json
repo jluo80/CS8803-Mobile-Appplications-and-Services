@@ -1,14 +1,12 @@
 {
-  "contribution" : [ null, {
+  "contribution" : {"2312":{"adasd":{
     "amount" : 10,
     "card_number" : 1200000000000000,
-    "facebook_id" : 10207868850573292,
-    "gift_id" : 1,
+    "contributor_id" : 10207868850573292,
     "time" : "06/20/2016"
-  } ],
-  "gift" : [ null, {
+  }}},
+  "gift" :  {"2312":{
     "amazon_url" : "https://www.amazon.com/Bose-QuietComfort-Wireless-Headphones-Black/dp/B01E3SNO1G/ref=sr_1_1?s=aht&ie=UTF8&qid=1467056133&sr=1-1&keywords=qc35",
-    "contributions" : [ null, true ],
     "due_date" : "07/01/2016",
     "initiator_id" : 1,
     "name" : "Bose QuiteComfort 35",
@@ -18,7 +16,7 @@
     "progress" : 10,
     "reason" : "birthday",
     "receiver_id" : 1
-  } ],
+  }} ,
   "payment" : {
     "1200000000000000" : {
       "expiration_date" : "06/19",
