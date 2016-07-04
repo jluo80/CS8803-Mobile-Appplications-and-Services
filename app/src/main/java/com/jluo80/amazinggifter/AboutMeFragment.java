@@ -41,10 +41,7 @@ public class AboutMeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    TextView usernameTextView;
-    TextView birthdayTextView;
-    TextView emailTextView;
-    ImageView profilePictureImageView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,10 +55,10 @@ public class AboutMeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // About me content
-        usernameTextView = (TextView) view.findViewById(R.id.username);
-        birthdayTextView = (TextView) view.findViewById(R.id.birthday);
-        emailTextView = (TextView) view.findViewById(R.id.email);
-        ImageView profilePictureImageView = (ImageView) view.findViewById(R.id.profile_picture);
+        TextView usernameTextView = (TextView) view.findViewById(R.id.username);
+        TextView birthdayTextView = (TextView) view.findViewById(R.id.birthday);
+        TextView emailTextView = (TextView) view.findViewById(R.id.email);
+        ImageView ImageView profilePictureImageView = (ImageView) view.findViewById(R.id.profile_picture);
 //        TextView mobileTextView = (TextView) view.findViewById(R.id.mobile);
 //        TextView addressTextView = (TextView) view.findViewById(R.id.address);
 //        TextView paymentTextView = (TextView) view.findViewById(R.id.payment);
