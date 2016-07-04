@@ -1,5 +1,6 @@
 package com.jluo80.amazinggifter;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -24,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainScreenActivity extends AppCompatActivity {
@@ -139,5 +142,17 @@ public class MainScreenActivity extends AppCompatActivity {
             }
         }
     }
+    // test:save data to firebase
+    public void test_data(View v) {
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference myRef = database.getReference("pppp");
+
+        myRef.setValue("papapa");
+
+        Toast.makeText(MainScreenActivity.this, "you saved data to firebase",
+                Toast.LENGTH_SHORT).show();
+
+    }
 }
