@@ -2,34 +2,18 @@ package com.jluo80.amazinggifter;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 
 
 /**
@@ -58,7 +42,7 @@ public class AboutMeFragment extends Fragment {
         TextView usernameTextView = (TextView) view.findViewById(R.id.username);
         TextView birthdayTextView = (TextView) view.findViewById(R.id.birthday);
         TextView emailTextView = (TextView) view.findViewById(R.id.email);
-        ImageView ImageView profilePictureImageView = (ImageView) view.findViewById(R.id.profile_picture);
+        NetworkImageView profilePictureImageView = (NetworkImageView) view.findViewById(R.id.profile_picture);
 //        TextView mobileTextView = (TextView) view.findViewById(R.id.mobile);
 //        TextView addressTextView = (TextView) view.findViewById(R.id.address);
 //        TextView paymentTextView = (TextView) view.findViewById(R.id.payment);
@@ -74,8 +58,11 @@ public class AboutMeFragment extends Fragment {
         usernameTextView.setText(username);
         birthdayTextView.setText(birthday);
         emailTextView.setText(email);
-        ImageLoadTask profilePictureLoad = new ImageLoadTask(profilePictureUrl, profilePictureImageView);
-        profilePictureLoad.execute();
-    }
+//        ImageLoadTask profilePictureLoad = new ImageLoadTask(profilePictureUrl, profilePictureImageView);
+//        profilePictureLoad.execute();
 
+        ImageLoader imageLoader = MySingleton.getInstance(this.getActivity().getApplicationContext()).getImageLoader();
+
+        profilePictureImageView.setImageUrl(profilePictureUrl, imageLoader);
+    }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,8 @@ import java.util.List;
  */
 public class FriendsGiftsFragment extends Fragment {
 
-    private List<Person> persons;
+    private ArrayList<Gift> gifts;
+    private RecyclerView mRecyclerView;
 
     public FriendsGiftsFragment() {
         // Required empty public constructor
@@ -27,19 +29,15 @@ public class FriendsGiftsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        persons = new ArrayList<>();
-        persons.add(new Person("Edward Luo", "25 years old", R.drawable.userimg));
-        persons.add(new Person("Emma Wilson", "23 years old", R.drawable.userimg));
-        persons.add(new Person("Lavery Maiss", "25 years old", R.drawable.userimg));
-        persons.add(new Person("Lillie Watts", "35 years old", R.drawable.userimg));
-        persons.add(new Person("Tom Hanks", "25 years old", R.drawable.userimg));
-        persons.add(new Person("Adam Jackson", "35 years old", R.drawable.userimg));
-        persons.add(new Person("Stephen Curry", "35 years old", R.drawable.userimg));
+        gifts = new ArrayList<>();
+        gifts.add(new Gift("1", "zero to one", "25", "test", "test"));
+
+
 
         View rootView =  inflater.inflate(R.layout.fragment_list_view, container, false);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new NavigationRecyclerAdapter(persons));
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(new NavigationRecyclerAdapter(getContext(), gifts));
 
         return rootView;
     }

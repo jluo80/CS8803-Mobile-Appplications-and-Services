@@ -53,12 +53,13 @@
                     android:textSize="16dp"
                     android:textColor="@color/content_text_color" />
 
-                <ImageView
+                <Button
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="right"
+                    android:text="Set due date"
                     android:onClick="showDatePickerDialog"
-                    android:background="@drawable/ic_arrow_back_white_24dp"/>
+                    android:background="@color/grey_300"/>
 
                 <customfonts.MyTextView
                     android:id="@+id/selectDateTextView"
@@ -97,6 +98,13 @@
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/content_text_color"
                         android:gravity="left"/>
+
+                    <customfonts.MyEditText
+                        android:id="@+id/title_edit_text"
+                        android:hint="set up event title"
+                        android:textColorHint="@color/grey_300"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <View
@@ -124,7 +132,8 @@
                     <Spinner
                         android:id="@+id/reason_spinner"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:popupBackground="#ffff"/>
                 </LinearLayout>
 
                 <View
@@ -159,6 +168,7 @@
                         android:minLines="4"
                         android:maxLines="6"
                         android:scrollbars="vertical"
+                        android:theme="@style/CustomEditText"
                         android:background="@android:drawable/edit_text"/>
                 </LinearLayout>
 
@@ -178,6 +188,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/search_from_amazon"
+                        android:layout_marginTop="16dp"
                         android:textColor="#ffff"
                         android:background="@color/content_text_color"
                         android:textSize="16dp"

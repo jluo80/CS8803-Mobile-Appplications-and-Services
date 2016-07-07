@@ -20,28 +20,32 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_photo"
+                android:id="@+id/gift_picture"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp" />
 
             <TextView
+                android:textColor="@color/content_text_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_name"
-                android:layout_toRightOf="@+id/person_photo"
+                android:id="@+id/gift_title"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/gift_picture"
                 android:layout_alignParentTop="true"
-                android:textSize="30sp" />
+                android:textSize="12sp" />
 
             <TextView
+                android:textColor="@color/content_text_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_age"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/person_name" />
+                android:id="@+id/current_price"
+                android:layout_toRightOf="@+id/gift_picture"
+                android:layout_below="@+id/gift_title"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 

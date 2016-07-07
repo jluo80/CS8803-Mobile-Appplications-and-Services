@@ -23,6 +23,7 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(Void... params) {
+        Bitmap mBitmap = null;
         try {
             URL urlConnection = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) urlConnection
@@ -30,12 +31,13 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            Bitmap mBitmap = BitmapFactory.decodeStream(input);
-            return mBitmap;
+            mBitmap = BitmapFactory.decodeStream(input);
+//            return mBitmap;
+            input.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return mBitmap;
     }
 
     @Override
