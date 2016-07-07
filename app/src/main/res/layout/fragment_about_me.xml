@@ -262,6 +262,8 @@
             android:padding="30px">
 
             <Button
+                android:id="@+id/modification_view"
+                android:onClick="test_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="modification"

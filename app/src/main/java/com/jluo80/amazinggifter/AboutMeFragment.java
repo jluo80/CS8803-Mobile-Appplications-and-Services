@@ -13,10 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +58,7 @@ public class AboutMeFragment extends Fragment {
         TextView usernameTextView = (TextView) view.findViewById(R.id.username);
         TextView birthdayTextView = (TextView) view.findViewById(R.id.birthday);
         TextView emailTextView = (TextView) view.findViewById(R.id.email);
-        ImageView profilePictureImageView = (ImageView) view.findViewById(R.id.profile_picture);
+        ImageView ImageView profilePictureImageView = (ImageView) view.findViewById(R.id.profile_picture);
 //        TextView mobileTextView = (TextView) view.findViewById(R.id.mobile);
 //        TextView addressTextView = (TextView) view.findViewById(R.id.address);
 //        TextView paymentTextView = (TextView) view.findViewById(R.id.payment);
@@ -73,4 +77,5 @@ public class AboutMeFragment extends Fragment {
         ImageLoadTask profilePictureLoad = new ImageLoadTask(profilePictureUrl, profilePictureImageView);
         profilePictureLoad.execute();
     }
+
 }
