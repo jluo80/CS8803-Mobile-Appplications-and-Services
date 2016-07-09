@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +25,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.lang.ref.Reference;
+import java.util.Map;
 
 
 public class MainScreenActivity extends AppCompatActivity {
 
+    private static final String TAG = MainScreenActivity.class.getName();
     private DrawerLayout mDrawerLayout;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +62,28 @@ public class MainScreenActivity extends AppCompatActivity {
         /** Setup drawer header content: Title and profile picture. */
         View drawerHeader = navigationView.getHeaderView(0);
         TextView headerText = (TextView) drawerHeader.findViewById(R.id.header_text);
-        ImageView drawerPicture = (ImageView) drawerHeader.findViewById(R.id.drawer_picture);
+        final NetworkImageView drawerPicture = (NetworkImageView) drawerHeader.findViewById(R.id.drawer_picture);
+
+        /** Fetch data from Firebase. */
+        String facebookId = MainScreenActivity.this.getIntent().getStringExtra("id");
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("user").child(facebookId).child("picture_url").addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "Data change");
+                        String drawPictureUrl = dataSnapshot.getValue(String.class);
+                        ImageLoader imageLoader = MySingleton.getInstance(MainScreenActivity.this.getApplicationContext()).getImageLoader();
+                        drawerPicture.setImageUrl(drawPictureUrl, imageLoader);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d(TAG, "Cancel");
+                    }
+                }
+        );
+
         headerText.setText("Hello World! ");
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

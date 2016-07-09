@@ -48,7 +48,6 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:src="@drawable/ic_add_white_24dp"
             app:layout_behavior="com.jluo80.amazinggifter.FABScrollBehavior" />
-
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

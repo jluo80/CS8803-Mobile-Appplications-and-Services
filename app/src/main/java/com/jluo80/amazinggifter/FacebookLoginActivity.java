@@ -16,13 +16,11 @@
 
 package com.jluo80.amazinggifter;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -32,10 +30,8 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
+
 import com.facebook.internal.ImageRequest;
-import com.facebook.login.LoginFragment;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -46,7 +42,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,7 +56,7 @@ public class FacebookLoginActivity extends BaseActivity implements
         View.OnClickListener {
 
     private static final String TAG = "FacebookLogin";
-
+    private final User me = new User();
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
@@ -130,7 +129,7 @@ public class FacebookLoginActivity extends BaseActivity implements
 
         // Initialize Facebook Login button
         facebookLoginButton = (LoginButton) findViewById(R.id.button_facebook_login);
-        facebookLoginButton.setReadPermissions("public_profile", "email", "user_birthday", "user_friends");
+        facebookLoginButton.setReadPermissions("public_profile", "email", "user_birthday", "user_friends","user_location");
         facebookLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -155,16 +154,37 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 String email = object.getString("email");
                                 String birthday = object.getString("birthday");
                                 String profileImageUrl = ImageRequest.getProfilePictureUri(id, 500, 500).toString();
-                                Log.e("Picture", profileImageUrl);
+                                String coverImageUrl = object.getJSONObject("cover").getString("source");
+
+//                                JSONArray friendsList = object.getJSONObject("friends").getJSONArray("data");
+//                                String friendId = friendsList.getJSONObject(0).getString("id");
+
+                                /** Log Test */
+                                Log.e("ID = ", id);
+                                Log.e("Username = ", name);
                                 Log.e("Email = ", email);
                                 Log.e("Birthday = ", birthday);
+                                Log.e("Picture", profileImageUrl);
+                                Log.e("Cover = ", coverImageUrl);
+//                                Log.e("Friend ID = ", friendId);
+                                Log.e(TAG, "Object = " + object);
+
+                                /** Save User data to Firebase. */
+                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                                mDatabase.child("user").child(id).child("name").setValue(name);
+                                mDatabase.child("user").child(id).child("email").setValue(email);
+                                mDatabase.child("user").child(id).child("birthday").setValue(birthday);
+                                mDatabase.child("user").child(id).child("picture_url").setValue(profileImageUrl);
+
+                                /** Pass basic User data to MainScreenActivity(AboutMeFragment).*/
                                 Intent intent = new Intent(FacebookLoginActivity.this, MainScreenActivity.class);
                                 intent.putExtra("id", id);
                                 intent.putExtra("username", name);
                                 intent.putExtra("email", email);
                                 intent.putExtra("birthday", birthday);
                                 intent.putExtra("picture", profileImageUrl);
-
+                                intent.putExtra("cover", coverImageUrl);
+//                                intent.putExtra("friendsList", friendId);
                                 startActivity(intent);
                                 finish();
                             }
@@ -176,7 +196,7 @@ public class FacebookLoginActivity extends BaseActivity implements
                     }
                 });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday");
+                parameters.putString("fields", "id,name,email,gender,birthday,friends,cover,location");
                 graphRequest.setParameters(parameters);
                 graphRequest.executeAsync();
             }

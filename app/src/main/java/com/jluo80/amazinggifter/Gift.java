@@ -4,11 +4,11 @@ package com.jluo80.amazinggifter;
  * Created by Jiahao on 7/2/2016.
  */
 public class Gift {
-    String itemId;
-    String itemTitle;
-    String itemUrl;
-    String galleryUrl;
-    String currentPrice;
+    private String itemId;
+    private String itemTitle;
+    private String itemUrl;
+    private String galleryUrl;
+    private String currentPrice;
 
     public Gift() {}
 

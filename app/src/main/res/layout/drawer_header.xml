@@ -16,12 +16,11 @@
         android:layout_centerVertical="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/drawer_picture"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/corgi"
         android:contentDescription="@string/profile_picture" />
 
 </LinearLayout>

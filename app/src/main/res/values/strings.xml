@@ -45,6 +45,9 @@
     <string name="payment">Payment</string>
 
 
+    <string name="keyword">find what you want...</string>
+    <string name="buy">buy</string>
+
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="firebase_url">https://amazinggifter-b2662.firebaseio.com/</string>
 
