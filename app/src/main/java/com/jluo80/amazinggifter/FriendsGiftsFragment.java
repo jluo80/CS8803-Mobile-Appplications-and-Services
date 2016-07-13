@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class FriendsGiftsFragment extends Fragment {
 
-    private ArrayList<Gift> gifts;
+    private ArrayList<Gift> mGiftArray;
     private RecyclerView mRecyclerView;
 
     public FriendsGiftsFragment() {
@@ -27,15 +27,15 @@ public class FriendsGiftsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        gifts = new ArrayList<>();
-        gifts.add(new Gift("1", "zero to one", "25", "test", "test"));
+        mGiftArray = new ArrayList<>();
+        mGiftArray.add(new Gift("1", "zero to one", "test", "http://www.ebay.com/itm/Dell-XPS-13-13-3-QHD-IPS-Touch-Laptop-6th-Gen-Core-i5-8GB-Ram-256GB-SSD/371681082784?hash=item5689eb3da0&_trkparms=5373%3A0%7C5374%3AFeatured","initiid", "http://orig02.deviantart.net/cd44/f/2016/152/2/d/placeholder_3_by_sketchymouse-da4ny84.png", "test", 25.00, 0, "test", "test"));
 
 
 
         View rootView =  inflater.inflate(R.layout.fragment_list_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new MyGiftRecyclerAdapter(getContext(), gifts));
+        mRecyclerView.setAdapter(new MyGiftRecyclerAdapter(getContext(), mGiftArray));
 
         return rootView;
     }

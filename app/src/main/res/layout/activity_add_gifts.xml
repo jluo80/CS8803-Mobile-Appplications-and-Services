@@ -63,13 +63,13 @@
                     android:padding="16dp" />
 
                 <customfonts.MyTextView
-                    android:id="@+id/selectDateTextView"
+                    android:id="@+id/select_date"
                     android:hint="dd/mm/yyy"
                     android:textColorHint="@color/content_text_hint_color"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
-                    android:textColor="@color/accent_color" />
+                    android:textColor="@color/content_text_color" />
             </LinearLayout>
 
             <View
@@ -105,7 +105,8 @@
                         android:hint="set up event title"
                         android:textColorHint="@color/grey_300"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/content_text_color"/>
                 </LinearLayout>
 
                 <View
@@ -160,7 +161,7 @@
                         android:gravity="left" />
 
                     <customfonts.MyEditText
-                        android:id="@+id/add_content"
+                        android:id="@+id/description"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:enabled="true"
@@ -188,7 +189,7 @@
                         android:id="@+id/amazonSearchButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/search_from_amazon"
+                        android:text="@string/search_from_ebay"
                         android:layout_marginTop="16dp"
                         android:textColor="#ffff"
                         android:background="@color/accent_color"

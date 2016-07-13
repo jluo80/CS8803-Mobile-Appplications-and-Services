@@ -1,17 +1,21 @@
 package com.jluo80.amazinggifter;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,10 +25,13 @@ import com.android.volley.toolbox.StringRequest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,6 +44,7 @@ public class EbaySearchActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
 
+    private static final String TAG = EbaySearchActivity.class.getName();
 
     public final static String EBAY_APP_ID = "JiahaoLu-AmazingG-PRD-099e85f71-bce780ef";
     public final static String EBAY_FINDING_SERVICE_URI = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME="
@@ -64,17 +72,16 @@ public class EbaySearchActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        // Set onClickListener for the image button.
-        ImageView confirmSearch = (ImageView) findViewById(R.id.confirm_search);
+        // Set onClickListener for the image button to find the products by keyword.
+        ImageView searchImageView = (ImageView) findViewById(R.id.search);
 
-        confirmSearch.setOnClickListener(new View.OnClickListener() {
+        searchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText searchView = (EditText) findViewById(R.id.search_view);
                 final String tag = searchView.getText().toString();
                 String url = null;
                 boolean loading = true;
-                int pastVisiblesItems, visibleItemCount, totalItemCount;
 
                 try{
                     url = createAddress(java.net.URLEncoder.encode(tag, "UTF-8"));
@@ -144,19 +151,29 @@ public class EbaySearchActivity extends AppCompatActivity {
 
         NodeList nodes = (NodeList) itemExpression.evaluate(doc, XPathConstants.NODESET);
 
+        SharedPreferences mSharedPreferences = getSharedPreferences("test", Activity.MODE_PRIVATE);
+        String facebookId = mSharedPreferences.getString("facebookId", "");
+
+        Intent intent = EbaySearchActivity.this.getIntent();
+        String dueDate = intent.getStringExtra("due_date");
+//        String title = intent.getStringExtra("title");
+        String reason = intent.getStringExtra("reason");
+        String description = intent.getStringExtra("description");
+        String postTime = intent.getStringExtra("post_time");
+
         ArrayList<Gift> giftsArray = new ArrayList<>();
         for (int i = 0; i < nodes.getLength(); i++) {
 
             Node node = nodes.item(i);
 
             String itemId = (String) xpath.evaluate("itemId", node, XPathConstants.STRING);
-            String title = (String) xpath.evaluate("title", node, XPathConstants.STRING);
+            String name = (String) xpath.evaluate("title", node, XPathConstants.STRING);
             String itemUrl = (String) xpath.evaluate("viewItemURL", node, XPathConstants.STRING);
-            String galleryUrl = (String) xpath.evaluate("galleryURL", node, XPathConstants.STRING);
-            String currentPrice = "US $" + xpath.evaluate("sellingStatus/currentPrice", node, XPathConstants.STRING);
-
-            giftsArray.add(new Gift(itemId, title,  currentPrice, galleryUrl, itemUrl));
-        }
+            String pictureUrl = (String) xpath.evaluate("galleryURL", node, XPathConstants.STRING);
+            String temp = (String) xpath.evaluate("sellingStatus/currentPrice", node, XPathConstants.STRING);
+            double price = Double.parseDouble(temp);
+            giftsArray.add(new Gift(dueDate, facebookId, itemId, itemUrl, name, pictureUrl, postTime, price, 0, reason, facebookId));
+            }
         is.close();
         return giftsArray;
     }
@@ -164,8 +181,6 @@ public class EbaySearchActivity extends AppCompatActivity {
     private void print(String name, String value) {
         System.out.println(name + "::" + value);
     }
-
-
 
 
     @Override

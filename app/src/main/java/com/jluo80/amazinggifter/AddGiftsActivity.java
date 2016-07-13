@@ -11,8 +11,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class AddGiftsActivity extends AppCompatActivity {
 
@@ -32,6 +37,10 @@ public class AddGiftsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        final TextView selectDateTextView = (TextView) findViewById(R.id.select_date);
+        final EditText titleEditText = (EditText) findViewById(R.id.title_edit_text);
+        final EditText descriptionEditText = (EditText) findViewById(R.id.description);
 
         // Set the spinner for gift reason
         Spinner reasonSpinner = (Spinner) findViewById(R.id.reason_spinner);
@@ -64,6 +73,12 @@ public class AddGiftsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddGiftsActivity.this, EbaySearchActivity.class);
+                intent.putExtra("due_date", selectDateTextView.getText().toString().replace(" ", ""));
+                intent.putExtra("title", titleEditText.getText().toString());
+//                intent.putExtra("receiver_id", name);
+                intent.putExtra("reason", "birthday");
+                intent.putExtra("description", descriptionEditText.getText().toString());
+                intent.putExtra("post_time", getCurrentDateAndTime());
                 startActivity(intent);
             }
         });
@@ -72,6 +87,12 @@ public class AddGiftsActivity extends AppCompatActivity {
     public void showDatePickerDialog(View v) {
         DialogFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public String getCurrentDateAndTime() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("MM-dd-yyyy HH:mm");
+        return mdformat.format(calendar.getTime());
     }
 
     @Override

@@ -37,19 +37,19 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
         final Gift gift = mGifts.get(i);
-        viewHolder.giftTitle.setText(gift.getItemTitle());
-        viewHolder.currentPrice.setText(gift.getCurrentPrice());
+        viewHolder.giftTitle.setText(gift.getName());
+        viewHolder.currentPrice.setText(Double.toString(gift.getPrice()));
 
         // Get the ImageLoader through your singleton class.
         mImageLoader = MySingleton.getInstance(viewHolder.giftTitle.getContext()).getImageLoader();
-        viewHolder.giftPicture.setImageUrl(gift.getGalleryUrl(), mImageLoader);
+        viewHolder.giftPicture.setImageUrl(gift.getPicture_url(), mImageLoader);
 
         // Set up onClick events
         viewHolder.giftTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Uri itemUri = Uri.parse(gift.getItemUrl());
+                Uri itemUri = Uri.parse(gift.getItem_url());
                 Context context = view.getContext();
                 context.startActivity(new Intent(Intent.ACTION_VIEW, itemUri));
             }

@@ -1,8 +1,10 @@
 package com.jluo80.amazinggifter;
 
 
+import android.app.Activity;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,6 +49,10 @@ public class AboutMeFragment extends Fragment {
         /** Fetch data from intent. (No need to retrieve from Firebase, since we can retrieve once
          * the user login)
          * */
+
+        SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("test", Activity.MODE_PRIVATE);
+        String facebookId = mSharedPreferences.getString("facebookId", "");
+
         Intent intent = AboutMeFragment.this.getActivity().getIntent();
         String username = intent.getStringExtra("username");
         String birthday = intent.getStringExtra("birthday");
@@ -68,7 +74,7 @@ public class AboutMeFragment extends Fragment {
 //    @Override
 //    public void onViewCreated(View view, Bundle savedInstanceState) {
 //        super.onViewCreated(view, savedInstanceState);
-
+//
 //        mDatabase = FirebaseDatabase.getInstance().getReference();
 //
 //        mDatabase.child("user").addValueEventListener(
@@ -77,8 +83,7 @@ public class AboutMeFragment extends Fragment {
 //                    public void onDataChange(DataSnapshot dataSnapshot) {
 //                        // Get user value
 //                        User user = dataSnapshot.getValue(User.class);
-//                        Log.e("VALUE", user.getMobile());
-//                        mobileTextView.setText("");
+//                        Log.e("VALUE", user.getUsername());
 //                    }
 //
 //                    @Override

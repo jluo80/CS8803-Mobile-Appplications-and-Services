@@ -16,7 +16,9 @@
 
 package com.jluo80.amazinggifter;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -45,7 +47,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -156,6 +157,12 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 String profileImageUrl = ImageRequest.getProfilePictureUri(id, 500, 500).toString();
                                 String coverImageUrl = object.getJSONObject("cover").getString("source");
 
+                                SharedPreferences mSharedPreferences= getSharedPreferences("test",
+                                        Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                                editor.putString("facebookId", id);
+                                editor.commit();
+
 //                                JSONArray friendsList = object.getJSONObject("friends").getJSONArray("data");
 //                                String friendId = friendsList.getJSONObject(0).getString("id");
 
@@ -175,10 +182,20 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 mDatabase.child("user").child(id).child("email").setValue(email);
                                 mDatabase.child("user").child(id).child("birthday").setValue(birthday);
                                 mDatabase.child("user").child(id).child("picture_url").setValue(profileImageUrl);
+                                mDatabase.child("user").child(id).child("address_first").setValue("");
+                                mDatabase.child("user").child(id).child("address_second").setValue("");
+                                mDatabase.child("user").child(id).child("city").setValue("");
+                                mDatabase.child("user").child(id).child("country").setValue("");
+                                mDatabase.child("user").child(id).child("payment").setValue("");
+                                mDatabase.child("user").child(id).child("phone").setValue("");
+                                mDatabase.child("user").child(id).child("state").setValue("");
+                                mDatabase.child("user").child(id).child("zipcode").setValue("");
+
+
 
                                 /** Pass basic User data to MainScreenActivity(AboutMeFragment).*/
                                 Intent intent = new Intent(FacebookLoginActivity.this, MainScreenActivity.class);
-                                intent.putExtra("id", id);
+                                intent.putExtra("facebookId", id);
                                 intent.putExtra("username", name);
                                 intent.putExtra("email", email);
                                 intent.putExtra("birthday", birthday);
