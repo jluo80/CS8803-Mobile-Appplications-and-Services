@@ -24,6 +24,14 @@
     <string name="amazon">Amazon</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
+    <string name="item_detail">Item Detail</string>
+    <string name="visit">Visit Website</string>
+    <string name="pick_this">Pick This</string>
+    <string name="price">Price</string>
+    <string name="contribution">Contribution</string>
+    <string name="confirm">Confirm</string>
+    <string name="progress">Progress</string>
+    <string name="card_number">Card Number</string>
 
 
     <!-- Reason spinners -->

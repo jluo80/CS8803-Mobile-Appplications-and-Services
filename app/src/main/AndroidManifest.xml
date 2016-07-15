@@ -37,7 +37,9 @@
         <activity android:name=".AddGiftsActivity" />
         <activity android:name=".EbaySearchActivity" />
         <activity android:name=".BaseActivity" />
-        <activity android:name=".MainScreenActivity"></activity>
+        <activity android:name=".MainScreenActivity" />
+        <activity android:name=".ItemDetailActivity" />
+        <activity android:name=".ContributionActivity"></activity>
     </application>
 
 </manifest>

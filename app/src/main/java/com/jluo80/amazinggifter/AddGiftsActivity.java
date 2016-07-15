@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddGiftsActivity extends AppCompatActivity {
@@ -55,11 +56,12 @@ public class AddGiftsActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         reasonSpinner.setAdapter(adapter);
 
+        final ArrayList<String> reasonList = new ArrayList<>();
         reasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(), "Reason is " + selectedItem, Toast.LENGTH_LONG).show();
+                reasonList.add(selectedItem);
             }
 
             @Override
@@ -68,18 +70,25 @@ public class AddGiftsActivity extends AppCompatActivity {
             }
         });
 
-        Button amazonSearchButton = (Button) findViewById(R.id.amazonSearchButton);
-        amazonSearchButton.setOnClickListener(new View.OnClickListener() {
+        Button ebaySearchButton = (Button) findViewById(R.id.ebaySearchButton);
+        ebaySearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddGiftsActivity.this, EbaySearchActivity.class);
-                intent.putExtra("due_date", selectDateTextView.getText().toString().replace(" ", ""));
-                intent.putExtra("title", titleEditText.getText().toString());
-//                intent.putExtra("receiver_id", name);
-                intent.putExtra("reason", "birthday");
-                intent.putExtra("description", descriptionEditText.getText().toString());
-                intent.putExtra("post_time", getCurrentDateAndTime());
-                startActivity(intent);
+                String dueDate = selectDateTextView.getText().toString().replace(" ", "");
+                String title = titleEditText.getText().toString();
+                String reason = reasonList.get(0);
+                if((isEmpty(dueDate) || isEmpty(title) || isEmpty(reason))) {
+                    Toast.makeText(AddGiftsActivity.this, "Please fill out all required fields.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(AddGiftsActivity.this, EbaySearchActivity.class);
+                    intent.putExtra("due_date", dueDate);
+                    intent.putExtra("title", title);
+//                intent.putExtra("receiver_id", receiverId);
+                    intent.putExtra("reason", reason);
+                    intent.putExtra("description", descriptionEditText.getText().toString());
+                    intent.putExtra("post_time", getCurrentDateAndTime());
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -93,6 +102,10 @@ public class AddGiftsActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("MM-dd-yyyy HH:mm");
         return mdformat.format(calendar.getTime());
+    }
+
+    private boolean isEmpty(String content) {
+        return content.trim().length() == 0;
     }
 
     @Override

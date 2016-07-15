@@ -12,10 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,13 +23,10 @@ import com.android.volley.toolbox.StringRequest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -50,7 +45,8 @@ public class EbaySearchActivity extends AppCompatActivity {
     public final static String EBAY_FINDING_SERVICE_URI = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME="
             + "{operation}&SERVICE-VERSION={version}&SECURITY-APPNAME="
             + "{applicationId}&GLOBAL-ID={globalId}&keywords={keywords}"
-            + "&paginationInput.entriesPerPage={maxresults}";
+            + "&paginationInput.entriesPerPage={maxresults}"
+            + "&outputSelector=PictureURLLarge";
     public static final String SERVICE_VERSION = "1.0.0";
     public static final String OPERATION_NAME = "findItemsByKeywords";
     public static final String GLOBAL_ID = "EBAY-US";
@@ -165,15 +161,15 @@ public class EbaySearchActivity extends AppCompatActivity {
         for (int i = 0; i < nodes.getLength(); i++) {
 
             Node node = nodes.item(i);
-
             String itemId = (String) xpath.evaluate("itemId", node, XPathConstants.STRING);
             String name = (String) xpath.evaluate("title", node, XPathConstants.STRING);
+            String category = (String) xpath.evaluate("primaryCategory/categoryName", node, XPathConstants.STRING);
             String itemUrl = (String) xpath.evaluate("viewItemURL", node, XPathConstants.STRING);
-            String pictureUrl = (String) xpath.evaluate("galleryURL", node, XPathConstants.STRING);
+            String pictureUrl = (String) xpath.evaluate("pictureURLLarge", node, XPathConstants.STRING);
             String temp = (String) xpath.evaluate("sellingStatus/currentPrice", node, XPathConstants.STRING);
             double price = Double.parseDouble(temp);
-            giftsArray.add(new Gift(dueDate, facebookId, itemId, itemUrl, name, pictureUrl, postTime, price, 0, reason, facebookId));
-            }
+            giftsArray.add(new Gift(category, dueDate, facebookId, itemId, itemUrl, name, pictureUrl, postTime, price, 0, reason, facebookId));
+        }
         is.close();
         return giftsArray;
     }

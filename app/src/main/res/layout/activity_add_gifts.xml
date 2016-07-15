@@ -186,7 +186,7 @@
                     android:background="#ffff">
 
                     <Button
-                        android:id="@+id/amazonSearchButton"
+                        android:id="@+id/ebaySearchButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/search_from_ebay"
