@@ -85,7 +85,7 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
                 intent.putExtra("picture_url", gift.getPicture_url());
                 intent.putExtra("post_time", gift.getPost_time());
                 intent.putExtra("price", Double.toString(gift.getPrice()));
-                intent.putExtra("progress", gift.getProgress());
+                intent.putExtra("progress", Double.toString(gift.getProgress()));
                 intent.putExtra("reason", gift.getReason());
                 intent.putExtra("receiver_id", gift.getReceiver_id());
 

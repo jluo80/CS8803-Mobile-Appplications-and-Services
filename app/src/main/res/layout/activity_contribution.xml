@@ -23,7 +23,7 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/item_detail"
+                android:text="@string/contribution"
                 android:textSize="20dp"
                 android:textColor="@color/title_text_color"
                 android:gravity = "center" />

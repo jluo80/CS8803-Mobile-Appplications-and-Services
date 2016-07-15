@@ -67,32 +67,6 @@ public class EbayRecyclerAdapter extends RecyclerView.Adapter<EbayRecyclerAdapte
                 context.startActivity(intent);
             }
         });
-
-        // Set onClickListener for the image button to confirm the gift for the user.
-//        viewHolder.buyButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                /** Save Gift data to Firebase. */
-//                mDatabase = FirebaseDatabase.getInstance().getReference();
-//                String uniqueKey = mDatabase.child("gift").push().getKey();
-//                mDatabase.child("gift").child(uniqueKey).child("item_id").setValue(gift.getItem_id());
-//                mDatabase.child("gift").child(uniqueKey).child("due_date").setValue(gift.getDue_date());
-//                mDatabase.child("gift").child(uniqueKey).child("item_url").setValue(gift.getItem_url());
-//                mDatabase.child("gift").child(uniqueKey).child("initiator_id").setValue(gift.getInitiator_id());
-//                mDatabase.child("gift").child(uniqueKey).child("name").setValue(gift.getName());
-//                mDatabase.child("gift").child(uniqueKey).child("picture_url").setValue(gift.getPicture_url());
-//                mDatabase.child("gift").child(uniqueKey).child("post_time").setValue(gift.getPost_time());
-//                mDatabase.child("gift").child(uniqueKey).child("price").setValue(gift.getPrice());
-////                Double.parseDouble(gift.getPrice())
-////                Double.toString(gift.getPrice())
-//                mDatabase.child("gift").child(uniqueKey).child("progress").setValue(0);
-//                mDatabase.child("gift").child(uniqueKey).child("reason").setValue("birthday");
-//                mDatabase.child("gift").child(uniqueKey).child("receiver_id").setValue("10208340919458244");
-//
-//                mDatabase.child("user/" + gift.getInitiator_id() + "/my_gift/wish_list").child(uniqueKey).setValue(true);
-//            }
-//        });
-
     }
 
     @Override

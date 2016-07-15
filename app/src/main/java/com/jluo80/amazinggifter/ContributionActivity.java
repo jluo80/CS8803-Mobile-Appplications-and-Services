@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -53,7 +54,6 @@ public class ContributionActivity extends AppCompatActivity {
         itemPrice = (TextView) findViewById(R.id.item_price);
         itemReason = (TextView) findViewById(R.id.reason);
         contributeAmount = (EditText) findViewById(R.id.contribution_amount);
-        final String contribute = contributeAmount.getText().toString();
 
         contributionConfrim = (Button) findViewById(R.id.contributionConfirm);
         currentRatio = (TextView) findViewById(R.id.current_ratio);
@@ -75,9 +75,8 @@ public class ContributionActivity extends AppCompatActivity {
         itemPrice.setText("US $" + price);
         itemReason.setText(reason);
 
-        int ratio = 5;
-//        (int) (Double.parseDouble(progress) / Double.parseDouble(price));
-        Log.e(TAG,progress + price);
+        int ratio = ((int) (Double.parseDouble(progress) / Double.parseDouble(price) * 100)) / 100;
+        Log.e(TAG, ratio + " ");
         currentRatio.setText(ratio + "%");
         progressBar.setProgress(ratio);
 
@@ -91,12 +90,24 @@ public class ContributionActivity extends AppCompatActivity {
         contributionConfrim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double amount = Double.parseDouble(contribute) + Double.parseDouble(progress);
-                mDatabase = FirebaseDatabase.getInstance().getReference();
-                mDatabase.child("/gift/" + uniqueKey +"/progress/").setValue(amount);
+                if(isEmpty(contributeAmount.getText().toString())) {
+                    Toast.makeText(ContributionActivity.this, "No contribution is made.", Toast.LENGTH_SHORT).show();
+                } else {
+                    double amount = Double.parseDouble(contributeAmount.getText().toString()) + Double.parseDouble(progress);
+                    mDatabase = FirebaseDatabase.getInstance().getReference();
+                    mDatabase.child("gift").child(uniqueKey).child("progress").setValue(amount);
+
+                    Intent intent = new Intent(ContributionActivity.this, MainScreenActivity.class);
+                    intent.putExtra("from", TAG);
+                    startActivity(intent);
+                }
             }
         });
 
+    }
+
+    private boolean isEmpty(String content) {
+        return content.trim().length() == 0;
     }
 
     @Override
