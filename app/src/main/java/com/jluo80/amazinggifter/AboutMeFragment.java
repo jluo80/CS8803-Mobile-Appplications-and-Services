@@ -50,18 +50,23 @@ public class AboutMeFragment extends Fragment {
          * the user login)
          * */
 
-        SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("test", Activity.MODE_PRIVATE);
-        String facebookId = mSharedPreferences.getString("facebookId", "");
+//        Intent intent = AboutMeFragment.this.getActivity().getIntent();
+//        String username = intent.getStringExtra("username");
+//        String birthday = intent.getStringExtra("birthday");
+//        String email = intent.getStringExtra("email");
+//        String profilePictureUrl = intent.getStringExtra("picture");
+//        String coverPictureUrl = intent.getStringExtra("cover");
 
-        Intent intent = AboutMeFragment.this.getActivity().getIntent();
-        String username = intent.getStringExtra("username");
-        String birthday = intent.getStringExtra("birthday");
-        String email = intent.getStringExtra("email");
-        String profilePictureUrl = intent.getStringExtra("picture");
-        String coverPictureUrl = intent.getStringExtra("cover");
+        SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("test", Activity.MODE_PRIVATE);
+        String username = mSharedPreferences.getString("username", "");
+        String birthday = mSharedPreferences.getString("birthday", "");
+        String email = mSharedPreferences.getString("email", "");
+        String profilePictureUrl = mSharedPreferences.getString("picture", "");
+        String coverPictureUrl = mSharedPreferences.getString("cover", "");
+
         /** Assign parameters to the user object. */
         user = new User(username, email, birthday, profilePictureUrl, coverPictureUrl);
-
+        Log.e("user", user.getName() + user.getBirthday() + user.getProfilePictureUrl() + user.getCoverPictureUrl());
         /** Set up mRecyclerView and the AboutMeRecyclerAdapter. */
         View rootView =  inflater.inflate(R.layout.fragment_list_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
@@ -83,7 +88,7 @@ public class AboutMeFragment extends Fragment {
 //                    public void onDataChange(DataSnapshot dataSnapshot) {
 //                        // Get user value
 //                        User user = dataSnapshot.getValue(User.class);
-//                        Log.e("VALUE", user.getUsername());
+//                        Log.e("VALUE", user.getName());
 //                    }
 //
 //                    @Override

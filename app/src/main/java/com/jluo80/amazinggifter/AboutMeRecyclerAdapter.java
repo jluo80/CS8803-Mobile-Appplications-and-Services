@@ -39,7 +39,7 @@ public class AboutMeRecyclerAdapter extends RecyclerView.Adapter<AboutMeRecycler
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        viewHolder.username.setText(mUser.getUsername());
+        viewHolder.username.setText(mUser.getName());
         viewHolder.email.setText(mUser.getEmail());
         viewHolder.birthday.setText(mUser.getBirthday());
 
@@ -47,25 +47,6 @@ public class AboutMeRecyclerAdapter extends RecyclerView.Adapter<AboutMeRecycler
         mImageLoader = MySingleton.getInstance(viewHolder.username.getContext()).getImageLoader();
         viewHolder.profilePicture.setImageUrl(mUser.getProfilePictureUrl(), mImageLoader);
         viewHolder.coverPicture.setImageUrl(mUser.getCoverPictureUrl(), mImageLoader);
-
-        // Set up onClick events
-//        viewHolder.username.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Uri itemUri = Uri.parse(user.getItemUrl());
-//                Context context = view.getContext();
-//                context.startActivity(new Intent(Intent.ACTION_VIEW, itemUri));
-//            }
-//        });
-
-        viewHolder.profilePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                context.startActivity(new Intent(mContext, AddGiftsActivity.class));
-            }
-        });
 
     }
 

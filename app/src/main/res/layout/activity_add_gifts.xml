@@ -64,7 +64,7 @@
 
                 <customfonts.MyTextView
                     android:id="@+id/select_date"
-                    android:hint="dd/mm/yyy"
+                    android:hint="dd/mm/yy"
                     android:textColorHint="@color/content_text_hint_color"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

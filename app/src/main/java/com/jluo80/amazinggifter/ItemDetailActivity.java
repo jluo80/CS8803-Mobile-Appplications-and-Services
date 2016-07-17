@@ -64,7 +64,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         final String progress = intent.getStringExtra("progress");
         final String reason = intent.getStringExtra("reason");
         final String receiverId = intent.getStringExtra("receiver_id");
-        Log.e(TAG, category);
 
         mImageLoader = MySingleton.getInstance(itemName.getContext()).getImageLoader();
         itemPicture.setImageUrl(pictureUrl, mImageLoader);

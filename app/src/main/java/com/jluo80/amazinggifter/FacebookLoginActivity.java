@@ -161,6 +161,11 @@ public class FacebookLoginActivity extends BaseActivity implements
                                         Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = mSharedPreferences.edit();
                                 editor.putString("facebookId", id);
+                                editor.putString("username", name);
+                                editor.putString("email", email);
+                                editor.putString("birthday", birthday);
+                                editor.putString("picture", profileImageUrl);
+                                editor.putString("cover", coverImageUrl);
                                 editor.commit();
 
 //                                JSONArray friendsList = object.getJSONObject("friends").getJSONArray("data");
@@ -190,8 +195,6 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 mDatabase.child("user").child(id).child("phone").setValue("");
                                 mDatabase.child("user").child(id).child("state").setValue("");
                                 mDatabase.child("user").child(id).child("zipcode").setValue("");
-
-
 
                                 /** Pass basic User data to MainScreenActivity(AboutMeFragment).*/
                                 Intent intent = new Intent(FacebookLoginActivity.this, MainScreenActivity.class);

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -51,9 +52,9 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
         viewHolder.currentPrice.setText("US $" + Double.toString(gift.getPrice()));
 
         /** Progress bar setup. */
-//        viewHolder.progressBar.setProgress(30);
-        viewHolder.progressBar.setProgress((int)(gift.getProgress()/gift.getPrice()));
-        viewHolder.currentTotal.setText(Double.toString(gift.getProgress()/gift.getPrice()) + "%");
+        DecimalFormat df = new DecimalFormat("#.#");
+        viewHolder.progressBar.setProgress((int)(gift.getProgress() / gift.getPrice() * 100));
+        viewHolder.currentTotal.setText(df.format(gift.getProgress() / gift.getPrice() * 100) + "%");
 
         /** Gift title and gift price setup*/
         viewHolder.reason.setText(gift.getReason());
@@ -101,7 +102,7 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-//        private final TextView mTextView;
+        //        private final TextView mTextView;
         CardView mCardView;
         TextView giftTitle;
         TextView currentPrice;

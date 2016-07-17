@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,22 +23,17 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
-import java.util.Map;
+
 
 
 public class MainScreenActivity extends AppCompatActivity {
@@ -50,6 +43,7 @@ public class MainScreenActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ArrayList<Gift> mGiftArray;
     private RecyclerView mRecyclerView;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,26 +65,14 @@ public class MainScreenActivity extends AppCompatActivity {
         TextView headerText = (TextView) drawerHeader.findViewById(R.id.header_text);
         final NetworkImageView drawerPicture = (NetworkImageView) drawerHeader.findViewById(R.id.drawer_picture);
 
-        /** Fetch data from Firebase. */
-        SharedPreferences mSharedPreferences = getSharedPreferences("test", Activity.MODE_PRIVATE);
-        String facebookId = mSharedPreferences.getString("facebookId", "");
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("user").child(facebookId).child("picture_url").addValueEventListener(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "Data change");
-                        String drawPictureUrl = dataSnapshot.getValue(String.class);
-                        ImageLoader imageLoader = MySingleton.getInstance(MainScreenActivity.this.getApplicationContext()).getImageLoader();
-                        drawerPicture.setImageUrl(drawPictureUrl, imageLoader);
-                    }
+        /** Fetch data from SharePreferences. */
+//        Intent intent = MainScreenActivity.this.getIntent();
+//        String drawerPictureUrl = intent.getStringExtra("picture");
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d(TAG, "Cancel");
-                    }
-                }
-        );
+        SharedPreferences mSharedPreferences = this.getSharedPreferences("test", Activity.MODE_PRIVATE);
+        String drawerPictureUrl = mSharedPreferences.getString("picture", "");
+        ImageLoader imageLoader = MySingleton.getInstance(MainScreenActivity.this.getApplicationContext()).getImageLoader();
+        drawerPicture.setImageUrl(drawerPictureUrl, imageLoader);
 
         headerText.setText("Hello World! ");
 
@@ -114,67 +96,67 @@ public class MainScreenActivity extends AppCompatActivity {
             }
         });
 
-        /** THIS PART IS FOR MYGIFTFRAGMENT ONLY. */
-        mGiftArray = new ArrayList<>();
-        mGiftArray.add(new Gift("category", "8/18/2016", "initiator id", "item id", "http://www.ebay.com/itm/Dell-XPS-13-13-3-QHD-IPS-Touch-Laptop-6th-Gen-Core-i5-8GB-Ram-256GB-SSD/371681082784?hash=item5689eb3da0&_trkparms=5373%3A0%7C5374%3AFeatured","name", "http://orig02.deviantart.net/cd44/f/2016/152/2/d/placeholder_3_by_sketchymouse-da4ny84.png", "7/15/2016", 25.00, 0, "Mother's Day", "receiver id"));
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference myWishList = mDatabase.child("user/" + facebookId + "/my_gift/" + "/wish_list");
-
-        myWishList.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                /** com.jluo80.amazinggifter.MyGiftsFragment:-KMa77KnGU5hsF8dngVc*/
-                final String uniqueKey = dataSnapshot.getKey();
-                Log.e(TAG, "onChildAdded:" + uniqueKey);
-                /** com.jluo80.amazinggifter.MyGiftsFragment:true */
-                Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
-//                mGiftArray.clear();
-
-                DatabaseReference ref = mDatabase.child("gift/" + uniqueKey);
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot item) {
-                        Log.e(TAG, item.getKey());
-                        System.out.println("hello " + item.getValue());
-                        Gift gift = item.getValue(Gift.class);
-                        gift.setUnique_key(uniqueKey);
-                        System.out.println(gift.getItem_url() + "-" + gift.getProgress() + "-" + gift.getReason() + "-" + gift.getPrice());
-                        mGiftArray.add(gift);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                    }
-                });
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.e(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-
-            }
-        });
-        /** THIS PART IS FOR MYGIFTFRAGMENT ONLY. */
+//        /** THIS PART IS FOR MYGIFTFRAGMENT ONLY. */
+//        mGiftArray = new ArrayList<>();
+//        mGiftArray.add(new Gift("category", "8/18/2016", "initiator id", "item id", "http://www.ebay.com/itm/Dell-XPS-13-13-3-QHD-IPS-Touch-Laptop-6th-Gen-Core-i5-8GB-Ram-256GB-SSD/371681082784?hash=item5689eb3da0&_trkparms=5373%3A0%7C5374%3AFeatured","name", "http://orig02.deviantart.net/cd44/f/2016/152/2/d/placeholder_3_by_sketchymouse-da4ny84.png", "7/15/2016", 25.00, 0, "Mother's Day", "receiver id"));
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        DatabaseReference myWishList = mDatabase.child("user/" + facebookId + "/my_gift/" + "/wish_list");
+//
+//        myWishList.addChildEventListener(new ChildEventListener() {
+//
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                /** com.jluo80.amazinggifter.MyGiftsFragment:-KMa77KnGU5hsF8dngVc*/
+//                final String uniqueKey = dataSnapshot.getKey();
+//                Log.e(TAG, "onChildAdded:" + uniqueKey);
+//                /** com.jluo80.amazinggifter.MyGiftsFragment:true */
+//                Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
+////                mGiftArray.clear();
+//
+//                DatabaseReference ref = mDatabase.child("gift/" + uniqueKey);
+//                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot item) {
+//                        Log.e(TAG, item.getKey());
+//                        System.out.println("hello " + item.getValue());
+//                        Gift gift = item.getValue(Gift.class);
+//                        gift.setUnique_key(uniqueKey);
+//                        System.out.println(gift.getItem_url() + "-" + gift.getProgress() + "-" + gift.getReason() + "-" + gift.getPrice());
+//                        mGiftArray.add(gift);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                Log.e(TAG, "onChildChanged:" + dataSnapshot.getKey());
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                Log.e(TAG, "onChildRemoved:" + dataSnapshot.getKey());
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+//
+//            }
+//        });
+//        /** THIS PART IS FOR MYGIFTFRAGMENT ONLY. */
 
 
         TabPagerAdapter adapter = new TabPagerAdapter(this, getSupportFragmentManager());
@@ -208,6 +190,8 @@ public class MainScreenActivity extends AppCompatActivity {
                 return true;
             case R.id.action_settings:
                 return true;
+            case R.id.action_logout:
+                signOut();
         }
 
         return super.onOptionsItemSelected(item);
@@ -249,13 +233,34 @@ public class MainScreenActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            moveTaskToBack(false);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            moveTaskToBack(false);
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        // .... other stuff in my onResume ....
+//        this.doubleBackToExitPressedOnce = false;
+//    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed();
+//            return;
+//        }
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "yeah", Toast.LENGTH_SHORT).show();
+//    }
+
+    public void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+    }
 }

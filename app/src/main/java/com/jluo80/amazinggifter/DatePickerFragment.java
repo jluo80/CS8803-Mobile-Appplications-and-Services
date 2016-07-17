@@ -43,7 +43,22 @@ public class DatePickerFragment extends DialogFragment
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         TextView selectDateTextView = (TextView) getActivity().findViewById(R.id.select_date);
-        selectDateTextView.setText(view.getMonth() + " /" + view.getDayOfMonth() + " /" + view.getYear());
+        String YEAR = Integer.toString(view.getYear() - 2000);
+        int temp = view.getMonth() + 1;
+        String MONTH = Integer.toString(temp);
+        String DAY = Integer.toString(view.getDayOfMonth());
+
+        if(temp < 10)
+        {
+            MONTH = "0" + temp;
+        }
+
+        if(view.getDayOfMonth() < 10)
+        {
+            DAY = "0" + view.getDayOfMonth();
+        }
+
+        selectDateTextView.setText(MONTH + "/" + DAY + "/" + YEAR);
     }
 
 }

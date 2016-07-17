@@ -74,11 +74,13 @@ public class AddGiftsActivity extends AppCompatActivity {
         ebaySearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String dueDate = selectDateTextView.getText().toString().replace(" ", "");
+                String dueDate = selectDateTextView.getText().toString();
                 String title = titleEditText.getText().toString();
                 String reason = reasonList.get(0);
                 if((isEmpty(dueDate) || isEmpty(title) || isEmpty(reason))) {
                     Toast.makeText(AddGiftsActivity.this, "Please fill out all required fields.", Toast.LENGTH_SHORT).show();
+                } else if(dueDate.compareTo(getCurrentDate()) <= 0) {
+                    Toast.makeText(AddGiftsActivity.this, "Due date must be in the future.", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(AddGiftsActivity.this, EbaySearchActivity.class);
                     intent.putExtra("due_date", dueDate);
@@ -101,6 +103,12 @@ public class AddGiftsActivity extends AppCompatActivity {
     public String getCurrentDateAndTime() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("MM-dd-yyyy HH:mm");
+        return mdformat.format(calendar.getTime());
+    }
+
+    public String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("MM/dd/yy");
         return mdformat.format(calendar.getTime());
     }
 

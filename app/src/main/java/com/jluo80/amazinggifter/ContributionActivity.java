@@ -62,7 +62,7 @@ public class ContributionActivity extends AppCompatActivity {
         Intent intent = ContributionActivity.this.getIntent();
         String pictureUrl = intent.getStringExtra("picture_url");
         String name = intent.getStringExtra("name");
-        String price = intent.getStringExtra("price");
+        final String price = intent.getStringExtra("price");
         String reason = intent.getStringExtra("reason");
         final String progress = intent.getStringExtra("progress");
         final String itemUrl = intent.getStringExtra("item_url");
@@ -75,7 +75,7 @@ public class ContributionActivity extends AppCompatActivity {
         itemPrice.setText("US $" + price);
         itemReason.setText(reason);
 
-        int ratio = ((int) (Double.parseDouble(progress) / Double.parseDouble(price) * 100)) / 100;
+        int ratio = ((int) (Double.parseDouble(progress) / Double.parseDouble(price) * 100));
         Log.e(TAG, ratio + " ");
         currentRatio.setText(ratio + "%");
         progressBar.setProgress(ratio);
@@ -92,14 +92,20 @@ public class ContributionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(isEmpty(contributeAmount.getText().toString())) {
                     Toast.makeText(ContributionActivity.this, "No contribution is made.", Toast.LENGTH_SHORT).show();
-                } else {
+                } else if(Double.parseDouble(contributeAmount.getText().toString()) > Double.parseDouble(price) - Double.parseDouble(progress)) {
+                    Toast.makeText(ContributionActivity.this, "Your contribution is over the price.", Toast.LENGTH_SHORT).show();
+                }else {
                     double amount = Double.parseDouble(contributeAmount.getText().toString()) + Double.parseDouble(progress);
+                    Log.e("AMOUNT", amount + "");
+                    Log.e("CONTRIBUTE", contributeAmount.getText().toString());
+                    Log.e("PROGRESS", progress);
+
                     mDatabase = FirebaseDatabase.getInstance().getReference();
                     mDatabase.child("gift").child(uniqueKey).child("progress").setValue(amount);
 
                     Intent intent = new Intent(ContributionActivity.this, MainScreenActivity.class);
-                    intent.putExtra("from", TAG);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
