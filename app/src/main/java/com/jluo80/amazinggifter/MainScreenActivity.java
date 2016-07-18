@@ -40,6 +40,7 @@ public class MainScreenActivity extends AppCompatActivity {
 
     private static final String TAG = MainScreenActivity.class.getName();
     private DrawerLayout mDrawerLayout;
+    private FloatingActionButton fab;
     private DatabaseReference mDatabase;
     private ArrayList<Gift> mGiftArray;
     private RecyclerView mRecyclerView;
@@ -86,7 +87,7 @@ public class MainScreenActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,14 +161,59 @@ public class MainScreenActivity extends AppCompatActivity {
 
 
         TabPagerAdapter adapter = new TabPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
+        final ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+                animateFab(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
-    public ArrayList<Gift> getWishListGiftArray() {
-        return this.mGiftArray;
+    private void animateFab(int position) {
+        switch (position) {
+            case 0:
+                fab.show();
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Context context = view.getContext();
+                        Intent intent = new Intent(context, AddGiftsActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+                break;
+            case 1:
+                fab.show();
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Context context = view.getContext();
+                        Intent intent = new Intent(context, AddGiftsActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+                break;
+
+            default:
+                fab.hide();
+                break;
+        }
     }
 
     @Override
@@ -233,14 +279,14 @@ public class MainScreenActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            moveTaskToBack(false);
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 //    @Override
 //    protected void onResume() {

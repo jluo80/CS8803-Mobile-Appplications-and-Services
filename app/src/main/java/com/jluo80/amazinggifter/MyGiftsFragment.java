@@ -79,7 +79,71 @@ public class MyGiftsFragment extends Fragment {
                         System.out.println("test" + item.getValue());
                         Gift gift = item.getValue(Gift.class);
                         gift.setUnique_key(uniqueKey);
-                        System.out.println(gift.getItem_url() + "-" + gift.getProgress() + "-" + gift.getReason() + "-" + gift.getPrice());
+                        System.out.println(gift.getInitiator_id() + "&&&&&&&" + gift.getReceiver_id());
+
+                        String end = gift.getDue_date();
+                        String start = getCurrentDate();
+                        if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
+                            mGiftArray.add(gift);
+                            mRecyclerView.setAdapter(new MyGiftRecyclerAdapter(getContext(), mGiftArray));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                    }
+                });
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.e(TAG, "onChildChanged:" + dataSnapshot.getKey());
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.e(TAG, "onChildRemoved:" + dataSnapshot.getKey());
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+
+            }
+        });
+
+
+        DatabaseReference fromFriendsList = mDatabase.child("user/" + facebookId + "/my_gift/" + "/from_friends");
+        fromFriendsList.addChildEventListener(new ChildEventListener() {
+            /** Add new gift */
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                mGiftArray.clear();
+                /** com.jluo80.amazinggifter.MyGiftsFragment:-KMa77KnGU5hsF8dngVc*/
+                final String uniqueKey = dataSnapshot.getKey();
+                Log.e(TAG, "onChildAdded:" + uniqueKey);
+                /** com.jluo80.amazinggifter.MyGiftsFragment:true */
+                Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
+
+                DatabaseReference ref = mDatabase.child("gift/" + uniqueKey);
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot item) {
+
+                        Log.e(TAG, "Single" + item.getKey());
+                        System.out.println("test" + item.getValue());
+                        Gift gift = item.getValue(Gift.class);
+                        gift.setUnique_key(uniqueKey);
+                        System.out.println(gift.getInitiator_id() + "&&&&&&&" + gift.getReceiver_id());
 
                         String end = gift.getDue_date();
                         String start = getCurrentDate();
