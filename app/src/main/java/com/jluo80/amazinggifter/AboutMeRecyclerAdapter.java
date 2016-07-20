@@ -2,9 +2,6 @@ package com.jluo80.amazinggifter;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +10,6 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 
 public class AboutMeRecyclerAdapter extends RecyclerView.Adapter<AboutMeRecyclerAdapter.ViewHolder>{

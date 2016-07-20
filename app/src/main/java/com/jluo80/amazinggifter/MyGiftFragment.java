@@ -23,37 +23,30 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
 
-public class MyGiftsFragment extends Fragment {
+public class MyGiftFragment extends Fragment {
 
-    private static final String TAG = MyGiftsFragment.class.getName();
-    private ArrayList<Gift> mGiftArray;
+    private static final String TAG = MyGiftFragment.class.getName();
+    private ArrayList<Gift> mGiftArray = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private DatabaseReference mDatabase;
     private String facebookId;
+    private MyGiftRecyclerAdapter mAdapter;
 
-    public MyGiftsFragment() {
+    public MyGiftFragment() {
 
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
-
-        View rootView =  inflater.inflate(R.layout.fragment_list_view, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        mGiftArray = new ArrayList<>();
-//        mGiftArray.add(new Gift("category", "8/18/2016", "initiator id", "item id", "http://www.ebay.com/itm/Dell-XPS-13-13-3-QHD-IPS-Touch-Laptop-6th-Gen-Core-i5-8GB-Ram-256GB-SSD/371681082784?hash=item5689eb3da0&_trkparms=5373%3A0%7C5374%3AFeatured","name", "http://orig02.deviantart.net/cd44/f/2016/152/2/d/placeholder_3_by_sketchymouse-da4ny84.png", "7/15/2016", 25.00, 0, "Mother's Day", "receiver id"));
-
-        SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("test", Activity.MODE_PRIVATE);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAdapter = new MyGiftRecyclerAdapter(getContext(), mGiftArray);
+        SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
         facebookId = mSharedPreferences.getString("facebookId", "");
 
 
@@ -63,14 +56,14 @@ public class MyGiftsFragment extends Fragment {
             /** Add new gift */
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                mGiftArray.clear();
-                /** com.jluo80.amazinggifter.MyGiftsFragment:-KMa77KnGU5hsF8dngVc*/
+                mGiftArray.clear();
+                /** com.jluo80.amazinggifter.MyGiftFragment:-KMa77KnGU5hsF8dngVc*/
                 final String uniqueKey = dataSnapshot.getKey();
                 Log.e(TAG, "onChildAdded:" + uniqueKey);
-                /** com.jluo80.amazinggifter.MyGiftsFragment:true */
+                /** com.jluo80.amazinggifter.MyGiftFragment:true */
                 Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
 
-                DatabaseReference ref = mDatabase.child("gift/" + uniqueKey);
+                DatabaseReference ref = mDatabase.child("gift").child(uniqueKey);
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot item) {
@@ -85,6 +78,7 @@ public class MyGiftsFragment extends Fragment {
                         String start = getCurrentDate();
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
                             mGiftArray.add(gift);
+                            mAdapter.notifyDataSetChanged();
                             mRecyclerView.setAdapter(new MyGiftRecyclerAdapter(getContext(), mGiftArray));
                         }
                     }
@@ -128,10 +122,10 @@ public class MyGiftsFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 //                mGiftArray.clear();
-                /** com.jluo80.amazinggifter.MyGiftsFragment:-KMa77KnGU5hsF8dngVc*/
+                /** com.jluo80.amazinggifter.MyGiftFragment:-KMa77KnGU5hsF8dngVc*/
                 final String uniqueKey = dataSnapshot.getKey();
                 Log.e(TAG, "onChildAdded:" + uniqueKey);
-                /** com.jluo80.amazinggifter.MyGiftsFragment:true */
+                /** com.jluo80.amazinggifter.MyGiftFragment:true */
                 Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
 
                 DatabaseReference ref = mDatabase.child("gift/" + uniqueKey);
@@ -149,6 +143,7 @@ public class MyGiftsFragment extends Fragment {
                         String start = getCurrentDate();
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
                             mGiftArray.add(gift);
+                            mAdapter.notifyDataSetChanged();
                             mRecyclerView.setAdapter(new MyGiftRecyclerAdapter(getContext(), mGiftArray));
                         }
                     }
@@ -184,6 +179,148 @@ public class MyGiftsFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View rootView =  inflater.inflate(R.layout.fragment_list_view, container, false);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mAdapter);
+//        mGiftArray = new ArrayList<>();
+
+//        SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
+//        facebookId = mSharedPreferences.getString("facebookId", "");
+//
+//
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        DatabaseReference myWishList = mDatabase.child("user/" + facebookId + "/my_gift/" + "/wish_list");
+//        myWishList.addChildEventListener(new ChildEventListener() {
+//            /** Add new gift */
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                mGiftArray.clear();
+//                /** com.jluo80.amazinggifter.MyGiftFragment:-KMa77KnGU5hsF8dngVc*/
+//                final String uniqueKey = dataSnapshot.getKey();
+//                Log.e(TAG, "onChildAdded:" + uniqueKey);
+//                /** com.jluo80.amazinggifter.MyGiftFragment:true */
+//                Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
+//
+//                DatabaseReference ref = mDatabase.child("gift").child(uniqueKey);
+//                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot item) {
+//
+//                        Log.e(TAG, "Single" + item.getKey());
+//                        System.out.println("test" + item.getValue());
+//                        Gift gift = item.getValue(Gift.class);
+//                        gift.setUnique_key(uniqueKey);
+//                        System.out.println(gift.getInitiator_id() + "&&&&&&&" + gift.getReceiver_id());
+//
+//                        String end = gift.getDue_date();
+//                        String start = getCurrentDate();
+//                        if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
+//                            mGiftArray.add(gift);
+//                            mRecyclerView.setAdapter(new MyGiftRecyclerAdapter(getContext(), mGiftArray));
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                Log.e(TAG, "onChildChanged:" + dataSnapshot.getKey());
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                Log.e(TAG, "onChildRemoved:" + dataSnapshot.getKey());
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+//
+//            }
+//        });
+//
+//
+//        DatabaseReference fromFriendsList = mDatabase.child("user/" + facebookId + "/my_gift/" + "/from_friends");
+//        fromFriendsList.addChildEventListener(new ChildEventListener() {
+//            /** Add new gift */
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+////                mGiftArray.clear();
+//                /** com.jluo80.amazinggifter.MyGiftFragment:-KMa77KnGU5hsF8dngVc*/
+//                final String uniqueKey = dataSnapshot.getKey();
+//                Log.e(TAG, "onChildAdded:" + uniqueKey);
+//                /** com.jluo80.amazinggifter.MyGiftFragment:true */
+//                Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
+//
+//                DatabaseReference ref = mDatabase.child("gift/" + uniqueKey);
+//                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot item) {
+//
+//                        Log.e(TAG, "Single" + item.getKey());
+//                        System.out.println("test" + item.getValue());
+//                        Gift gift = item.getValue(Gift.class);
+//                        gift.setUnique_key(uniqueKey);
+//                        System.out.println(gift.getInitiator_id() + "&&&&&&&" + gift.getReceiver_id());
+//
+//                        String end = gift.getDue_date();
+//                        String start = getCurrentDate();
+//                        if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
+//                            mGiftArray.add(gift);
+//                            mRecyclerView.setAdapter(new MyGiftRecyclerAdapter(mContext, mGiftArray));
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                Log.e(TAG, "onChildChanged:" + dataSnapshot.getKey());
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                Log.e(TAG, "onChildRemoved:" + dataSnapshot.getKey());
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+//
+//            }
+//        });
 
 //        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
 //        mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
@@ -266,4 +403,5 @@ public class MyGiftsFragment extends Fragment {
         SimpleDateFormat mdformat = new SimpleDateFormat("MM/dd/yy");
         return mdformat.format(calendar.getTime());
     }
+
 }

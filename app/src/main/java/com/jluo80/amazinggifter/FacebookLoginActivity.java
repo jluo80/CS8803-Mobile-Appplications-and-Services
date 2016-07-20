@@ -47,8 +47,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
@@ -57,7 +62,6 @@ public class FacebookLoginActivity extends BaseActivity implements
         View.OnClickListener {
 
     private static final String TAG = "FacebookLogin";
-    private final User me = new User();
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
@@ -93,9 +97,11 @@ public class FacebookLoginActivity extends BaseActivity implements
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
+                    Log.e("11", "Not sign out yet.");
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
+                    Log.e("11", "Signed out already.");
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
                 // [START_EXCLUDE]
@@ -157,7 +163,16 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 String profileImageUrl = ImageRequest.getProfilePictureUri(id, 500, 500).toString();
                                 String coverImageUrl = object.getJSONObject("cover").getString("source");
 
-                                SharedPreferences mSharedPreferences= getSharedPreferences("test",
+                                JSONArray friendsList = object.getJSONObject("friends").getJSONArray("data");
+
+                                /** Friends' ID sets and friends' Name sets. */
+                                Set<String> friendsIdSet = new HashSet<>();
+                                for(int i = 0; i < friendsList.length(); i++) {
+                                    System.out.println(friendsList.getJSONObject(i).getString("id"));
+                                    friendsIdSet.add(friendsList.getJSONObject(i).getString("id"));
+                                }
+
+                                SharedPreferences mSharedPreferences= getSharedPreferences("facebookLogin",
                                         Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = mSharedPreferences.edit();
                                 editor.putString("facebookId", id);
@@ -166,10 +181,9 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 editor.putString("birthday", birthday);
                                 editor.putString("picture", profileImageUrl);
                                 editor.putString("cover", coverImageUrl);
-                                editor.commit();
+                                editor.putStringSet("friendsIdSet", friendsIdSet);
+                                editor.apply();
 
-//                                JSONArray friendsList = object.getJSONObject("friends").getJSONArray("data");
-//                                String friendId = friendsList.getJSONObject(0).getString("id");
 
                                 /** Log Test */
                                 Log.e("ID = ", id);
@@ -178,7 +192,7 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 Log.e("Birthday = ", birthday);
                                 Log.e("Picture", profileImageUrl);
                                 Log.e("Cover = ", coverImageUrl);
-//                                Log.e("Friend ID = ", friendId);
+                                Log.e("Friend = ", friendsList.toString());
                                 Log.e(TAG, "Object = " + object);
 
                                 /** Save User data to Firebase. */
@@ -204,7 +218,6 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 intent.putExtra("birthday", birthday);
                                 intent.putExtra("picture", profileImageUrl);
                                 intent.putExtra("cover", coverImageUrl);
-//                                intent.putExtra("friendsList", friendId);
                                 startActivity(intent);
                                 finish();
                             }

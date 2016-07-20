@@ -1,6 +1,8 @@
 package com.jluo80.amazinggifter;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,10 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ContributionActivity extends AppCompatActivity {
 
     NetworkImageView itemPicture;
@@ -29,6 +35,8 @@ public class ContributionActivity extends AppCompatActivity {
     ProgressBar progressBar;
     TextView currentRatio;
     TextView itemReason;
+    TextView itemDueDate;
+    TextView currentProgress;
     private ImageLoader mImageLoader;
     Button contributionConfrim;
     DatabaseReference mDatabase;
@@ -53,6 +61,8 @@ public class ContributionActivity extends AppCompatActivity {
         itemName = (TextView) findViewById(R.id.item_name);
         itemPrice = (TextView) findViewById(R.id.item_price);
         itemReason = (TextView) findViewById(R.id.reason);
+        itemDueDate = (TextView) findViewById(R.id.due_date);
+        currentProgress =(TextView) findViewById(R.id.current_progress);
         contributeAmount = (EditText) findViewById(R.id.contribution_amount);
 
         contributionConfrim = (Button) findViewById(R.id.contributionConfirm);
@@ -64,16 +74,25 @@ public class ContributionActivity extends AppCompatActivity {
         String name = intent.getStringExtra("name");
         final String price = intent.getStringExtra("price");
         String reason = intent.getStringExtra("reason");
+        String dueDate = intent.getStringExtra("due_date");
         final String progress = intent.getStringExtra("progress");
         final String itemUrl = intent.getStringExtra("item_url");
-        final String uniqueKey = intent.getStringExtra("unique_key");
+        final String giftKey = intent.getStringExtra("unique_key");
+        final String time = intent.getStringExtra("post_time");
+        final String flag = intent.getStringExtra("me_friend_tab");
 
+        SharedPreferences mSharedPreferences = this.getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
+//        final String contributorId = intent.getStringExtra("initiator_id");
+        final String contributorId = mSharedPreferences.getString("facebookId", "");
+        final String contributorName = mSharedPreferences.getString("username", "");
 
         mImageLoader = MySingleton.getInstance(itemName.getContext()).getImageLoader();
         itemPicture.setImageUrl(pictureUrl, mImageLoader);
         itemName.setText(name);
         itemPrice.setText("US $" + price);
         itemReason.setText(reason);
+        itemDueDate.setText(dateDiff(dueDate) + " days to go");
+        currentProgress.setText("US $" + progress + "/" + price);
 
         int ratio = ((int) (Double.parseDouble(progress) / Double.parseDouble(price) * 100));
         Log.e(TAG, ratio + " ");
@@ -101,11 +120,23 @@ public class ContributionActivity extends AppCompatActivity {
                     Log.e("PROGRESS", progress);
 
                     mDatabase = FirebaseDatabase.getInstance().getReference();
-                    mDatabase.child("gift").child(uniqueKey).child("progress").setValue(amount);
+                    mDatabase.child("gift").child(giftKey).child("progress").setValue(amount);
 
-                    Intent intent = new Intent(ContributionActivity.this, MainScreenActivity.class);
-                    startActivity(intent);
-                    finish();
+                    String contributionKey = mDatabase.child("contribution").child(giftKey).push().getKey();
+                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("amount").setValue(contributeAmount.getText().toString());
+                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("contributor_id").setValue(contributorId);
+                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("contributor_name").setValue(contributorName);
+                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("time").setValue(time);
+
+                    if(flag.equals("me")) {
+                        Intent intent = new Intent(ContributionActivity.this, MainScreenActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(ContributionActivity.this, FriendGiftActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });
@@ -114,6 +145,20 @@ public class ContributionActivity extends AppCompatActivity {
 
     private boolean isEmpty(String content) {
         return content.trim().length() == 0;
+    }
+
+    public Long dateDiff(String str) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        Date dueDate = null;
+        try {
+            dueDate = dateFormat.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date currentDate = new Date();
+        long diffTime = dueDate.getTime() - currentDate.getTime();
+        long diffDays = diffTime / (1000 * 60 * 60 * 24);
+        return diffDays;
     }
 
     @Override

@@ -35,7 +35,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
-public class EbaySearchActivity extends AppCompatActivity {
+public class EbaySearchActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
 
@@ -74,10 +74,12 @@ public class EbaySearchActivity extends AppCompatActivity {
         searchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // [START_EXCLUDE silent]
+                showProgressDialog();
+                // [END_EXCLUDE]
                 EditText searchView = (EditText) findViewById(R.id.search_view);
                 final String tag = searchView.getText().toString();
                 String url = null;
-                boolean loading = true;
 
                 try{
                     url = createAddress(java.net.URLEncoder.encode(tag, "UTF-8"));
@@ -97,6 +99,9 @@ public class EbaySearchActivity extends AppCompatActivity {
                                     mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(EbaySearchActivity.this));
                                     mRecyclerView.setAdapter(new EbayRecyclerAdapter(EbaySearchActivity.this, giftsArray));
+                                    // [START_EXCLUDE]
+                                    hideProgressDialog();
+                                    // [END_EXCLUDE]
                                 } catch(Exception e) {
                                     e.printStackTrace();
                                 }
@@ -147,7 +152,7 @@ public class EbaySearchActivity extends AppCompatActivity {
 
         NodeList nodes = (NodeList) itemExpression.evaluate(doc, XPathConstants.NODESET);
 
-        SharedPreferences mSharedPreferences = getSharedPreferences("test", Activity.MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
         String facebookId = mSharedPreferences.getString("facebookId", "");
 
         Intent intent = EbaySearchActivity.this.getIntent();

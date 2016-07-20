@@ -11,7 +11,7 @@
 
     <!-- Three tabs' titles -->
     <string name="my_gifts">My Gifts</string>
-    <string name="friends_gifts">Friends</string>
+    <string name="friends">Friends</string>
     <string name="about_me">About Me</string>
 
     <!-- Date picker -->
@@ -32,6 +32,8 @@
     <string name="confirm">Confirm</string>
     <string name="progress">Progress</string>
     <string name="card_number">Card Number</string>
+    <string name="current_progress">Current Progress</string>
+    <string name="friend_gifts">Friend Gifts</string>
 
 
     <!-- Reason spinners -->
@@ -40,6 +42,7 @@
         <item>Christmas</item>
         <item>Mothers\' Day</item>
         <item>Fathers\' Day</item>
+        <item>Graduation</item>
         <item>Other</item>
     </string-array>
 
@@ -70,11 +73,16 @@
     <string name="firebase_status_fmt">Firebase User: %s</string>
     <string name="firebase_user_management">Firebase User Management</string>
 
-    <!-- TEST 2 -->
-    <string name="nav_item_attachment">Attachment</string>
-    <string name="nav_item_images">Images</string>
-    <string name="nav_item_location">My Location</string>
-    <string name="nav_sub_menu">Sub Menu</string>
-    <string name="nav_sub_menu_item01">Sub Menu Item 1</string>
-    <string name="nav_sub_menu_item02">Sub Menu Item 2</string>
+    <!-- Drawer -->
+    <string name="nav_sub_menu_profile">Profile</string>
+    <string name="nav_item_name">Name</string>
+    <string name="nav_item_email">E-mail</string>
+    <string name="nav_item_birthday">Birthday</string>
+    <string name="nav_item_payment">Payment</string>
+    <string name="nav_sub_menu_setting">Setting</string>
+    <string name="nav_sub_menu_refresh">Refresh</string>
+    <string name="nav_sub_menu_logout">Logout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

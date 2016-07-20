@@ -23,14 +23,14 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -39,54 +39,111 @@ import java.util.ArrayList;
 public class MainScreenActivity extends AppCompatActivity {
 
     private static final String TAG = MainScreenActivity.class.getName();
+    FirebaseAuth mAuth;
     private DrawerLayout mDrawerLayout;
     private FloatingActionButton fab;
-    private DatabaseReference mDatabase;
     private ArrayList<Gift> mGiftArray;
     private RecyclerView mRecyclerView;
     private boolean doubleBackToExitPressedOnce = false;
 
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_screen);
+        FacebookSdk.sdkInitialize(getApplication().getApplicationContext());
+        mAuth = FirebaseAuth.getInstance();
 
+        setContentView(R.layout.activity_main_screen);
+        /** Setup Toolbar and ActionBar. */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        /** Setup DrawerLayout. */
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
-        /** Setup drawer header content: Title and profile picture. */
+        /** 1.Setup drawer header content: Title and profile picture. */
         View drawerHeader = navigationView.getHeaderView(0);
-        TextView headerText = (TextView) drawerHeader.findViewById(R.id.header_text);
-        final NetworkImageView drawerPicture = (NetworkImageView) drawerHeader.findViewById(R.id.drawer_picture);
+        NetworkImageView drawerPicture = (NetworkImageView) drawerHeader.findViewById(R.id.drawer_picture);
+        NetworkImageView coverPicture = (NetworkImageView) drawerHeader.findViewById(R.id.cover_picture);
 
         /** Fetch data from SharePreferences. */
-//        Intent intent = MainScreenActivity.this.getIntent();
-//        String drawerPictureUrl = intent.getStringExtra("picture");
-
-        SharedPreferences mSharedPreferences = this.getSharedPreferences("test", Activity.MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = this.getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
         String drawerPictureUrl = mSharedPreferences.getString("picture", "");
+        String coverPictureUrl = mSharedPreferences.getString("cover", "");
         ImageLoader imageLoader = MySingleton.getInstance(MainScreenActivity.this.getApplicationContext()).getImageLoader();
         drawerPicture.setImageUrl(drawerPictureUrl, imageLoader);
+        coverPicture.setImageUrl(coverPictureUrl, imageLoader);
 
-        headerText.setText("Hello World! ");
 
+        /** 2.Setup drawer body content: Name, E-mail and birthday. */
+        /** Fetch data from SharePreferences. */
+        String username = mSharedPreferences.getString("username", "");
+        String email = mSharedPreferences.getString("email", "");
+        String birthday = mSharedPreferences.getString("birthday", "");
+        Menu menu = navigationView.getMenu();
+        MenuItem nav_name = menu.findItem(R.id.navigation_item_name);
+        nav_name.setTitle(username);
+        MenuItem nav_email = menu.findItem(R.id.navigation_item_email);
+        nav_email.setTitle(email);
+        MenuItem nav_birthday = menu.findItem(R.id.navigation_item_birthday);
+        nav_birthday.setTitle(birthday);
+
+        /** Setup item onSelectedListener. */
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
-                Toast.makeText(MainScreenActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
-                return true;
+                Intent intent;
+
+                if (menuItem.getItemId() == R.id.navigation_item_name) {
+                    mDrawerLayout.closeDrawers();
+                    intent = new Intent(MainScreenActivity.this, AddGiftsActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+
+                if (menuItem.getItemId() == R.id.navigation_item_email) {
+                    mDrawerLayout.closeDrawers();
+                    intent = new Intent(MainScreenActivity.this, AddGiftsActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+
+                if (menuItem.getItemId() == R.id.navigation_item_birthday) {
+                    mDrawerLayout.closeDrawers();
+                    intent = new Intent(MainScreenActivity.this, AddGiftsActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+
+                if (menuItem.getItemId() == R.id.navigation_item_payment) {
+                    mDrawerLayout.closeDrawers();
+                    intent = new Intent(MainScreenActivity.this, AddGiftsActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+
+                if (menuItem.getItemId() == R.id.navigation_item_refresh) {
+                    mDrawerLayout.closeDrawers();
+                    finish();
+                    startActivity(getIntent());
+                    return true;
+                }
+
+                if (menuItem.getItemId() == R.id.navigation_item_logout) {
+                    mDrawerLayout.closeDrawers();
+                    facebookLogout();
+                    return true;
+                }
+                return false;
             }
         });
 
+        /** Setup FloatingActionButton. */
         fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +155,8 @@ public class MainScreenActivity extends AppCompatActivity {
         });
 
 //        /** THIS PART IS FOR MYGIFTFRAGMENT ONLY. */
+//        mSharedPreferences = this.getSharedPreferences("test", Activity.MODE_PRIVATE);
+//        String facebookId = mSharedPreferences.getString("facebookId", "");
 //        mGiftArray = new ArrayList<>();
 //        mGiftArray.add(new Gift("category", "8/18/2016", "initiator id", "item id", "http://www.ebay.com/itm/Dell-XPS-13-13-3-QHD-IPS-Touch-Laptop-6th-Gen-Core-i5-8GB-Ram-256GB-SSD/371681082784?hash=item5689eb3da0&_trkparms=5373%3A0%7C5374%3AFeatured","name", "http://orig02.deviantart.net/cd44/f/2016/152/2/d/placeholder_3_by_sketchymouse-da4ny84.png", "7/15/2016", 25.00, 0, "Mother's Day", "receiver id"));
 //        mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -107,10 +166,10 @@ public class MainScreenActivity extends AppCompatActivity {
 //
 //            @Override
 //            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                /** com.jluo80.amazinggifter.MyGiftsFragment:-KMa77KnGU5hsF8dngVc*/
+//                /** com.jluo80.amazinggifter.MyGiftFragment:-KMa77KnGU5hsF8dngVc*/
 //                final String uniqueKey = dataSnapshot.getKey();
 //                Log.e(TAG, "onChildAdded:" + uniqueKey);
-//                /** com.jluo80.amazinggifter.MyGiftsFragment:true */
+//                /** com.jluo80.amazinggifter.MyGiftFragment:true */
 //                Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
 ////                mGiftArray.clear();
 //
@@ -169,6 +228,7 @@ public class MainScreenActivity extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setOffscreenPageLimit(3);
                 viewPager.setCurrentItem(tab.getPosition());
                 animateFab(tab.getPosition());
             }
@@ -183,6 +243,13 @@ public class MainScreenActivity extends AppCompatActivity {
 
             }
         });
+//
+//        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+//            @Override
+//            public void onPageSelected(int position) {
+//                viewPager.setCurrentItem(position);
+//            }
+//        });
     }
 
     private void animateFab(int position) {
@@ -236,8 +303,12 @@ public class MainScreenActivity extends AppCompatActivity {
                 return true;
             case R.id.action_settings:
                 return true;
+            case R.id.action_refresh:
+                finish();
+                startActivity(getIntent());
+                return true;
             case R.id.action_logout:
-                signOut();
+                facebookLogout();
         }
 
         return super.onOptionsItemSelected(item);
@@ -254,9 +325,9 @@ public class MainScreenActivity extends AppCompatActivity {
 
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new MyGiftsFragment();
+                return new MyGiftFragment();
             } else if (position == 1) {
-                return new FriendsGiftsFragment();
+                return new FriendContactFragment();
             } else {
                 return new AboutMeFragment();
             }
@@ -272,7 +343,7 @@ public class MainScreenActivity extends AppCompatActivity {
             if (position == 0) {
                 return mContext.getString(R.string.my_gifts);
             } else if (position == 1) {
-                return mContext.getString(R.string.friends_gifts);
+                return mContext.getString(R.string.friends);
             } else {
                 return mContext.getString(R.string.about_me);
             }
@@ -294,7 +365,8 @@ public class MainScreenActivity extends AppCompatActivity {
 //        // .... other stuff in my onResume ....
 //        this.doubleBackToExitPressedOnce = false;
 //    }
-//
+
+////
 //    @Override
 //    public void onBackPressed() {
 //        if (doubleBackToExitPressedOnce) {
@@ -302,11 +374,24 @@ public class MainScreenActivity extends AppCompatActivity {
 //            return;
 //        }
 //        this.doubleBackToExitPressedOnce = true;
-//        Toast.makeText(this, "yeah", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Press back once more to exit", Toast.LENGTH_SHORT).show();
 //    }
 
-    public void signOut() {
-        FirebaseAuth.getInstance().signOut();
+    public void facebookLogout() {
+        if (mAuth.getCurrentUser() != null) {
+            Log.e("22", "Not sign out yet.");
+        } else {
+            Log.e("22", "Signed out already.");
+        }
+        mAuth.signOut();
+        if (mAuth.getCurrentUser() != null) {
+            Log.e("22", "Not sign out yet.");
+        } else {
+            Log.e("22", "Signed out already.");
+        }
         LoginManager.getInstance().logOut();
+        Log.e("facebook", "logout");
+        startActivity(new Intent(MainScreenActivity.this, FacebookLoginActivity.class));
+        finish();
     }
 }

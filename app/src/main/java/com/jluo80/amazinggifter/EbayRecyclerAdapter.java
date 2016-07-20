@@ -14,9 +14,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import java.util.ArrayList;
 
-/**
- * Created by Jiahao on 7/8/2016.
- */
 public class EbayRecyclerAdapter extends RecyclerView.Adapter<EbayRecyclerAdapter.ViewHolder>{
 
     private Context mContext;
@@ -36,7 +33,6 @@ public class EbayRecyclerAdapter extends RecyclerView.Adapter<EbayRecyclerAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
-
         final Gift gift = mGifts.get(i);
         viewHolder.giftTitle.setText(gift.getName());
         viewHolder.currentPrice.setText("US $"+ gift.getPrice());

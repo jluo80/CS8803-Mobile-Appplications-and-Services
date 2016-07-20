@@ -1,8 +1,10 @@
 package com.jluo80.amazinggifter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +29,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     TextView itemPick;
     private ImageLoader mImageLoader;
     DatabaseReference mDatabase;
+    final Context context = this;
     private static final String TAG = ItemDetailActivity.class.getName();
 
     @Override
@@ -84,26 +87,69 @@ public class ItemDetailActivity extends AppCompatActivity {
         itemPick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /** Save Gift data to Firebase. */
-                mDatabase = FirebaseDatabase.getInstance().getReference();
-                String uniqueKey = mDatabase.child("gift").push().getKey();
-                mDatabase.child("gift").child(uniqueKey).child("category").setValue(category);
-                mDatabase.child("gift").child(uniqueKey).child("due_date").setValue(dueDate);
-                mDatabase.child("gift").child(uniqueKey).child("initiator_id").setValue(initiatorId);
-                mDatabase.child("gift").child(uniqueKey).child("item_id").setValue(itemId);
-                mDatabase.child("gift").child(uniqueKey).child("item_url").setValue(itemUrl);
-                mDatabase.child("gift").child(uniqueKey).child("name").setValue(name);
-                mDatabase.child("gift").child(uniqueKey).child("picture_url").setValue(pictureUrl);
-                mDatabase.child("gift").child(uniqueKey).child("post_time").setValue(postTime);
-                mDatabase.child("gift").child(uniqueKey).child("price").setValue(Double.parseDouble(price));
-                mDatabase.child("gift").child(uniqueKey).child("progress").setValue(Double.parseDouble(progress));
-                mDatabase.child("gift").child(uniqueKey).child("reason").setValue(reason);
-                mDatabase.child("gift").child(uniqueKey).child("receiver_id").setValue(receiverId);
 
-                mDatabase.child("user/" + initiatorId + "/my_gift/wish_list").child(uniqueKey).setValue(true);
-                Intent intent = new Intent(ItemDetailActivity.this, MainScreenActivity.class);
-                intent.putExtra("from", TAG);
-                startActivity(intent);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("Confirm Your In-App Purchase");
+                alertDialogBuilder
+                        .setMessage("Do you want to pick this product?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                /** Save Gift data to Firebase. */
+                                mDatabase = FirebaseDatabase.getInstance().getReference();
+                                String uniqueKey = mDatabase.child("gift").push().getKey();
+                                mDatabase.child("gift").child(uniqueKey).child("category").setValue(category);
+                                mDatabase.child("gift").child(uniqueKey).child("due_date").setValue(dueDate);
+                                mDatabase.child("gift").child(uniqueKey).child("initiator_id").setValue(initiatorId);
+                                mDatabase.child("gift").child(uniqueKey).child("item_id").setValue(itemId);
+                                mDatabase.child("gift").child(uniqueKey).child("item_url").setValue(itemUrl);
+                                mDatabase.child("gift").child(uniqueKey).child("name").setValue(name);
+                                mDatabase.child("gift").child(uniqueKey).child("picture_url").setValue(pictureUrl);
+                                mDatabase.child("gift").child(uniqueKey).child("post_time").setValue(postTime);
+                                mDatabase.child("gift").child(uniqueKey).child("price").setValue(Double.parseDouble(price));
+                                mDatabase.child("gift").child(uniqueKey).child("progress").setValue(Double.parseDouble(progress));
+                                mDatabase.child("gift").child(uniqueKey).child("reason").setValue(reason);
+                                mDatabase.child("gift").child(uniqueKey).child("receiver_id").setValue(receiverId);
+
+                                mDatabase.child("user/" + initiatorId + "/my_gift/wish_list").child(uniqueKey).setValue(true);
+                                Intent intent = new Intent(ItemDetailActivity.this, MainScreenActivity.class);
+                                intent.putExtra("from", TAG);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+//                /** Save Gift data to Firebase. */
+//                mDatabase = FirebaseDatabase.getInstance().getReference();
+//                String uniqueKey = mDatabase.child("gift").push().getKey();
+//                mDatabase.child("gift").child(uniqueKey).child("category").setValue(category);
+//                mDatabase.child("gift").child(uniqueKey).child("due_date").setValue(dueDate);
+//                mDatabase.child("gift").child(uniqueKey).child("initiator_id").setValue(initiatorId);
+//                mDatabase.child("gift").child(uniqueKey).child("item_id").setValue(itemId);
+//                mDatabase.child("gift").child(uniqueKey).child("item_url").setValue(itemUrl);
+//                mDatabase.child("gift").child(uniqueKey).child("name").setValue(name);
+//                mDatabase.child("gift").child(uniqueKey).child("picture_url").setValue(pictureUrl);
+//                mDatabase.child("gift").child(uniqueKey).child("post_time").setValue(postTime);
+//                mDatabase.child("gift").child(uniqueKey).child("price").setValue(Double.parseDouble(price));
+//                mDatabase.child("gift").child(uniqueKey).child("progress").setValue(Double.parseDouble(progress));
+//                mDatabase.child("gift").child(uniqueKey).child("reason").setValue(reason);
+//                mDatabase.child("gift").child(uniqueKey).child("receiver_id").setValue(receiverId);
+//
+//                mDatabase.child("user/" + initiatorId + "/my_gift/wish_list").child(uniqueKey).setValue(true);
+//                Intent intent = new Intent(ItemDetailActivity.this, MainScreenActivity.class);
+//                intent.putExtra("from", TAG);
+//                startActivity(intent);
+//                finish();
             }
         });
     }

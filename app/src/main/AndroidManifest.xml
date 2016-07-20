@@ -39,7 +39,8 @@
         <activity android:name=".BaseActivity" />
         <activity android:name=".MainScreenActivity" />
         <activity android:name=".ItemDetailActivity" />
-        <activity android:name=".ContributionActivity"></activity>
+        <activity android:name=".ContributionActivity" />
+        <activity android:name=".FriendGiftActivity"></activity>
     </application>
 
 </manifest>

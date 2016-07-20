@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <customfonts.MyTextView
+            <TextView
                 android:text="@string/username"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -57,7 +57,7 @@
                 android:padding="16dp"
                 android:gravity="left" />
 
-            <customfonts.MyTextView
+            <TextView
                 android:id="@+id/username"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <customfonts.MyTextView
+            <TextView
                 android:text="@string/email"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -93,7 +93,7 @@
                 android:padding="16dp"
                 android:gravity="left"/>
 
-            <customfonts.MyTextView
+            <TextView
                 android:id="@+id/email"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <customfonts.MyTextView
+            <TextView
                 android:text="@string/birthday"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -129,7 +129,7 @@
                 android:padding="16dp"
                 android:gravity="left" />
 
-            <customfonts.MyTextView
+            <TextView
                 android:id="@+id/birthday"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -153,7 +153,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <customfonts.MyTextView
+            <TextView
                 android:text="@string/mobile"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -165,7 +165,7 @@
                 android:padding="16dp"
                 android:gravity="left" />
 
-            <customfonts.MyTextView
+            <TextView
                 android:id="@+id/mobile"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -189,7 +189,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <customfonts.MyTextView
+            <TextView
                 android:text="@string/address"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -201,7 +201,7 @@
                 android:padding="16dp"
                 android:gravity="left" />
 
-            <customfonts.MyTextView
+            <TextView
                 android:id="@+id/address"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -226,7 +226,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <customfonts.MyTextView
+            <TextView
                 android:text="@string/payment"
                 android:layout_weight="1"
                 android:textSize="16dp"
@@ -238,7 +238,7 @@
                 android:padding="16dp"
                 android:gravity="left" />
 
-            <customfonts.MyTextView
+            <TextView
                 android:id="@+id/payment"
                 android:layout_weight="1"
                 android:textSize="16dp"
