@@ -1,6 +1,8 @@
 package com.jluo80.amazinggifter;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Set;
 
 public class AddGiftsActivity extends AppCompatActivity {
 
@@ -43,17 +46,17 @@ public class AddGiftsActivity extends AppCompatActivity {
         final EditText titleEditText = (EditText) findViewById(R.id.title_edit_text);
         final EditText descriptionEditText = (EditText) findViewById(R.id.description);
 
-        // Set the spinner for gift reason
+        /** Set the spinner for gift reason. */
         Spinner reasonSpinner = (Spinner) findViewById(R.id.reason_spinner);
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
+        /** Create an ArrayAdapter using the string array and a default spinner layout. */
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.reason_array, android.R.layout.simple_spinner_item);
 
-        // Specify the layout to use when the list of choices appears
+        /** Specify the layout to use when the list of choices appears. */
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Apply the adapter to the spinner
+        /** Apply the adapter to the spinner. */
         reasonSpinner.setAdapter(adapter);
 
         final ArrayList<String> reasonList = new ArrayList<>();
@@ -77,6 +80,9 @@ public class AddGiftsActivity extends AppCompatActivity {
                 String dueDate = selectDateTextView.getText().toString();
                 String title = titleEditText.getText().toString();
                 String reason = reasonList.get(0);
+                SharedPreferences mSharedPreferences = AddGiftsActivity.this.getSharedPreferences("friendFacebookId", Activity.MODE_PRIVATE);
+                String receiverId  = mSharedPreferences.getString("friendFacebookId", "");
+
                 if((isEmpty(dueDate) || isEmpty(title) || isEmpty(reason))) {
                     Toast.makeText(AddGiftsActivity.this, "Please fill out all required fields.", Toast.LENGTH_SHORT).show();
                 } else if(dueDate.compareTo(getCurrentDate()) <= 0) {
@@ -85,7 +91,7 @@ public class AddGiftsActivity extends AppCompatActivity {
                     Intent intent = new Intent(AddGiftsActivity.this, EbaySearchActivity.class);
                     intent.putExtra("due_date", dueDate);
                     intent.putExtra("title", title);
-//                intent.putExtra("receiver_id", receiverId);
+                    intent.putExtra("receiver_id", receiverId);
                     intent.putExtra("reason", reason);
                     intent.putExtra("description", descriptionEditText.getText().toString());
                     intent.putExtra("post_time", getCurrentDateAndTime());

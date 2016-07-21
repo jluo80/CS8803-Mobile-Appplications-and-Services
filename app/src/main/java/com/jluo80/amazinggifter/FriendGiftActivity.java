@@ -1,8 +1,10 @@
 package com.jluo80.amazinggifter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.internal.ImageRequest;
@@ -31,9 +34,9 @@ public class FriendGiftActivity extends AppCompatActivity {
 
     private static final String TAG = FriendGiftActivity.class.getName();
     private DatabaseReference mDatabase;
-//    private ArrayList<Gift> mGiftArray = new ArrayList<>();
     private FriendGiftRecyclerAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private FloatingActionButton fab;
 
 
     @Override
@@ -51,13 +54,24 @@ public class FriendGiftActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        /** Setup FloatingActionButton. */
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, AddGiftsActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+
         final ArrayList<Gift> mGiftArray = new ArrayList<>();
 
         mAdapter = new FriendGiftRecyclerAdapter(this, mGiftArray);
 
         SharedPreferences mSharedPreferences = this.getSharedPreferences("friendFacebookId", Activity.MODE_PRIVATE);
         final String facebookId  = mSharedPreferences.getString("friendFacebookId", "");
-        Log.e("fasfasdfasdfasdfasd", facebookId);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference HisWishList = mDatabase.child("user/" + facebookId + "/my_gift/" + "/wish_list");
@@ -65,7 +79,7 @@ public class FriendGiftActivity extends AppCompatActivity {
             /** Add new gift */
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                mGiftArray.clear();
+                mGiftArray.clear();
                 /** com.jluo80.amazinggifter.FriendGiftFragment:-KMa77KnGU5hsF8dngVc*/
                 final String uniqueKey = dataSnapshot.getKey();
                 Log.e(TAG, "onChildAdded:" + uniqueKey);
@@ -95,6 +109,7 @@ public class FriendGiftActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+
                     }
                 });
             }
@@ -130,7 +145,7 @@ public class FriendGiftActivity extends AppCompatActivity {
             /** Add new gift */
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                mGiftArray.clear();
+                mGiftArray.clear();
                 /** com.jluo80.amazinggifter.FriendGiftFragment:-KMa77KnGU5hsF8dngVc*/
                 final String uniqueKey = dataSnapshot.getKey();
                 Log.e(TAG, "onChildAdded:" + uniqueKey);
@@ -227,4 +242,17 @@ public class FriendGiftActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
+
 }

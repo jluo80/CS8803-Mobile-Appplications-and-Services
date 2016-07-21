@@ -210,14 +210,14 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 mDatabase.child("user").child(id).child("state").setValue("");
                                 mDatabase.child("user").child(id).child("zipcode").setValue("");
 
-                                /** Pass basic User data to MainScreenActivity(AboutMeFragment).*/
+                                /** Pass basic User data to MainScreenActivity(SummaryFragment).*/
                                 Intent intent = new Intent(FacebookLoginActivity.this, MainScreenActivity.class);
-                                intent.putExtra("facebookId", id);
-                                intent.putExtra("username", name);
-                                intent.putExtra("email", email);
-                                intent.putExtra("birthday", birthday);
-                                intent.putExtra("picture", profileImageUrl);
-                                intent.putExtra("cover", coverImageUrl);
+//                                intent.putExtra("facebookId", id);
+//                                intent.putExtra("username", name);
+//                                intent.putExtra("email", email);
+//                                intent.putExtra("birthday", birthday);
+//                                intent.putExtra("picture", profileImageUrl);
+//                                intent.putExtra("cover", coverImageUrl);
                                 startActivity(intent);
                                 finish();
                             }

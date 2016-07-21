@@ -31,7 +31,6 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
 
     MyGiftRecyclerAdapter(Context context, ArrayList<Gift> gifts) {
         this.mContext = context;
-//        Collections.reverse(gifts);
         this.mGifts = gifts;
     }
 
@@ -153,7 +152,6 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        //        private final TextView mTextView;
         CardView mCardView;
         TextView giftTitle;
         TextView currentPrice;
@@ -163,7 +161,6 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
         TextView reason;
         TextView dueDate;
         TextView giftStatus;
-
 
         ViewHolder(View view) {
             super(view);
@@ -178,5 +175,4 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
             dueDate = (TextView) itemView.findViewById(R.id.due_date);
         }
     }
-
 }

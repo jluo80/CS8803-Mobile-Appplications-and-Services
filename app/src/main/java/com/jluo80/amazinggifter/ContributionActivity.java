@@ -133,6 +133,7 @@ public class ContributionActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
+                        finish();
                         Intent intent = new Intent(ContributionActivity.this, FriendGiftActivity.class);
                         startActivity(intent);
                         finish();

@@ -24,19 +24,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-
 public class MyGiftFragment extends Fragment {
 
     private static final String TAG = MyGiftFragment.class.getName();
     private ArrayList<Gift> mGiftArray = new ArrayList<>();
     private RecyclerView mRecyclerView;
+    private MyGiftRecyclerAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private DatabaseReference mDatabase;
-    private String facebookId;
-    private MyGiftRecyclerAdapter mAdapter;
 
     public MyGiftFragment() {
 
@@ -45,10 +40,12 @@ public class MyGiftFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("Test Refresh Problem", "MyGiftFragment onCreate");
         mAdapter = new MyGiftRecyclerAdapter(getContext(), mGiftArray);
         SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
-        facebookId = mSharedPreferences.getString("facebookId", "");
+        String facebookId = mSharedPreferences.getString("facebookId", "");
 
+//        mGiftArray.add(new Gift("Headphones", "08/19/16", "initiator_id", "item_id", "http://www.ebay.com/itm/Sony-MDR-ZX110-ZX-Series-Headphones-Black-Brand-New-Sealed-Free-Ship-/322171519951", "name", "http://i.ebayimg.com/00/s/MTIwMFg4NDE=/z/39EAAOSwQJhUgIv-/$_1.JPG", "07-19-2016 15:13", 100, 100, "reason", "receiver_id"));
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference myWishList = mDatabase.child("user/" + facebookId + "/my_gift/" + "/wish_list");
@@ -56,7 +53,7 @@ public class MyGiftFragment extends Fragment {
             /** Add new gift */
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                mGiftArray.clear();
+//                mGiftArray.clear();
                 /** com.jluo80.amazinggifter.MyGiftFragment:-KMa77KnGU5hsF8dngVc*/
                 final String uniqueKey = dataSnapshot.getKey();
                 Log.e(TAG, "onChildAdded:" + uniqueKey);
@@ -79,7 +76,7 @@ public class MyGiftFragment extends Fragment {
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
                             mGiftArray.add(gift);
                             mAdapter.notifyDataSetChanged();
-                            mRecyclerView.setAdapter(new MyGiftRecyclerAdapter(getContext(), mGiftArray));
+//                            mRecyclerView.setAdapter(mAdapter);
                         }
                     }
 
@@ -144,7 +141,7 @@ public class MyGiftFragment extends Fragment {
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
                             mGiftArray.add(gift);
                             mAdapter.notifyDataSetChanged();
-                            mRecyclerView.setAdapter(new MyGiftRecyclerAdapter(getContext(), mGiftArray));
+//                            mRecyclerView.setAdapter(mAdapter);
                         }
                     }
 
@@ -183,11 +180,15 @@ public class MyGiftFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.e("Test Refresh Problem", "MyGiftFragment onCreateView");
 
         View rootView =  inflater.inflate(R.layout.fragment_list_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new MyGiftRecyclerAdapter(getContext(), mGiftArray);
         mRecyclerView.setAdapter(mAdapter);
+
+//        mRecyclerView.setAdapter(mAdapter);
 //        mGiftArray = new ArrayList<>();
 
 //        SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
@@ -397,6 +398,18 @@ public class MyGiftFragment extends Fragment {
 //            }
 //        });
 //    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
 
     public String getCurrentDate() {
         Calendar calendar = Calendar.getInstance();

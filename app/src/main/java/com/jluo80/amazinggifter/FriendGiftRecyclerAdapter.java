@@ -1,7 +1,9 @@
 package com.jluo80.amazinggifter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,6 +26,7 @@ public class FriendGiftRecyclerAdapter extends RecyclerView.Adapter<FriendGiftRe
     private Context mContext;
     private ArrayList<Gift> mGifts;
     private ImageLoader mImageLoader;
+
 
     FriendGiftRecyclerAdapter(Context context, ArrayList<Gift> gifts) {
         this.mContext = context;
@@ -99,6 +102,7 @@ public class FriendGiftRecyclerAdapter extends RecyclerView.Adapter<FriendGiftRe
                 intent.putExtra("me_friend_tab", "friend");
 
                 context.startActivity(intent);
+                ((FriendGiftActivity)mContext).finish();
             }
         });
     }

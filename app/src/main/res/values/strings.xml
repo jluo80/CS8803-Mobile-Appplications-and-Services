@@ -12,7 +12,7 @@
     <!-- Three tabs' titles -->
     <string name="my_gifts">My Gifts</string>
     <string name="friends">Friends</string>
-    <string name="about_me">About Me</string>
+    <string name="summary">Summary</string>
 
     <!-- Date picker -->
     <string name="add_new_gift">Add New Gift</string>

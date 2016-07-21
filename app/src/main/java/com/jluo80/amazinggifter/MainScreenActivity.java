@@ -51,6 +51,8 @@ public class MainScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("Test Refresh Problem", "MainScreenActivity onCreate");
+
         FacebookSdk.sdkInitialize(getApplication().getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
 
@@ -222,13 +224,13 @@ public class MainScreenActivity extends AppCompatActivity {
         TabPagerAdapter adapter = new TabPagerAdapter(this, getSupportFragmentManager());
         final ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
+        viewPager.setOffscreenPageLimit(2);
+        final TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setOffscreenPageLimit(3);
                 viewPager.setCurrentItem(tab.getPosition());
                 animateFab(tab.getPosition());
             }
@@ -243,13 +245,13 @@ public class MainScreenActivity extends AppCompatActivity {
 
             }
         });
-//
-//        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-//            @Override
-//            public void onPageSelected(int position) {
-//                viewPager.setCurrentItem(position);
-//            }
-//        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.getTabAt(position).select();
+            }
+        });
     }
 
     private void animateFab(int position) {
@@ -266,15 +268,7 @@ public class MainScreenActivity extends AppCompatActivity {
                 });
                 break;
             case 1:
-                fab.show();
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Context context = view.getContext();
-                        Intent intent = new Intent(context, AddGiftsActivity.class);
-                        context.startActivity(intent);
-                    }
-                });
+                fab.hide();
                 break;
 
             default:
@@ -329,7 +323,7 @@ public class MainScreenActivity extends AppCompatActivity {
             } else if (position == 1) {
                 return new FriendContactFragment();
             } else {
-                return new AboutMeFragment();
+                return new SummaryFragment();
             }
         }
 
@@ -345,7 +339,7 @@ public class MainScreenActivity extends AppCompatActivity {
             } else if (position == 1) {
                 return mContext.getString(R.string.friends);
             } else {
-                return mContext.getString(R.string.about_me);
+                return mContext.getString(R.string.summary);
             }
         }
     }
@@ -359,6 +353,12 @@ public class MainScreenActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e("Test Refresh Problem", "MainScreenActivity onStart");
+    }
 //    @Override
 //    protected void onResume() {
 //        super.onResume();

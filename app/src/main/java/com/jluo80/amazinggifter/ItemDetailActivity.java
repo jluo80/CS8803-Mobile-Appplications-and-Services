@@ -111,9 +111,14 @@ public class ItemDetailActivity extends AppCompatActivity {
                                 mDatabase.child("gift").child(uniqueKey).child("reason").setValue(reason);
                                 mDatabase.child("gift").child(uniqueKey).child("receiver_id").setValue(receiverId);
 
-                                mDatabase.child("user/" + initiatorId + "/my_gift/wish_list").child(uniqueKey).setValue(true);
+                                if(receiverId == initiatorId) {
+                                    mDatabase.child("user/" + initiatorId + "/my_gift/wish_list").child(uniqueKey).setValue(true);
+                                } else {
+                                    mDatabase.child("user/" + initiatorId + "/gift_for_friend").child(uniqueKey).setValue(true);
+                                    mDatabase.child("user/" + receiverId + "/my_gift/from_friends").child(uniqueKey).setValue(true);
+                                }
                                 Intent intent = new Intent(ItemDetailActivity.this, MainScreenActivity.class);
-                                intent.putExtra("from", TAG);
+//                                intent.putExtra("from", TAG);
                                 startActivity(intent);
                                 finish();
                             }

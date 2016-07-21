@@ -24,19 +24,14 @@ import java.util.List;
 import java.util.Set;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class FriendContactFragment extends Fragment {
 
     private static final String TAG = FriendContactFragment.class.getName();
+    private ArrayList<Friend> mFriendArray = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private FriendContactRecyclerAdapter mAdapter;
     private DatabaseReference mDatabase;
 
-    private ArrayList<Friend> mFriendArray = new ArrayList<>();
-//    String friendId;
-//    String friendPictureUrl;
 
 
     public FriendContactFragment() {
@@ -67,6 +62,7 @@ public class FriendContactFragment extends Fragment {
                     Log.e("name", friendName);
                     Friend mFriend = new Friend(friendId, friendName);
                     mFriendArray.add(mFriend);
+                    mAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -83,7 +79,8 @@ public class FriendContactFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_list_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new FriendContactRecyclerAdapter(getContext(), mFriendArray));
+        mAdapter = new FriendContactRecyclerAdapter(getContext(), mFriendArray);
+        mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
