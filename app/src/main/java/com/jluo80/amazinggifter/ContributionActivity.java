@@ -1,6 +1,8 @@
 package com.jluo80.amazinggifter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -19,16 +21,23 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 public class ContributionActivity extends AppCompatActivity {
 
     NetworkImageView itemPicture;
+    Button itemVisit;
+    Button itemShare;
+    ShareDialog shareDialog;
     TextView itemName;
     TextView itemPrice;
     EditText contributeAmount;
@@ -45,17 +54,21 @@ public class ContributionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_contribution);
 
-        // Set the toolbar of the add gifts activity
+        /** Set the toolbar of the add gifts activity. */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // add back arrow to toolbar
+        /** add back arrow to toolbar. */
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        itemVisit = (Button) findViewById(R.id.item_visit);
+        itemShare = (Button) findViewById(R.id.button_facebook_share);
 
         itemPicture = (NetworkImageView) findViewById(R.id.item_picture);
         itemName = (TextView) findViewById(R.id.item_name);
@@ -70,7 +83,7 @@ public class ContributionActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progress);
 
         Intent intent = ContributionActivity.this.getIntent();
-        String pictureUrl = intent.getStringExtra("picture_url");
+        final String pictureUrl = intent.getStringExtra("picture_url");
         String name = intent.getStringExtra("name");
         final String price = intent.getStringExtra("price");
         String reason = intent.getStringExtra("reason");
@@ -99,10 +112,30 @@ public class ContributionActivity extends AppCompatActivity {
         currentRatio.setText(ratio + "%");
         progressBar.setProgress(ratio);
 
-        itemPicture.setOnClickListener(new View.OnClickListener() {
+        /** Set onClickListener to redirect the use to the product website. */
+        itemVisit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(itemUrl)));
+            }
+        });
+
+        shareDialog = new ShareDialog(this);
+        /** Set onClickListener to share the gift to your facebook friend. */
+        itemShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                            .setContentTitle("How to prepare an Amazing Gift for your friends or families?")
+                            .setImageUrl(Uri.parse(pictureUrl))
+                            .setContentDescription(
+                                    "Let's Try Amazing Gifter !")
+                            .setContentUrl(Uri.parse(itemUrl))
+                            .build();
+                    shareDialog.show(linkContent);
+                }
             }
         });
 
@@ -133,6 +166,7 @@ public class ContributionActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
+                        mDatabase.child("user").child(contributorId).child("gift_for_friend").child(giftKey).setValue("true");
                         finish();
                         Intent intent = new Intent(ContributionActivity.this, FriendGiftActivity.class);
                         startActivity(intent);

@@ -32,7 +32,7 @@ public class SummaryRecyclerAdapter extends RecyclerView.Adapter<SummaryRecycler
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_about_me, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.summary_card_view, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -47,16 +47,16 @@ public class SummaryRecyclerAdapter extends RecyclerView.Adapter<SummaryRecycler
         String receiverId = gift.getReceiver_id();
         String dueDate = gift.getDue_date();
         String currentDate = getCurrentDate();
-        Double price = gift.getPrice();
-        Double progress = gift.getProgress();
+        double price = gift.getPrice();
+        double progress = gift.getProgress();
         String reason = gift.getReason();
 
-        if(dueDate.compareTo(currentDate) >= 0 && price == progress) {
+        if(price == progress) {
+            viewHolder.giftStatus.setBackgroundResource(R.color.received);
             viewHolder.giftStatus.setText("Received");
-        } else if(initiatorId.equals(receiverId)) {
-            viewHolder.giftStatus.setText("My Wish Gift");
         } else {
-            viewHolder.giftStatus.setText("Gifts From Friends");
+            viewHolder.giftStatus.setBackgroundResource(R.color.pending_my_wish_gift);
+            viewHolder.giftStatus.setText("Pending");
         }
 
         /** Gift picture setup.

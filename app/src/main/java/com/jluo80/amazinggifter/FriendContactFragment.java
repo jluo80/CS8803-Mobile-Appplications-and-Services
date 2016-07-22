@@ -35,7 +35,7 @@ public class FriendContactFragment extends Fragment {
 
 
     public FriendContactFragment() {
-        // Required empty public constructor
+
     }
 
     @Override

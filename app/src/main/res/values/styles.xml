@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primary_color</item>
-.        <item name="colorAccent">@color/accent_color</item>
+        .        <item name="colorAccent">@color/accent_color</item>
         <item name="actionBarStyle">@style/AmazingGifterAppBarStyle</item>
         <item name="android:windowContentOverlay">@null</item>
 
@@ -38,7 +38,7 @@
 
     <!-- Dark Buttons -->
     <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/accent_color</item>
         <item name="android:layout_marginRight">4dp</item>
         <item name="android:layout_marginLeft">4dp</item>
         <item name="android:textColor">@android:color/white</item>
@@ -67,11 +67,5 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">36sp</item>
     </style>
-
-    <style name="CustomEditText" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/grey_300</item>
-        <item name="colorControlActivated">@color/grey_100</item>
-    </style>
-
 
 </resources>

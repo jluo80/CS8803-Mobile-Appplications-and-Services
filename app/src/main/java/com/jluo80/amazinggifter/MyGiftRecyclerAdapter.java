@@ -50,15 +50,18 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
         String receiverId = gift.getReceiver_id();
         String dueDate = gift.getDue_date();
         String currentDate = getCurrentDate();
-        Double price = gift.getPrice();
-        Double progress = gift.getProgress();
+        double price = gift.getPrice();
+        double progress = gift.getProgress();
         String reason = gift.getReason();
 
-        if(dueDate.compareTo(currentDate) >= 0 && price == progress) {
+        if(price == progress) {
+            viewHolder.giftStatus.setBackgroundResource(R.color.received);
             viewHolder.giftStatus.setText("Received");
         } else if(initiatorId.equals(receiverId)) {
+            viewHolder.giftStatus.setBackgroundResource(R.color.pending_my_wish_gift);
             viewHolder.giftStatus.setText("My Wish Gift");
         } else {
+            viewHolder.giftStatus.setBackgroundResource(R.color.pending_gift_from_friend);
             viewHolder.giftStatus.setText("Gifts From Friends");
         }
 
@@ -79,40 +82,6 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
         /** Gift title and gift price setup*/
         viewHolder.reason.setText(reason);
         viewHolder.dueDate.setText(dueDate);
-
-        /** Setup onClickListener to gift picture and gift title. */
-//        viewHolder.giftTitle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Uri itemUri = Uri.parse(gift.getItem_url());
-//                Context context = view.getContext();
-//                context.startActivity(new Intent(Intent.ACTION_VIEW, itemUri));
-//            }
-//        });
-
-//        viewHolder.giftPicture.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Context context = view.getContext();
-//                Intent intent = new Intent(mContext, ContributionActivity.class);
-//                intent.putExtra("unique_key", gift.getUnique_key());
-//                intent.putExtra("category", gift.getCategory());
-//                intent.putExtra("due_date", gift.getDue_date());
-//                intent.putExtra("initiator_id", gift.getInitiator_id());
-//                intent.putExtra("item_id", gift.getItem_id());
-//                intent.putExtra("item_url", gift.getItem_url());
-//                intent.putExtra("name", gift.getName());
-//                intent.putExtra("picture_url", gift.getPicture_url());
-//                intent.putExtra("post_time", gift.getPost_time());
-//                intent.putExtra("price", Double.toString(gift.getPrice()));
-//                intent.putExtra("progress", Double.toString(gift.getProgress()));
-//                intent.putExtra("reason", gift.getReason());
-//                intent.putExtra("receiver_id", gift.getReceiver_id());
-//
-//                context.startActivity(intent);
-//            }
-//        });
 
         viewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
