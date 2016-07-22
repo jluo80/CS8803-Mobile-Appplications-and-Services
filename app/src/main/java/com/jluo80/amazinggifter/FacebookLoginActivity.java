@@ -172,8 +172,7 @@ public class FacebookLoginActivity extends BaseActivity implements
                                     friendsIdSet.add(friendsList.getJSONObject(i).getString("id"));
                                 }
 
-                                SharedPreferences mSharedPreferences= getSharedPreferences("facebookLogin",
-                                        Activity.MODE_PRIVATE);
+                                SharedPreferences mSharedPreferences= getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = mSharedPreferences.edit();
                                 editor.putString("facebookId", id);
                                 editor.putString("username", name);

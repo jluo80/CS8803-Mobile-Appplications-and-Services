@@ -1,9 +1,7 @@
 package com.jluo80.amazinggifter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,12 +19,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+
 public class FriendGiftRecyclerAdapter extends RecyclerView.Adapter<FriendGiftRecyclerAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<Gift> mGifts;
     private ImageLoader mImageLoader;
-
 
     FriendGiftRecyclerAdapter(Context context, ArrayList<Gift> gifts) {
         this.mContext = context;
@@ -50,15 +48,18 @@ public class FriendGiftRecyclerAdapter extends RecyclerView.Adapter<FriendGiftRe
         String receiverId = gift.getReceiver_id();
         String dueDate = gift.getDue_date();
         String currentDate = getCurrentDate();
-        Double price = gift.getPrice();
-        Double progress = gift.getProgress();
+        double price = gift.getPrice();
+        double progress = gift.getProgress();
         String reason = gift.getReason();
 
-        if(dueDate.compareTo(currentDate) >= 0 && price == progress) {
+        if(price == progress) {
+            viewHolder.giftStatus.setBackgroundResource(R.color.received);
             viewHolder.giftStatus.setText("Received");
         } else if(initiatorId.equals(receiverId)) {
+            viewHolder.giftStatus.setBackgroundResource(R.color.pending_my_wish_gift);
             viewHolder.giftStatus.setText("My Wish Gift");
         } else {
+            viewHolder.giftStatus.setBackgroundResource(R.color.pending_my_wish_gift);
             viewHolder.giftStatus.setText("Gifts From Friends");
         }
 

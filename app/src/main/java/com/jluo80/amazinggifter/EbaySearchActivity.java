@@ -161,6 +161,7 @@ public class EbaySearchActivity extends BaseActivity {
         String reason = intent.getStringExtra("reason");
         String description = intent.getStringExtra("description");
         String postTime = intent.getStringExtra("post_time");
+        String receiverId = intent.getStringExtra("receiver_id");
 
         ArrayList<Gift> giftsArray = new ArrayList<>();
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -173,7 +174,7 @@ public class EbaySearchActivity extends BaseActivity {
             String pictureUrl = (String) xpath.evaluate("pictureURLLarge", node, XPathConstants.STRING);
             String temp = (String) xpath.evaluate("sellingStatus/currentPrice", node, XPathConstants.STRING);
             double price = Double.parseDouble(temp);
-            giftsArray.add(new Gift(category, dueDate, facebookId, itemId, itemUrl, name, pictureUrl, postTime, price, 0, reason, facebookId));
+            giftsArray.add(new Gift(category, dueDate, facebookId, itemId, itemUrl, name, pictureUrl, postTime, price, 0, reason, receiverId));
         }
         is.close();
         return giftsArray;

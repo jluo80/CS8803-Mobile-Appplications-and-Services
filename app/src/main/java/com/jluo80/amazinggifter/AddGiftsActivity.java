@@ -73,6 +73,15 @@ public class AddGiftsActivity extends AppCompatActivity {
             }
         });
 
+        /** If the fab button click is from MyGift tab, then the receiverId would be the same as the initiatorId. */
+        SharedPreferences mMyId = AddGiftsActivity.this.getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
+        final String initiatorId = mMyId.getString("facebookId","");
+        SharedPreferences mFriendId = AddGiftsActivity.this.getSharedPreferences("friendFacebookId", Activity.MODE_PRIVATE);
+        final String receiverId  = mFriendId.getString("friendFacebookId", "");
+
+        Intent intent = AddGiftsActivity.this.getIntent();
+        final String flag = intent.getStringExtra("me_friend_tab");
+
         Button ebaySearchButton = (Button) findViewById(R.id.ebaySearchButton);
         ebaySearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +89,6 @@ public class AddGiftsActivity extends AppCompatActivity {
                 String dueDate = selectDateTextView.getText().toString();
                 String title = titleEditText.getText().toString();
                 String reason = reasonList.get(0);
-                SharedPreferences mSharedPreferences = AddGiftsActivity.this.getSharedPreferences("friendFacebookId", Activity.MODE_PRIVATE);
-                String receiverId  = mSharedPreferences.getString("friendFacebookId", "");
 
                 if((isEmpty(dueDate) || isEmpty(title) || isEmpty(reason))) {
                     Toast.makeText(AddGiftsActivity.this, "Please fill out all required fields.", Toast.LENGTH_SHORT).show();
@@ -91,10 +98,14 @@ public class AddGiftsActivity extends AppCompatActivity {
                     Intent intent = new Intent(AddGiftsActivity.this, EbaySearchActivity.class);
                     intent.putExtra("due_date", dueDate);
                     intent.putExtra("title", title);
-                    intent.putExtra("receiver_id", receiverId);
                     intent.putExtra("reason", reason);
                     intent.putExtra("description", descriptionEditText.getText().toString());
                     intent.putExtra("post_time", getCurrentDateAndTime());
+                    if(flag.equals("friend")) {
+                        intent.putExtra("receiver_id", receiverId);
+                    } else {
+                        intent.putExtra("receiver_id", initiatorId);
+                    }
                     startActivity(intent);
                 }
             }

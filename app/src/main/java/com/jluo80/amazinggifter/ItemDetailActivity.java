@@ -113,7 +113,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                                 mDatabase.child("gift").child(uniqueKey).child("reason").setValue(reason);
                                 mDatabase.child("gift").child(uniqueKey).child("receiver_id").setValue(receiverId);
 
-                                if(receiverId == initiatorId) {
+                                if(receiverId.equals(initiatorId)) {
                                     mDatabase.child("user/" + initiatorId + "/my_gift/wish_list").child(uniqueKey).setValue(true);
                                 } else {
                                     mDatabase.child("user/" + initiatorId + "/gift_for_friend").child(uniqueKey).setValue(true);

@@ -38,7 +38,6 @@ public class FriendGiftActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private FloatingActionButton fab;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +60,7 @@ public class FriendGiftActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, AddGiftsActivity.class);
+                intent.putExtra("me_friend_tab", "friend");
                 context.startActivity(intent);
             }
         });
@@ -101,8 +101,8 @@ public class FriendGiftActivity extends AppCompatActivity {
                         String start = getCurrentDate();
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
                             mGiftArray.add(gift);
-//                            mAdapter.notifyDataSetChanged();
-                            mRecyclerView.setAdapter(new FriendGiftRecyclerAdapter(FriendGiftActivity.this, mGiftArray));
+                            mAdapter.notifyDataSetChanged();
+//                            mRecyclerView.setAdapter(new FriendGiftRecyclerAdapter(FriendGiftActivity.this, mGiftArray));
                         }
                     }
 
@@ -167,8 +167,8 @@ public class FriendGiftActivity extends AppCompatActivity {
                         String start = getCurrentDate();
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
                             mGiftArray.add(gift);
-//                            mAdapter.notifyDataSetChanged();
-                            mRecyclerView.setAdapter(new FriendGiftRecyclerAdapter(FriendGiftActivity.this, mGiftArray));
+                            mAdapter.notifyDataSetChanged();
+//                            mRecyclerView.setAdapter(new FriendGiftRecyclerAdapter(FriendGiftActivity.this, mGiftArray));
                         }
                     }
 
@@ -206,7 +206,21 @@ public class FriendGiftActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(FriendGiftActivity.this));
-        mRecyclerView.setAdapter(new EbayRecyclerAdapter(FriendGiftActivity.this, mGiftArray));
+//        mRecyclerView.setAdapter(new EbayRecyclerAdapter(FriendGiftActivity.this, mGiftArray));
+        mAdapter = new FriendGiftRecyclerAdapter(this, mGiftArray);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
     }
 
     public String getCurrentDate() {
@@ -242,17 +256,4 @@ public class FriendGiftActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        mAdapter.notifyDataSetChanged();
-    }
-
 }

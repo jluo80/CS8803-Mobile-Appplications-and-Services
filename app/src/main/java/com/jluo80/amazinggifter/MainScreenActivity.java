@@ -17,23 +17,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 
 
 
@@ -129,7 +123,7 @@ public class MainScreenActivity extends AppCompatActivity {
                 if (menuItem.getItemId() == R.id.navigation_item_about_me) {
                     mDrawerLayout.closeDrawers();
                     finish();
-                    String resumeUrl = "http://jiahaoluo.deercv.com/admin";
+                    String resumeUrl = "http://jiahaoluo.deercv.com";
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(resumeUrl)));
                     return true;
                 }
@@ -157,6 +151,7 @@ public class MainScreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, AddGiftsActivity.class);
+                intent.putExtra("me_friend_tab", "me");
                 context.startActivity(intent);
             }
         });
@@ -199,19 +194,10 @@ public class MainScreenActivity extends AppCompatActivity {
         switch (position) {
             case 0:
                 fab.show();
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Context context = view.getContext();
-                        Intent intent = new Intent(context, AddGiftsActivity.class);
-                        context.startActivity(intent);
-                    }
-                });
                 break;
             case 1:
                 fab.hide();
                 break;
-
             default:
                 fab.hide();
                 break;
