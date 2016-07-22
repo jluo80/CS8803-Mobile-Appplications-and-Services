@@ -16,14 +16,18 @@
                 android:icon="@drawable/ic_cake_black_24dp"
                 android:title="@string/nav_item_birthday" />
             <item
-                android:id="@+id/navigation_item_payment"
-                android:icon="@drawable/ic_credit_card_black_24dp"
-                android:title="@string/nav_item_payment" />
+                android:id="@+id/navigation_item_home"
+                android:icon="@drawable/ic_place_black_24dp"
+                android:title="@string/nav_item_home" />
         </menu>
     </item>
 
     <item android:title="@string/nav_sub_menu_setting">
         <menu>
+            <item
+                android:id="@+id/navigation_item_about_me"
+                android:icon="@drawable/ic_code_black_24dp"
+                android:title="@string/nav_sub_menu_about_me" />
             <item
                 android:id="@+id/navigation_item_refresh"
                 android:icon="@drawable/ic_autorenew_black_24dp"

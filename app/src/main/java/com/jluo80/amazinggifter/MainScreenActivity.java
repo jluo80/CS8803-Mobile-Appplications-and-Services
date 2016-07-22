@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -118,10 +119,18 @@ public class MainScreenActivity extends AppCompatActivity {
                     return true;
                 }
 
-                if (menuItem.getItemId() == R.id.navigation_item_payment) {
+                if (menuItem.getItemId() == R.id.navigation_item_home) {
                     mDrawerLayout.closeDrawers();
                     intent = new Intent(MainScreenActivity.this, AddGiftsActivity.class);
                     startActivity(intent);
+                    return true;
+                }
+
+                if (menuItem.getItemId() == R.id.navigation_item_about_me) {
+                    mDrawerLayout.closeDrawers();
+                    finish();
+                    String resumeUrl = "http://jiahaoluo.deercv.com/admin";
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(resumeUrl)));
                     return true;
                 }
 

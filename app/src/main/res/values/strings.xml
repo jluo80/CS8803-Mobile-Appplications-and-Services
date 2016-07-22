@@ -35,6 +35,7 @@
     <string name="current_progress">Current Progress</string>
     <string name="friend_gifts">Friend Gifts</string>
     <string name="visit">Visit</string>
+    <string name="contributor_detail">Detail</string>
 
 
     <!-- Reason spinners -->
@@ -79,8 +80,9 @@
     <string name="nav_item_name">Name</string>
     <string name="nav_item_email">E-mail</string>
     <string name="nav_item_birthday">Birthday</string>
-    <string name="nav_item_payment">Payment</string>
+    <string name="nav_item_home">Lawrenceville, GA</string>
     <string name="nav_sub_menu_setting">Setting</string>
+    <string name="nav_sub_menu_about_me">About Me</string>
     <string name="nav_sub_menu_refresh">Refresh</string>
     <string name="nav_sub_menu_logout">Logout</string>
 

@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.jluo80.amazinggifter">
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        tools:overrideLibrary="com.paypal.android.sdk.payments" />
 
     <!-- Internet permission added -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -35,9 +44,10 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <provider android:authorities="com.facebook.app.FacebookContentProvider1036730073091285"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider1036730073091285"
+            android:exported="true" />
 
         <activity android:name=".AddGiftsActivity" />
         <activity android:name=".EbaySearchActivity" />
@@ -45,7 +55,9 @@
         <activity android:name=".MainScreenActivity" />
         <activity android:name=".ItemDetailActivity" />
         <activity android:name=".ContributionActivity" />
-        <activity android:name=".FriendGiftActivity"></activity>
+        <activity android:name=".FriendGiftActivity" />
+        <activity android:name=".PayPalActivity" />
+        <activity android:name=".ContributorDetailActivity"></activity>
     </application>
 
 </manifest>

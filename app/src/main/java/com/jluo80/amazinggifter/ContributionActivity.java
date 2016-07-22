@@ -1,8 +1,6 @@
 package com.jluo80.amazinggifter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -26,11 +24,18 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
+import org.json.JSONException;
+
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Set;
 
 public class ContributionActivity extends AppCompatActivity {
 
@@ -46,10 +51,32 @@ public class ContributionActivity extends AppCompatActivity {
     TextView itemReason;
     TextView itemDueDate;
     TextView currentProgress;
+    private String flag;
+    private String contributorId;
+    private String giftKey;
+    private String progress;
+    private String contributorName;
+    private String time;
+    private String name;
     private ImageLoader mImageLoader;
     Button contributionConfrim;
+    Button contributorDetail;
     DatabaseReference mDatabase;
+
+    /** PayPal payment service configuration. */
     private static final String TAG = ContributionActivity.class.getName();
+    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
+    private static final String CONFIG_CLIENT_ID = "ARYn41LX3OAcYQk7mbvr-id1aMmQH8S9pkyWOAj6duko_QNc0BDi26oCOF9mkmf92c3JggffakKtHagd\n";
+    private static final int REQUEST_CODE_PAYMENT = 1;
+
+
+    private static PayPalConfiguration config = new PayPalConfiguration()
+            .environment(CONFIG_ENVIRONMENT)
+            .clientId(CONFIG_CLIENT_ID)
+            // The following are only used in PayPalFuturePaymentActivity.
+            .merchantName("Example Merchant")
+            .merchantPrivacyPolicyUri(Uri.parse("https://www.example.com/privacy"))
+            .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +94,12 @@ public class ContributionActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        /** Four buttons in this activity. */
         itemVisit = (Button) findViewById(R.id.item_visit);
         itemShare = (Button) findViewById(R.id.button_facebook_share);
+        contributorDetail = (Button) findViewById(R.id.contributor_detail);
+        contributionConfrim = (Button) findViewById(R.id.contributionConfirm);
+
 
         itemPicture = (NetworkImageView) findViewById(R.id.item_picture);
         itemName = (TextView) findViewById(R.id.item_name);
@@ -78,26 +109,25 @@ public class ContributionActivity extends AppCompatActivity {
         currentProgress =(TextView) findViewById(R.id.current_progress);
         contributeAmount = (EditText) findViewById(R.id.contribution_amount);
 
-        contributionConfrim = (Button) findViewById(R.id.contributionConfirm);
         currentRatio = (TextView) findViewById(R.id.current_ratio);
         progressBar = (ProgressBar) findViewById(R.id.progress);
 
         Intent intent = ContributionActivity.this.getIntent();
         final String pictureUrl = intent.getStringExtra("picture_url");
-        String name = intent.getStringExtra("name");
+        name = intent.getStringExtra("name");
         final String price = intent.getStringExtra("price");
         String reason = intent.getStringExtra("reason");
         String dueDate = intent.getStringExtra("due_date");
-        final String progress = intent.getStringExtra("progress");
+        progress = intent.getStringExtra("progress");
         final String itemUrl = intent.getStringExtra("item_url");
-        final String giftKey = intent.getStringExtra("unique_key");
-        final String time = intent.getStringExtra("post_time");
-        final String flag = intent.getStringExtra("me_friend_tab");
+        time = intent.getStringExtra("post_time");
+        giftKey = intent.getStringExtra("unique_key");
+        flag = intent.getStringExtra("me_friend_tab");
 
         SharedPreferences mSharedPreferences = this.getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
 //        final String contributorId = intent.getStringExtra("initiator_id");
-        final String contributorId = mSharedPreferences.getString("facebookId", "");
-        final String contributorName = mSharedPreferences.getString("username", "");
+        contributorId = mSharedPreferences.getString("facebookId", "");
+        contributorName = mSharedPreferences.getString("username", "");
 
         mImageLoader = MySingleton.getInstance(itemName.getContext()).getImageLoader();
         itemPicture.setImageUrl(pictureUrl, mImageLoader);
@@ -120,8 +150,9 @@ public class ContributionActivity extends AppCompatActivity {
             }
         });
 
-        shareDialog = new ShareDialog(this);
+
         /** Set onClickListener to share the gift to your facebook friend. */
+        shareDialog = new ShareDialog(this);
         itemShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,18 +170,86 @@ public class ContributionActivity extends AppCompatActivity {
             }
         });
 
+        /** Set onClickListener to check the contributor list. */
+        contributorDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ContributionActivity.this, ContributorDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        /** Set onClickListener to confirm your contribution. */
         contributionConfrim.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if(isEmpty(contributeAmount.getText().toString())) {
                     Toast.makeText(ContributionActivity.this, "No contribution is made.", Toast.LENGTH_SHORT).show();
                 } else if(Double.parseDouble(contributeAmount.getText().toString()) > Double.parseDouble(price) - Double.parseDouble(progress)) {
                     Toast.makeText(ContributionActivity.this, "Your contribution is over the price.", Toast.LENGTH_SHORT).show();
                 }else {
+                    onBuyPressed(view);
+
+//                    double amount = Double.parseDouble(contributeAmount.getText().toString()) + Double.parseDouble(progress);
+//                    Log.e("AMOUNT", amount + "");
+//                    Log.e("CONTRIBUTE", contributeAmount.getText().toString());
+//                    Log.e("PROGRESS", progress);
+//
+//                    mDatabase = FirebaseDatabase.getInstance().getReference();
+//                    mDatabase.child("gift").child(giftKey).child("progress").setValue(amount);
+//
+//                    String contributionKey = mDatabase.child("contribution").child(giftKey).push().getKey();
+//                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("amount").setValue(contributeAmount.getText().toString());
+//                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("contributor_id").setValue(contributorId);
+//                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("contributor_name").setValue(contributorName);
+//                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("time").setValue(time);
+
+                    /** "me" means user contributes to themselves, otherwise, user contributes to friends. */
+//                    if(flag.equals("me")) {
+//                        Intent intent = new Intent(ContributionActivity.this, MainScreenActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    } else {
+//                        mDatabase.child("user").child(contributorId).child("gift_for_friend").child(giftKey).setValue("true");
+//                        finish();
+//                        Intent intent = new Intent(ContributionActivity.this, FriendGiftActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+                }
+            }
+        });
+
+    }
+
+    public void onBuyPressed(View pressed) {
+        PayPalPayment thingToBuy = getThingToBuy(PayPalPayment.PAYMENT_INTENT_SALE);
+
+        Intent intent = new Intent(ContributionActivity.this, PaymentActivity.class);
+
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
+
+        startActivityForResult(intent, REQUEST_CODE_PAYMENT);
+
+    }
+
+    private PayPalPayment getThingToBuy(String paymentIntent) {
+        return new PayPalPayment(new BigDecimal(contributeAmount.getText().toString()), "USD", name, paymentIntent);
+    }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+            if (confirm != null) {
+                try {
+                    Log.i(TAG, confirm.toJSONObject().toString(4));
+                    Log.i(TAG, confirm.getPayment().toJSONObject().toString(4));
+
                     double amount = Double.parseDouble(contributeAmount.getText().toString()) + Double.parseDouble(progress);
-                    Log.e("AMOUNT", amount + "");
-                    Log.e("CONTRIBUTE", contributeAmount.getText().toString());
-                    Log.e("PROGRESS", progress);
 
                     mDatabase = FirebaseDatabase.getInstance().getReference();
                     mDatabase.child("gift").child(giftKey).child("progress").setValue(amount);
@@ -160,6 +259,8 @@ public class ContributionActivity extends AppCompatActivity {
                     mDatabase.child("contribution").child(giftKey).child(contributionKey).child("contributor_id").setValue(contributorId);
                     mDatabase.child("contribution").child(giftKey).child(contributionKey).child("contributor_name").setValue(contributorName);
                     mDatabase.child("contribution").child(giftKey).child(contributionKey).child("time").setValue(time);
+
+                    /** "me" means user contributes to themselves, otherwise, user contributes to friends. */
 
                     if(flag.equals("me")) {
                         Intent intent = new Intent(ContributionActivity.this, MainScreenActivity.class);
@@ -172,10 +273,32 @@ public class ContributionActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
+                    // TODO: send 'confirm' to your server for verification.
+                    // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+                    // for more details.
+                    displayResultText("Thank you for your contribution!");
+
+                } catch (JSONException e) {
+                    Log.e("Payment service", "an extremely unlikely failure occurred: ", e);
                 }
             }
-        });
+        }
+        else if (resultCode == Activity.RESULT_CANCELED) {
+            Log.i("Payment service", "The user canceled.");
+        }
+        else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+            Log.i("Payment service", "An invalid payment was submitted. Please see the docs.");
+        }
+    }
 
+    protected void displayResultText(String result) {
+        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        stopService(new Intent(this, PayPalService.class));
+        super.onDestroy();
     }
 
     private boolean isEmpty(String content) {
@@ -195,6 +318,7 @@ public class ContributionActivity extends AppCompatActivity {
         long diffDays = diffTime / (1000 * 60 * 60 * 24);
         return diffDays;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -223,4 +347,6 @@ public class ContributionActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

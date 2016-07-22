@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical">
 
@@ -54,12 +54,11 @@
                     android:textColor="@color/content_text_color" />
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="right"
                     android:text="Set due date"
                     android:onClick="showDatePickerDialog"
-                    android:padding="16dp"
                     android:background="@drawable/button_shape"/>
 
                 <TextView
@@ -186,15 +185,14 @@
 
                     <Button
                         android:id="@+id/ebaySearchButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
                         android:text="@string/search_from_ebay"
                         android:layout_marginTop="16dp"
                         android:textColor="#ffff"
                         android:background="@drawable/button_shape"
                         android:textSize="16dp"
-                        android:layout_gravity="center"
-                        android:padding="16dp"/>
+                        android:layout_gravity="center" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
