@@ -214,11 +214,11 @@
                         android:paddingLeft="5dp" />
 
                     <Button
-                        android:id="@+id/contributor_detail"
+                        android:id="@+id/detail"
                         android:layout_width="60dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
-                        android:text="@string/contributor_detail"
+                        android:text="@string/detail"
                         android:textColor="#FFFFFF"
                         android:textSize="12dp"
                         android:background="@drawable/button_shape"

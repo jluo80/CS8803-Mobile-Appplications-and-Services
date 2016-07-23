@@ -35,8 +35,8 @@
     <string name="current_progress">Current Progress</string>
     <string name="friend_gifts">Friend Gifts</string>
     <string name="visit">Visit</string>
-    <string name="contributor_detail">Detail</string>
-
+    <string name="detail">Detail</string>
+    <string name="contributor_detail">Contributor Detail</string>
 
     <!-- Reason spinners -->
     <string-array name="reason_array">

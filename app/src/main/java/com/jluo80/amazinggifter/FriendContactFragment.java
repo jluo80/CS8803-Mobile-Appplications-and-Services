@@ -32,8 +32,6 @@ public class FriendContactFragment extends Fragment {
     private FriendContactRecyclerAdapter mAdapter;
     private DatabaseReference mDatabase;
 
-
-
     public FriendContactFragment() {
 
     }

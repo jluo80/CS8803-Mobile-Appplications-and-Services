@@ -37,12 +37,12 @@ public class EbayRecyclerAdapter extends RecyclerView.Adapter<EbayRecyclerAdapte
         viewHolder.giftTitle.setText(gift.getName());
         viewHolder.currentPrice.setText("US $"+ gift.getPrice());
 
-        // Get the ImageLoader through your singleton class.
+        /** Get the ImageLoader through your singleton class. */
         mImageLoader = MySingleton.getInstance(viewHolder.giftTitle.getContext()).getImageLoader();
         viewHolder.giftPicture.setImageUrl(gift.getPicture_url(), mImageLoader);
 
 
-        viewHolder.giftPicture.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
@@ -72,7 +72,6 @@ public class EbayRecyclerAdapter extends RecyclerView.Adapter<EbayRecyclerAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        //        private final TextView mTextView;
         CardView mCardView;
         TextView giftTitle;
         TextView currentPrice;

@@ -97,7 +97,7 @@ public class ContributionActivity extends AppCompatActivity {
         /** Four buttons in this activity. */
         itemVisit = (Button) findViewById(R.id.item_visit);
         itemShare = (Button) findViewById(R.id.button_facebook_share);
-        contributorDetail = (Button) findViewById(R.id.contributor_detail);
+        contributorDetail = (Button) findViewById(R.id.detail);
         contributionConfrim = (Button) findViewById(R.id.contributionConfirm);
 
 
@@ -174,7 +174,8 @@ public class ContributionActivity extends AppCompatActivity {
         contributorDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ContributionActivity.this, ContributorDetailActivity.class);
+                Intent intent = new Intent(ContributionActivity.this, ContributorActivity.class);
+                intent.putExtra("gift_key", giftKey);
                 startActivity(intent);
             }
         });
@@ -255,7 +256,7 @@ public class ContributionActivity extends AppCompatActivity {
                     mDatabase.child("gift").child(giftKey).child("progress").setValue(amount);
 
                     String contributionKey = mDatabase.child("contribution").child(giftKey).push().getKey();
-                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("amount").setValue(contributeAmount.getText().toString());
+                    mDatabase.child("contribution").child(giftKey).child(contributionKey).child("amount").setValue(Double.parseDouble(contributeAmount.getText().toString()));
                     mDatabase.child("contribution").child(giftKey).child(contributionKey).child("contributor_id").setValue(contributorId);
                     mDatabase.child("contribution").child(giftKey).child(contributionKey).child("contributor_name").setValue(contributorName);
                     mDatabase.child("contribution").child(giftKey).child(contributionKey).child("time").setValue(time);
