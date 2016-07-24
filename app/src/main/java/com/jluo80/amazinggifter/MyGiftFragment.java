@@ -195,5 +195,17 @@ public class MyGiftFragment extends Fragment {
         SimpleDateFormat mdformat = new SimpleDateFormat("MM/dd/yy");
         return mdformat.format(calendar.getTime());
     }
+    
+        public ArrayList<Gift> hashMapToArrayList(HashMap<String, Gift> hashMap) {
+
+        ArrayList<Gift> arrayList = new ArrayList<>();
+        Iterator it = hashMap.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            Log.e(TAG + "jluo7", entry.toString());
+            arrayList.add((Gift)entry.getValue());
+        }
+        return arrayList;
+    }
 
 }
