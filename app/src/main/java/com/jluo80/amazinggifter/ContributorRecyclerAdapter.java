@@ -37,6 +37,7 @@ public class ContributorRecyclerAdapter extends RecyclerView.Adapter<Contributor
         final Contributor contributor = mContributors.get(i);
         viewHolder.contributorName.setText(contributor.getContributor_name());
         viewHolder.contributorAmount.setText("US $"+ Double.toString(contributor.getAmount()));
+        viewHolder.time.setText(contributor.getTime());
 
         /** Get the ImageLoader through your singleton class. */
         mImageLoader = MySingleton.getInstance(viewHolder.contributorName.getContext()).getImageLoader();
