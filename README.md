@@ -1,5 +1,5 @@
 # Amazing Gifter
-#### CS8803 Mobile Applications and Services Project - Summer semester 2016
+### CS8803 Mobile Applications and Services Project - Summer semester 2016
 #### Team:  Tidehunters  Members: Tongzhe Zhang, Chong Guo, Kai Lu, Jiahao Luo
 #### Author：Jiahao Luo
 
