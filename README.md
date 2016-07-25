@@ -11,8 +11,8 @@
 This project is our team project for CS8803 in Summer semester, 2016 at Georgia Tech. This project requires us to develop two seperate platform and I am responsible for the Android development part of our application.
 
 There are two primary goals of this class:
-- Build your expertise in the area of Mobile Apps and Services
-- Enhance your understanding of the business ecosystem
+ - Build your expertise in the area of Mobile Apps and Services
+ - Enhance your understanding of the business ecosystem
 
 Our goal is to Analyze, specify, design, implement, document and demonstrate an application for buying train tickets at GTTrain.com. Basically this project involves the usage of classical methodology for database development. The system is using a relational DBMS(MySQL) that supports standard SQL queries.
 
