@@ -1,10 +1,11 @@
 # Amazing Gifter
 ### CS8803 Mobile Applications and Services Project - Summer semester 2016
+![](https://github.com/jluo80/CS8803-Mobile-Appplications-and-Services/raw/master/app/src/main/res/drawable/amazing gifter banner.png)
+
 #### Team: Tidehunters  
 #### Members: Tongzhe Zhang, Chong Guo, Kai Lu, Jiahao Luo
 #### Author：Jiahao Luo
 
-![](https://github.com/jluo80/CS8803-Mobile-Appplications-and-Services/raw/master/app/src/main/res/drawable/amazing gifter banner.png)
 ## Abstract
 
 This project is our team project for CS8803 in Summer semester, 2016 at Georgia Tech. This project requires us to develop two seperate platform and I am responsible for the Android development part of our application.
