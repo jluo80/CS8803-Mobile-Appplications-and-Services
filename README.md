@@ -1,6 +1,7 @@
 # Amazing Gifter
 ### CS8803 Mobile Applications and Services Project - Summer semester 2016
-#### Team:  Tidehunters  Members: Tongzhe Zhang, Chong Guo, Kai Lu, Jiahao Luo
+#### Team: Tidehunters  
+#### Members: Tongzhe Zhang, Chong Guo, Kai Lu, Jiahao Luo
 #### Author：Jiahao Luo
 
 ![](https://github.com/jluo80/CS8803-Mobile-Appplications-and-Services/raw/master/app/src/main/res/drawable/amazing gifter banner.png)
