@@ -30,12 +30,9 @@ Our project’s overall architecture can be explained explicitly according to th
 
 - PayPal is selected as our payment system. Because it is a fast and safe way to pay online without sharing financial details. Besides, PayPal comes very naturally since we are using ebay as our gift platform.
 
+
 2. The last part is our backend, Firebase. Firebase not only serves as database in our project, it also collects several services, for example, user authentication integrated with facebook login. Firebase database is a NoSQL database, the datas are stored as JSON file and we can save and retrieve the real-time datas through RESTful API. 
 
 ## Implementation Status
 
 As the overall architecture mentioned above, we have been implemented most of the features to both frontend platform. Both Android and iOS platforms work fine with Facebook login, Ebay searching API and Firebase backend. However, as to payment system, we are still looking for suitable payment system that can help us complete the crowdfunding payment. Currently, the PayPal system we’ve been integrated to our application in both platform is just a mockup.
-
-## How to Run?
-
-The techniques we use in this project are the Tkinter GUI library built-in Python3.5 and SQL language. We set up the database based on the relational schema and make up some data to test it. The database is setup in our school's server. If you want to run this code, just make sure you are using Python3 and the PIL and PyMySQL packages are installed. Then you can just download it and run it directly.
