@@ -20,6 +20,8 @@ Our goal is to Analyze, specify, design, implement, document and demonstrate an 
 
 Our project’s overall architecture can be explained explicitly according to the following figure. Speaking generally, the architecture consists of three technical parts.
 
+![](https://github.com/jluo80/CS8803-Mobile-Appplications-and-Services/raw/master/architecture.png)
+
 0. As to frontend part, it includes two major mainstream mobile phone platforms which are native Android and iOS. Those two frequently-used platforms cover most of the mobile application users which can help our business establish a wide range of user groups.
 
 1. Since the core value of our project can be simply concluded as “gift crowdfunding”, our API implementation includes Ebay API, PayPal system and Facebook SDK. 
