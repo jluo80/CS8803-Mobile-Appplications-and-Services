@@ -20,9 +20,9 @@ Our goal is to Analyze, specify, design, implement, document and demonstrate an 
 
 Our project’s overall architecture can be explained explicitly according to the following figure. Speaking generally, the architecture consists of three technical parts.
 
-0. As to frontend part, it includes two major mainstream mobile phone platforms which are native Android and iOS. Those two frequently-used platforms cover most of the mobile application users which can help our business establish a wide range of user groups.
+0.As to frontend part, it includes two major mainstream mobile phone platforms which are native Android and iOS. Those two frequently-used platforms cover most of the mobile application users which can help our business establish a wide range of user groups.
 
-1. Since the core value of our project can be simply concluded as “gift crowdfunding”, our API implementation includes Ebay API, PayPal system and Facebook SDK. 
+1.Since the core value of our project can be simply concluded as “gift crowdfunding”, our API implementation includes Ebay API, PayPal system and Facebook SDK. 
 
 - In the early stage of the project, we decided to choose facebook as our only user login method, because facebook has a large number of users which can help us save time to explore our users and share our application base on facebook’s social network. By using Facebook SDK, the application can fetch user’s basic information and share their initiating gift crowdfunding to their friends. Besides, as a gift crowdfunding application, its usage rate may be limited. People may use this application based on certain condition only, such as birthday, upcoming festivals etc. There is no need to establish our own login system for now. 
 
@@ -31,7 +31,7 @@ Our project’s overall architecture can be explained explicitly according to th
 - PayPal is selected as our payment system. Because it is a fast and safe way to pay online without sharing financial details. Besides, PayPal comes very naturally since we are using ebay as our gift platform.
 
 
-2. The last part is our backend, Firebase. Firebase not only serves as database in our project, it also collects several services, for example, user authentication integrated with facebook login. Firebase database is a NoSQL database, the datas are stored as JSON file and we can save and retrieve the real-time datas through RESTful API. 
+2.The last part is our backend, Firebase. Firebase not only serves as database in our project, it also collects several services, for example, user authentication integrated with facebook login. Firebase database is a NoSQL database, the datas are stored as JSON file and we can save and retrieve the real-time datas through RESTful API. 
 
 ## Implementation Status
 
