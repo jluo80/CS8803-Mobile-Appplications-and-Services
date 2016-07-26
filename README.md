@@ -1,5 +1,4 @@
 # Amazing Gifter
-===
 ![](https://github.com/jluo80/CS8803-Mobile-Appplications-and-Services/raw/master/app/src/main/res/drawable/amazing gifter banner.png)
 
 ### CS8803 Mobile Applications and Services Project - Summer semester 2016
@@ -39,3 +38,4 @@ As the overall architecture mentioned above, we have been implemented most of th
 
 ## Acknowledgements
 Thank you for all the help and support provided by my teammates.
+
