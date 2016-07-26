@@ -1,5 +1,5 @@
 # Amazing Gifter
----
+===
 ![](https://github.com/jluo80/CS8803-Mobile-Appplications-and-Services/raw/master/app/src/main/res/drawable/amazing gifter banner.png)
 
 ### CS8803 Mobile Applications and Services Project - Summer semester 2016
@@ -8,7 +8,7 @@
 #### Author：Jiahao Luo
 
 ## Abstract
----
+===
 This project is our team project for CS8803 in Summer semester, 2016 at Georgia Tech. This project requires us to develop two seperate platform and I am responsible for the Android development part of our application.
 
 There are two primary goals of this class:
@@ -18,7 +18,7 @@ There are two primary goals of this class:
 Our goal is to Analyze, specify, design, implement, document and demonstrate an application for buying train tickets at GTTrain.com. Basically this project involves the usage of classical methodology for database development. The system is using a relational DBMS(MySQL) that supports standard SQL queries.
 
 ## Overall Architecture
----
+===
 Our project’s overall architecture can be explained explicitly according to the following figure. Speaking generally, the architecture consists of three technical parts.
 CS8803-Mobile-Appplications-and-Services/
 ![](https://github.com/jluo80/CS8803-Mobile-Appplications-and-Services/raw/master/architecture.PNG)
@@ -37,7 +37,7 @@ CS8803-Mobile-Appplications-and-Services/
 2. The last part is our backend, Firebase. Firebase not only serves as database in our project, it also collects several services, for example, user authentication integrated with facebook login. Firebase database is a NoSQL database, the datas are stored as JSON file and we can save and retrieve the real-time datas through RESTful API. 
 
 ## Implementation Status
----
+===
 As the overall architecture mentioned above, we have been implemented most of the features to both frontend platform. Both Android and iOS platforms work fine with Facebook login, Ebay searching API and Firebase backend. However, as to payment system, we are still looking for suitable payment system that can help us complete the crowdfunding payment. Currently, the PayPal system we’ve been integrated to our application in both platform is just a mockup.
 
 ## Acknowledgements
