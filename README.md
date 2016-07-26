@@ -12,7 +12,7 @@ This project is our team project for CS8803 in Summer semester, 2016 at Georgia 
 Key pain:
 - People usually prefer a favorable fancy gift to dull and ordinary gifts from their friends. However, the fancy gifts are often too expensive for a single person to afford. Furthermore, it is inconvenient for a person to share his/her desirable gifts to their friends.
 
-The Our goal is to build an application that can help people to send and receive an amazing gift contributed by their friends circle! In a nutshell, it is a gift crowdfunding application.
+Our goal is to build an application that can help people to send and receive an amazing gift contributed by their friends circle! In a nutshell, it is a gift crowdfunding application.
 
 ## Overall Architecture
 Our project’s overall architecture can be explained explicitly according to the following figure. Speaking generally, the architecture consists of three technical parts.
