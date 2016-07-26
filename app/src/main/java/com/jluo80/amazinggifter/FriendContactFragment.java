@@ -2,6 +2,7 @@ package com.jluo80.amazinggifter;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,34 +45,46 @@ public class FriendContactFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mAdapter = new FriendContactRecyclerAdapter(getContext(), mFriendArray);
         SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
+        String facebookFriends = mSharedPreferences.getString("facebookFriends", null);
 
-        /** Set will filter duplicate friend data. */
-        Set<String> friendsIdSet = new HashSet<>();
-        friendsIdSet = mSharedPreferences.getStringSet("friendsIdSet", null);
-        List<String> idList = new ArrayList<>(friendsIdSet);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        for(int i = 0; i < idList.size(); i++) {
-            final String friendId = idList.get(i);
-            Log.e("Friend ID1", friendId);
-
-            DatabaseReference myFriendsList = mDatabase.child("user").child(friendId).child("name");
-            myFriendsList.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String friendName = dataSnapshot.getValue(String.class);
-                    Log.e("name", friendName);
-                    Friend mFriend = new Friend(friendId, friendName);
-                    mFriendArray.add(mFriend);
-                    mAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                }
-            });
+        try {
+            JSONArray friendslist = new JSONArray(facebookFriends);
+            for (int i = 0; i < friendslist.length(); i++) {
+                String friendId = friendslist.getJSONObject(i).getString("id");
+                String friendName = friendslist.getJSONObject(i).getString("name");
+                Friend mFriend = new Friend(friendId, friendName);
+                mFriendArray.add(mFriend);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+
+//        /** Set will filter duplicate friend data. */
+//        Set<String> friendsIdSet = new HashSet<>();
+//        friendsIdSet = mSharedPreferences.getStringSet("friendsIdSet", null);
+//        List<String> idList = new ArrayList<>(friendsIdSet);
+
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        for(int i = 0; i < idList.size(); i++) {
+//            final String friendId = idList.get(i);
+//
+//            DatabaseReference myFriendsList = mDatabase.child("user").child(friendId).child("name");
+//            myFriendsList.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    String friendName = dataSnapshot.getValue(String.class);
+//                    Friend mFriend = new Friend(friendId, friendName);
+//                    mFriendArray.add(mFriend);
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+//                }
+//            });
+//        }
     }
 
     @Override

@@ -40,27 +40,14 @@ import java.util.Date;
 public class ContributionActivity extends AppCompatActivity {
 
     NetworkImageView itemPicture;
-    Button itemVisit;
-    Button itemShare;
+    Button itemVisit, itemShare, contributionConfrim, contributorDetail;
     ShareDialog shareDialog;
-    TextView itemName;
-    TextView itemPrice;
     EditText contributeAmount;
+    TextView itemName, itemPrice, currentRatio, itemReason, itemDueDate, currentProgress;
     ProgressBar progressBar;
-    TextView currentRatio;
-    TextView itemReason;
-    TextView itemDueDate;
-    TextView currentProgress;
-    private String flag;
-    private String contributorId;
-    private String giftKey;
-    private String progress;
-    private String contributorName;
-    private String time;
-    private String name;
+    private String flag, contributorId, giftKey, progress, contributorName, time, name;
     private ImageLoader mImageLoader;
-    Button contributionConfrim;
-    Button contributorDetail;
+
     DatabaseReference mDatabase;
 
     /** PayPal payment service configuration. */

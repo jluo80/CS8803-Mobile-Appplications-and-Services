@@ -25,11 +25,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class FriendGiftActivity extends AppCompatActivity {
 
     private static final String TAG = FriendGiftActivity.class.getName();
     private DatabaseReference mDatabase;
+    private HashMap<String, Gift> mGiftMap = new HashMap<>();
     private FriendGiftRecyclerAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private FloatingActionButton fab;
@@ -62,9 +64,9 @@ public class FriendGiftActivity extends AppCompatActivity {
         });
 
 
-        final ArrayList<Gift> mGiftArray = new ArrayList<>();
+//        final ArrayList<Gift> mGiftArray = new ArrayList<>();
 
-        mAdapter = new FriendGiftRecyclerAdapter(this, mGiftArray);
+        mAdapter = new FriendGiftRecyclerAdapter(this, mGiftMap);
 
         SharedPreferences mSharedPreferences = this.getSharedPreferences("friendFacebookId", Activity.MODE_PRIVATE);
         final String facebookId  = mSharedPreferences.getString("friendFacebookId", "");
@@ -75,7 +77,6 @@ public class FriendGiftActivity extends AppCompatActivity {
             /** Add new gift */
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                mGiftArray.clear();
                 /** com.jluo80.amazinggifter.FriendGiftFragment:-KMa77KnGU5hsF8dngVc*/
                 final String uniqueKey = dataSnapshot.getKey();
                 Log.e(TAG, "onChildAdded:" + uniqueKey);
@@ -83,22 +84,33 @@ public class FriendGiftActivity extends AppCompatActivity {
                 Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
 
                 DatabaseReference ref = mDatabase.child("gift").child(uniqueKey);
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot item) {
 
-                        Log.e(TAG, "Single" + item.getKey());
-                        System.out.println("test" + item.getValue());
-                        Gift gift = item.getValue(Gift.class);
+                        final Gift gift = item.getValue(Gift.class);
                         gift.setUnique_key(uniqueKey);
-                        System.out.println(gift.getInitiator_id() + "friend&&&&&&&" + gift.getReceiver_id());
+
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        DatabaseReference progressRef = mDatabase.child("gift").child(gift.getUnique_key()).child("progress");
+                        progressRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                double mProgress = dataSnapshot.getValue(double.class);
+                                gift.setProgress(mProgress);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
                         String end = gift.getDue_date();
                         String start = getCurrentDate();
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
-                            mGiftArray.add(gift);
+                            mGiftMap.put(uniqueKey, gift);
                             mAdapter.notifyDataSetChanged();
-//                            mRecyclerView.setAdapter(new FriendGiftRecyclerAdapter(FriendGiftActivity.this, mGiftArray));
                         }
                     }
 
@@ -141,7 +153,6 @@ public class FriendGiftActivity extends AppCompatActivity {
             /** Add new gift */
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                mGiftArray.clear();
                 /** com.jluo80.amazinggifter.FriendGiftFragment:-KMa77KnGU5hsF8dngVc*/
                 final String uniqueKey = dataSnapshot.getKey();
                 Log.e(TAG, "onChildAdded:" + uniqueKey);
@@ -149,22 +160,33 @@ public class FriendGiftActivity extends AppCompatActivity {
                 Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
 
                 DatabaseReference ref = mDatabase.child("gift/" + uniqueKey);
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot item) {
 
-                        Log.e(TAG, "Single" + item.getKey());
-                        System.out.println("test" + item.getValue());
-                        Gift gift = item.getValue(Gift.class);
+                        final Gift gift = item.getValue(Gift.class);
                         gift.setUnique_key(uniqueKey);
-                        System.out.println(gift.getInitiator_id() + "friend&&&&&&&" + gift.getReceiver_id());
+
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        DatabaseReference progressRef = mDatabase.child("gift").child(gift.getUnique_key()).child("progress");
+                        progressRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                double mProgress = dataSnapshot.getValue(double.class);
+                                gift.setProgress(mProgress);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
                         String end = gift.getDue_date();
                         String start = getCurrentDate();
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
-                            mGiftArray.add(gift);
+                            mGiftMap.put(uniqueKey, gift);
                             mAdapter.notifyDataSetChanged();
-//                            mRecyclerView.setAdapter(new FriendGiftRecyclerAdapter(FriendGiftActivity.this, mGiftArray));
                         }
                     }
 
@@ -202,8 +224,7 @@ public class FriendGiftActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(FriendGiftActivity.this));
-//        mRecyclerView.setAdapter(new EbayRecyclerAdapter(FriendGiftActivity.this, mGiftArray));
-        mAdapter = new FriendGiftRecyclerAdapter(this, mGiftArray);
+        mAdapter = new FriendGiftRecyclerAdapter(this, mGiftMap);
         mRecyclerView.setAdapter(mAdapter);
     }
 

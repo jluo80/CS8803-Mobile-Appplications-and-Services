@@ -45,7 +45,7 @@ public class EbaySearchActivity extends BaseActivity {
     public static final String OPERATION_NAME = "findItemsByKeywords";
     public static final String GLOBAL_ID = "EBAY-US";
     public final static int REQUEST_DELAY = 3000;
-    public final static int MAX_RESULTS = 10;
+    public final static int MAX_RESULTS = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -21,12 +21,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 
 public class SummaryFragment extends Fragment {
 
     private static final String TAG = SummaryFragment.class.getName();
     private ArrayList<Gift> mGiftArray = new ArrayList<>();
+    private HashMap<String, Gift> mGiftMap = new HashMap<>();
     private RecyclerView mRecyclerView;
     private SummaryRecyclerAdapter mAdapter;
     private DatabaseReference mDatabase;
@@ -38,12 +40,11 @@ public class SummaryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new SummaryRecyclerAdapter(getContext(), mGiftArray);
+        mAdapter = new SummaryRecyclerAdapter(getContext(), mGiftMap);
 
         SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
         String facebookId = mSharedPreferences.getString("facebookId", "");
 
-//        mGiftArray.add(new Gift("Headphones", "08/19/16", "initiator_id", "item_id", "http://www.ebay.com/itm/Sony-MDR-ZX110-ZX-Series-Headphones-Black-Brand-New-Sealed-Free-Ship-/322171519951", "name", "http://i.ebayimg.com/00/s/MTIwMFg4NDE=/z/39EAAOSwQJhUgIv-/$_1.JPG", "07-19-2016 15:13", 100, 100, "reason", "receiver_id"));
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference myInvolved = mDatabase.child("user/" + facebookId + "/gift_for_friend");
@@ -52,22 +53,33 @@ public class SummaryFragment extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final String uniqueKey = dataSnapshot.getKey();
                 DatabaseReference ref = mDatabase.child("gift").child(uniqueKey);
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot item) {
 
-                        Log.e(TAG, "Single" + item.getKey());
-                        System.out.println("test" + item.getValue());
-                        Gift gift = item.getValue(Gift.class);
+                        final Gift gift = item.getValue(Gift.class);
                         gift.setUnique_key(uniqueKey);
-                        System.out.println(gift.getInitiator_id() + "&&&&&&&" + gift.getReceiver_id());
+
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        DatabaseReference progressRef = mDatabase.child("gift").child(gift.getUnique_key()).child("progress");
+                        progressRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                double mProgress = dataSnapshot.getValue(double.class);
+                                gift.setProgress(mProgress);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
                         String end = gift.getDue_date();
                         String start = getCurrentDate();
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
-                            mGiftArray.add(gift);
+                            mGiftMap.put(uniqueKey, gift);
                             mAdapter.notifyDataSetChanged();
-//                            mRecyclerView.setAdapter(mAdapter);
                         }
                     }
 
@@ -103,11 +115,10 @@ public class SummaryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-//        user = new User("name", "email", "birthday", "https://graph.facebook.com/10208340919458244/picture?height=500&width=500&migration_overrides=%7Boctober_2012%3Atrue%7D", "https://scontent.xx.fbcdn.net/t31.0-8/s720x720/13724076_10208539625705776_5275276674875357491_o.jpg");
         View rootView =  inflater.inflate(R.layout.fragment_list_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new SummaryRecyclerAdapter(getContext(), mGiftArray);
+        mAdapter = new SummaryRecyclerAdapter(getContext(), mGiftMap);
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }

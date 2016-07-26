@@ -88,7 +88,8 @@ public class AddGiftsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String dueDate = selectDateTextView.getText().toString();
                 String title = titleEditText.getText().toString();
-                String reason = reasonList.get(0);
+                String reason = reasonList.get(reasonList.size() - 1);
+
 
                 if((isEmpty(dueDate) || isEmpty(title) || isEmpty(reason))) {
                     Toast.makeText(AddGiftsActivity.this, "Please fill out all required fields.", Toast.LENGTH_SHORT).show();

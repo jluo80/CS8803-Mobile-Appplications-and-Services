@@ -17,15 +17,20 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class SummaryRecyclerAdapter extends RecyclerView.Adapter<SummaryRecyclerAdapter.ViewHolder>{
 
     private Context mContext;
-    private ArrayList<Gift> mGifts;
+//    private ArrayList<Gift> mGifts;
+    private HashMap<String, Gift> mGifts;
+
     private ImageLoader mImageLoader;
 
-    SummaryRecyclerAdapter(Context context, ArrayList<Gift> gifts) {
+    SummaryRecyclerAdapter(Context context, HashMap<String, Gift> gifts) {
         this.mContext = context;
         this.mGifts = gifts;
     }
@@ -39,10 +44,18 @@ public class SummaryRecyclerAdapter extends RecyclerView.Adapter<SummaryRecycler
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        int size = mGifts.size();
-        final Gift gift = mGifts.get(size - (i + 1));
+        /** HashMap to Arraylist */
+        ArrayList<Gift> mArray = new ArrayList<>();
+        Iterator it = mGifts.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            mArray.add((Gift)entry.getValue());
+        }
 
-        /** Gift status setup*/
+        int size = mArray.size();
+        final Gift gift = mArray.get(size - (i + 1));
+
+        /** Gift status setup */
         String initiatorId = gift.getInitiator_id();
         String receiverId = gift.getReceiver_id();
         String dueDate = gift.getDue_date();

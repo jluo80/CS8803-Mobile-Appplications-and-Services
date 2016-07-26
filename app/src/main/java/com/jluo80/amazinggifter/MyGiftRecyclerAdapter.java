@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +22,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<Gift> mGifts;
+//    private ArrayList<Gift> mGifts;
+    private HashMap<String, Gift> mGifts;
     private ImageLoader mImageLoader;
 
-    MyGiftRecyclerAdapter(Context context, ArrayList<Gift> gifts) {
+    MyGiftRecyclerAdapter(Context context, HashMap<String, Gift> gifts) {
         this.mContext = context;
         this.mGifts = gifts;
     }
@@ -42,10 +47,19 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        int size = mGifts.size();
-        final Gift gift = mGifts.get(size - (i + 1));
 
-        /** Gift status setup*/
+        /** HashMap to Arraylist */
+        ArrayList<Gift> mArray = new ArrayList<>();
+        Iterator it = mGifts.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            mArray.add((Gift)entry.getValue());
+        }
+
+        int size = mArray.size();
+        final Gift gift = mArray.get(size - (i + 1));
+
+        /** Gift status setup */
         String initiatorId = gift.getInitiator_id();
         String receiverId = gift.getReceiver_id();
         String dueDate = gift.getDue_date();
@@ -143,5 +157,17 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
             reason = (TextView) itemView.findViewById(R.id.reason);
             dueDate = (TextView) itemView.findViewById(R.id.due_date);
         }
+    }
+
+    public ArrayList<Gift> hashMapToArrayList(HashMap<String, Gift> hashMap) {
+
+        ArrayList<Gift> arrayList = new ArrayList<>();
+        Iterator it = hashMap.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+//            Log.e(TAG + "jluo7", entry.toString());
+            arrayList.add((Gift)entry.getValue());
+        }
+        return arrayList;
     }
 }

@@ -22,11 +22,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class MyGiftFragment extends Fragment {
 
     private static final String TAG = MyGiftFragment.class.getName();
     private ArrayList<Gift> mGiftArray = new ArrayList<>();
+    private HashMap<String, Gift> mGiftMap = new HashMap<>();
     private RecyclerView mRecyclerView;
     private MyGiftRecyclerAdapter mAdapter;
     private DatabaseReference mDatabase;
@@ -38,7 +42,7 @@ public class MyGiftFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new MyGiftRecyclerAdapter(getContext(), mGiftArray);
+        mAdapter = new MyGiftRecyclerAdapter(getContext(), mGiftMap);
         SharedPreferences mSharedPreferences = this.getActivity().getSharedPreferences("facebookLogin", Activity.MODE_PRIVATE);
         String facebookId = mSharedPreferences.getString("facebookId", "");
 
@@ -55,19 +59,33 @@ public class MyGiftFragment extends Fragment {
                 /** com.jluo80.amazinggifter.MyGiftFragment:true */
                 Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
 
-                DatabaseReference ref = mDatabase.child("gift").child(uniqueKey);
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                DatabaseReference giftRef = mDatabase.child("gift").child(uniqueKey);
+                giftRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot item) {
 
-                        Gift gift = item.getValue(Gift.class);
+                        final Gift gift = item.getValue(Gift.class);
                         gift.setUnique_key(uniqueKey);
 
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        DatabaseReference progressRef = mDatabase.child("gift").child(gift.getUnique_key()).child("progress");
+                        progressRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                double mProgress = dataSnapshot.getValue(double.class);
+                                gift.setProgress(mProgress);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
                         String end = gift.getDue_date();
                         String start = getCurrentDate();
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
-                            mGiftArray.add(gift);
+                            mGiftMap.put(uniqueKey, gift);
                             mAdapter.notifyDataSetChanged();
                         }
                     }
@@ -116,18 +134,33 @@ public class MyGiftFragment extends Fragment {
                 /** com.jluo80.amazinggifter.MyGiftFragment:true */
                 Log.e(TAG, "onChildAdded:" + dataSnapshot.getValue());
 
-                DatabaseReference ref = mDatabase.child("gift/" + uniqueKey);
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                DatabaseReference giftRef = mDatabase.child("gift/" + uniqueKey);
+                giftRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot item) {
 
-                        Gift gift = item.getValue(Gift.class);
+                        final Gift gift = item.getValue(Gift.class);
                         gift.setUnique_key(uniqueKey);
+
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        DatabaseReference progressRef = mDatabase.child("gift").child(gift.getUnique_key()).child("progress");
+                        progressRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                double mProgress = dataSnapshot.getValue(double.class);
+                                gift.setProgress(mProgress);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
                         String end = gift.getDue_date();
                         String start = getCurrentDate();
                         if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
-                            mGiftArray.add(gift);
+                            mGiftMap.put(uniqueKey, gift);
                             mAdapter.notifyDataSetChanged();
                         }
                     }
@@ -172,7 +205,7 @@ public class MyGiftFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_list_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new MyGiftRecyclerAdapter(getContext(), mGiftArray);
+        mAdapter = new MyGiftRecyclerAdapter(getContext(), mGiftMap);
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
@@ -195,17 +228,4 @@ public class MyGiftFragment extends Fragment {
         SimpleDateFormat mdformat = new SimpleDateFormat("MM/dd/yy");
         return mdformat.format(calendar.getTime());
     }
-    
-        public ArrayList<Gift> hashMapToArrayList(HashMap<String, Gift> hashMap) {
-
-        ArrayList<Gift> arrayList = new ArrayList<>();
-        Iterator it = hashMap.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            Log.e(TAG + "jluo7", entry.toString());
-            arrayList.add((Gift)entry.getValue());
-        }
-        return arrayList;
-    }
-
 }

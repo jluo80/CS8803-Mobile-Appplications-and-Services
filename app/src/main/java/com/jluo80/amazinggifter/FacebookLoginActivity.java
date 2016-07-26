@@ -33,6 +33,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.internal.ImageRequest;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -46,75 +47,62 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
  */
-public class FacebookLoginActivity extends BaseActivity implements
-        View.OnClickListener {
+public class FacebookLoginActivity extends BaseActivity {
+//    implements View.OnClickListener
 
     private static final String TAG = "FacebookLogin";
-    // [START declare_auth]
-    private FirebaseAuth mAuth;
-    // [END declare_auth]
 
-    // [START declare_auth_listener]
+    private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    // [END declare_auth_listener]
 
     private CallbackManager mCallbackManager;
 
-    /* Used to track user logging in/out off Facebook */
+    /** Used to track user logging in/out off Facebook */
     private AccessTokenTracker mAccessTokenTracker;
-//    private ProfileTracker mProfileTracker;
+
     private LoginButton facebookLoginButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_facebook_login);
 
-        findViewById(R.id.button_facebook_signout).setOnClickListener(this);
+//        findViewById(R.id.button_facebook_signout).setOnClickListener(this);
 
-        // [START initialize_auth]
-        // Initialize Firebase Auth
+        /** Initialize Firebase Auth */
         mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
 
-        // [START auth_state_listener]
+        /**[START auth_state_listener] */
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.e("11", "Not sign out yet.");
+                    Log.e(TAG, "Not sign out yet.");
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    Log.e("11", "Signed out already.");
+                    Log.e(TAG, "Signed out already.");
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // [START_EXCLUDE]
                 updateUI(user);
-                // [END_EXCLUDE]
             }
         };
-        // [END auth_state_listener]
 
-        // [START initialize_fblogin]
-
+        /** [START initialize_fblogin] */
         mCallbackManager = CallbackManager.Factory.create();
-
         mAccessTokenTracker= new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
@@ -124,17 +112,9 @@ public class FacebookLoginActivity extends BaseActivity implements
             }
         };
 
-//        mProfileTracker = new ProfileTracker() {
-//            @Override
-//            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
-//                Log.v("Session Tracker", "oldProfile=" + oldProfile + "||" + "currentProfile" +newProfile);
-//            }
-//        };
-
         mAccessTokenTracker.startTracking();
-//        mProfileTracker.startTracking();
 
-        // Initialize Facebook Login button
+        /** Initialize Facebook Login button */
         facebookLoginButton = (LoginButton) findViewById(R.id.button_facebook_login);
         facebookLoginButton.setReadPermissions("public_profile", "email", "user_birthday", "user_friends","user_location");
         facebookLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -144,7 +124,6 @@ public class FacebookLoginActivity extends BaseActivity implements
 
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
-//                Profile profile = Profile.getCurrentProfile();
 
                 // JSON object: {"id":"10208340919458244","name":"Jiahao Luo"}
                 // GraphResponse: {Response:  responseCode: 200, graphObject: {"id":"10208340919458244","name":"Jiahao Luo"}
@@ -164,7 +143,7 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 String coverImageUrl = object.getJSONObject("cover").getString("source");
 
                                 JSONArray friendsList = object.getJSONObject("friends").getJSONArray("data");
-
+                                Log.e("TS", friendsList.toString());
                                 /** Friends' ID sets and friends' Name sets. */
                                 Set<String> friendsIdSet = new HashSet<>();
                                 for(int i = 0; i < friendsList.length(); i++) {
@@ -181,6 +160,7 @@ public class FacebookLoginActivity extends BaseActivity implements
                                 editor.putString("picture", profileImageUrl);
                                 editor.putString("cover", coverImageUrl);
                                 editor.putStringSet("friendsIdSet", friendsIdSet);
+                                editor.putString("facebookFriends", friendsList.toString());
                                 editor.apply();
 
 
@@ -211,12 +191,6 @@ public class FacebookLoginActivity extends BaseActivity implements
 
                                 /** Pass basic User data to MainScreenActivity(SummaryFragment).*/
                                 Intent intent = new Intent(FacebookLoginActivity.this, MainScreenActivity.class);
-//                                intent.putExtra("facebookId", id);
-//                                intent.putExtra("username", name);
-//                                intent.putExtra("email", email);
-//                                intent.putExtra("birthday", birthday);
-//                                intent.putExtra("picture", profileImageUrl);
-//                                intent.putExtra("cover", coverImageUrl);
                                 startActivity(intent);
                                 finish();
                             }
@@ -236,41 +210,39 @@ public class FacebookLoginActivity extends BaseActivity implements
             @Override
             public void onCancel() {
                 Log.v("facebook - onCancel", "cancelled");
-                // [START_EXCLUDE]
                 updateUI(null);
-                // [END_EXCLUDE]
             }
 
             @Override
             public void onError(FacebookException error) {
                 Log.v("facebook - onError", error.getMessage());
-                // [START_EXCLUDE]
                 updateUI(null);
-                // [END_EXCLUDE]
             }
         });
-        // [END initialize_fblogin]
     }
 
-    // [START on_start_add_listener]
+    /** [START on_start_add_listener] */
     @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
-    // [END on_start_add_listener]
 
-    // [START on_stop_remove_listener]
+    /** [START on_stop_remove_listener] */
     @Override
     public void onStop() {
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
             mAccessTokenTracker.stopTracking();
-//            mProfileTracker.stopTracking();
         }
     }
-    // [END on_stop_remove_listener]
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAccessTokenTracker.stopTracking();
+    }
 
 
     @Override
@@ -279,12 +251,13 @@ public class FacebookLoginActivity extends BaseActivity implements
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    // [START auth_with_facebook]
+    /** After a user successfully signs in, in the LoginButton's onSuccess callback method,
+     * get an access token for the signed-in user, exchange it for a Firebase credential,
+     * and authenticate with Firebase using the Firebase credential */
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
-        // [START_EXCLUDE silent]
+
         showProgressDialog();
-        // [END_EXCLUDE]
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -293,47 +266,43 @@ public class FacebookLoginActivity extends BaseActivity implements
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+                        /** If sign in fails, display a message to the user. If sign in succeeds
+                         * the auth state listener will be notified and logic to handle thesigned
+                         * in user can be handled in the listener. */
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(FacebookLoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
 
-                        // [START_EXCLUDE]
                         hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
     }
-    // [END auth_with_facebook]
 
     public void signOut() {
         mAuth.signOut();
         LoginManager.getInstance().logOut();
-
         updateUI(null);
     }
 
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            findViewById(R.id.button_facebook_login).setVisibility(View.GONE);
-            findViewById(R.id.button_facebook_signout).setVisibility(View.VISIBLE);
+            findViewById(R.id.button_facebook_login).setVisibility(View.VISIBLE);
+//            findViewById(R.id.button_facebook_signout).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.button_facebook_login).setVisibility(View.VISIBLE);
-            findViewById(R.id.button_facebook_signout).setVisibility(View.GONE);
+//            findViewById(R.id.button_facebook_signout).setVisibility(View.GONE);
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_facebook_signout:
-                signOut();
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.button_facebook_signout:
+//                signOut();
+//                break;
+//        }
+//    }
 }

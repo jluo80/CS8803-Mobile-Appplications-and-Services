@@ -20,6 +20,7 @@ public class Gift {
 
     public Gift() {}
 
+
     public Gift(String category, String due_date, String initiator_id, String item_id, String item_url, String name, String picture_url, String post_time, double price, double progress, String reason, String receiver_id) {
         this.category = category;
         this.due_date = due_date;

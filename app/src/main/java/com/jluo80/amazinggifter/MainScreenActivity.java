@@ -16,7 +16,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,16 +24,17 @@ import android.view.MenuItem;
 import android.view.View;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-
-public class MainScreenActivity extends AppCompatActivity {
+public class MainScreenActivity extends BaseActivity {
 
     private static final String TAG = MainScreenActivity.class.getName();
     FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private DrawerLayout mDrawerLayout;
     private FloatingActionButton fab;
 
@@ -46,6 +46,22 @@ public class MainScreenActivity extends AppCompatActivity {
 
         FacebookSdk.sdkInitialize(getApplication().getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
+//        /**[START auth_state_listener] */
+//        mAuthListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser user = firebaseAuth.getCurrentUser();
+//                if (user != null) {
+//                    // User is signed in
+//                    Log.e(TAG, "Not sign out yet.");
+//                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+//                } else {
+//                    // User is signed out
+//                    Log.e(TAG, "Signed out already.");
+//                    Log.d(TAG, "onAuthStateChanged:signed_out");
+//                }
+//            }
+//        };
 
         setContentView(R.layout.activity_main_screen);
         /** Setup Toolbar and ActionBar. */
@@ -160,7 +176,7 @@ public class MainScreenActivity extends AppCompatActivity {
         TabPagerAdapter adapter = new TabPagerAdapter(this, getSupportFragmentManager());
         final ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(3);
         final TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -186,22 +202,41 @@ public class MainScreenActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 tabLayout.getTabAt(position).select();
+                animateFab(position);
+
             }
         });
     }
 
-    private void animateFab(int position) {
-        switch (position) {
-            case 0:
-                fab.show();
-                break;
-            case 1:
-                fab.hide();
-                break;
-            default:
-                fab.hide();
-                break;
-        }
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e(TAG, "onStart");
+    }
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        Log.e(TAG, "onRestart");
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume");
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e(TAG, "onPause");
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e(TAG, "onStop");
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "onDestroy");
     }
 
     @Override
@@ -280,27 +315,39 @@ public class MainScreenActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.e("Test Refresh Problem", "MainScreenActivity onStart");
-    }
+//    /** [START on_start_add_listener] */
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mAuth.addAuthStateListener(mAuthListener);
+//    }
+//
+//    /** [START on_stop_remove_listener] */
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mAuthListener != null) {
+//            mAuth.removeAuthStateListener(mAuthListener);
+//        }
+//    }
 
     public void facebookLogout() {
-        if (mAuth.getCurrentUser() != null) {
-            Log.e("22", "Not sign out yet.");
-        } else {
-            Log.e("22", "Signed out already.");
+//        LoginManager.getInstance().logOut();
+        if (AccessToken.getCurrentAccessToken() != null && mAuth.getCurrentUser() != null) {
+            mAuth.signOut();
+            LoginManager.getInstance().logOut();
         }
-        mAuth.signOut();
-        if (mAuth.getCurrentUser() != null) {
-            Log.e("22", "Not sign out yet.");
-        } else {
-            Log.e("22", "Signed out already.");
-        }
-        LoginManager.getInstance().logOut();
-        Log.e("facebook", "logout");
-        startActivity(new Intent(MainScreenActivity.this, FacebookLoginActivity.class));
         finish();
+    }
+
+    public void animateFab(int position) {
+        switch (position) {
+            case 0:
+                fab.show();
+                break;
+            default:
+                fab.hide();
+                break;
+        }
     }
 }
