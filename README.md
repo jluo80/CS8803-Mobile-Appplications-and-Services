@@ -37,5 +37,5 @@ CS8803-Mobile-Appplications-and-Services/
 As the overall architecture mentioned above, we have been implemented most of the features to both frontend platform. Both Android and iOS platforms work fine with Facebook login, Ebay searching API and Firebase backend. However, as to payment system, we are still looking for suitable payment system that can help us complete the crowdfunding payment. Currently, the PayPal system we’ve been integrated to our application in both platform is just a mockup.
 
 ## Acknowledgements
-Thank you for all the help and support provided by my teammates.
+Thank you for all the help and supports provided by my teammates.
 
