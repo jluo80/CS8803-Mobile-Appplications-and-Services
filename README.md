@@ -9,11 +9,10 @@
 ## Abstract
 This project is our team project for CS8803 in Summer semester, 2016 at Georgia Tech. This project requires us to develop two seperate platform and I am responsible for the Android development part of our application.
 
-There are two primary goals of this class:
- - Build your expertise in the area of Mobile Apps and Services
- - Enhance your understanding of the business ecosystem
+Key pain:
+- People usually prefer a favorable fancy gift to dull and ordinary gifts from their friends. However, the fancy gifts are often too expensive for a single person to afford. Furthermore, it is inconvenient for a person to share his/her desirable gifts to their friends.
 
-Our goal is to Analyze, specify, design, implement, document and demonstrate an application for buying train tickets at GTTrain.com. Basically this project involves the usage of classical methodology for database development. The system is using a relational DBMS(MySQL) that supports standard SQL queries.
+The Our goal is to build an application that can help people to send and receive an amazing gift contributed by their friends circle! In a nutshell, it is a gift crowdfunding application.
 
 ## Overall Architecture
 Our project’s overall architecture can be explained explicitly according to the following figure. Speaking generally, the architecture consists of three technical parts.
