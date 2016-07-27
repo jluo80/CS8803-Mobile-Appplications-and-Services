@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -57,6 +58,12 @@ public class MainScreenActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+
+        /** The android.R.id.home button in this activity is different from the other activities.
+         * It is a menu icon instead of a back arrow icon. Besides, the onOptionsItemSelected has
+         * benn overrode since the android.R.id.home function in this activity is to use to invoke
+         * mDrawerLayout.openDrawer(GravityCompat.START);
+         */
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -245,6 +252,28 @@ public class MainScreenActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_refresh:
+                finish();
+                startActivity(getIntent());
+                return true;
+            case R.id.action_logout:
+                facebookLogout();
+                return true;
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void animateFab(int position) {

@@ -127,13 +127,13 @@
                         android:text="@string/reason"
                         android:textSize="16dp"
                         android:layout_marginLeft="10dp"
-                        android:textColor="@color/content_text_color"
                         android:gravity="left" />
 
                     <Spinner
                         android:id="@+id/reason_spinner"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:popupBackground="#ffff" />
                 </LinearLayout>
 
                 <View
