@@ -12,7 +12,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -24,17 +23,11 @@ import android.view.MenuItem;
 import android.view.View;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainScreenActivity extends BaseActivity {
 
     private static final String TAG = MainScreenActivity.class.getName();
-    FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private DrawerLayout mDrawerLayout;
     private FloatingActionButton fab;
 
@@ -44,24 +37,20 @@ public class MainScreenActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Log.e("Test Refresh Problem", "MainScreenActivity onCreate");
 
-        FacebookSdk.sdkInitialize(getApplication().getApplicationContext());
-        mAuth = FirebaseAuth.getInstance();
-//        /**[START auth_state_listener] */
-//        mAuthListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser user = firebaseAuth.getCurrentUser();
-//                if (user != null) {
-//                    // User is signed in
-//                    Log.e(TAG, "Not sign out yet.");
-//                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-//                } else {
-//                    // User is signed out
-//                    Log.e(TAG, "Signed out already.");
-//                    Log.d(TAG, "onAuthStateChanged:signed_out");
-//                }
-//            }
-//        };
+        /** After finishing all the activities except for the first activity, MainScreenActivity.
+         * Then we need to finish the MainScreenActivity's individually by the below code in
+         * MainScreenActivity's onCreate. */
+
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+
+            /** The killProcess and System.exit(0) can only kill the current activity. */
+            /** Without using these, the application will still run in the background,
+             * when you try to login again, there will be "Permission Denied" Firebase
+             * database error so that you can't get any response data. */
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
+        }
 
         setContentView(R.layout.activity_main_screen);
         /** Setup Toolbar and ActionBar. */
@@ -138,7 +127,6 @@ public class MainScreenActivity extends BaseActivity {
 
                 if (menuItem.getItemId() == R.id.navigation_item_about_me) {
                     mDrawerLayout.closeDrawers();
-                    finish();
                     String resumeUrl = "http://jiahaoluo.deercv.com";
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(resumeUrl)));
                     return true;
@@ -171,7 +159,6 @@ public class MainScreenActivity extends BaseActivity {
                 context.startActivity(intent);
             }
         });
-
 
         TabPagerAdapter adapter = new TabPagerAdapter(this, getSupportFragmentManager());
         final ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
@@ -208,67 +195,6 @@ public class MainScreenActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.e(TAG, "onStart");
-    }
-    @Override
-    public void onRestart() {
-        super.onRestart();
-        Log.e(TAG, "onRestart");
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.e(TAG, "onResume");
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.e(TAG, "onPause");
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.e(TAG, "onStop");
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.e(TAG, "onDestroy");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.action_settings:
-                return true;
-            case R.id.action_refresh:
-                finish();
-                startActivity(getIntent());
-                return true;
-            case R.id.action_logout:
-                facebookLogout();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     static class TabPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -306,6 +232,12 @@ public class MainScreenActivity extends BaseActivity {
         }
     }
 
+    /** Override the onKeyDown method here, because when press
+     * back key at the MainScreenActivity, we want the apps keep
+     * running in the background instead of finish the activity.
+     * However, by default, other activities would go back to the
+     * previous activity when press back key. */
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -313,31 +245,6 @@ public class MainScreenActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-//    /** [START on_start_add_listener] */
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        mAuth.addAuthStateListener(mAuthListener);
-//    }
-//
-//    /** [START on_stop_remove_listener] */
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        if (mAuthListener != null) {
-//            mAuth.removeAuthStateListener(mAuthListener);
-//        }
-//    }
-
-    public void facebookLogout() {
-//        LoginManager.getInstance().logOut();
-        if (AccessToken.getCurrentAccessToken() != null && mAuth.getCurrentUser() != null) {
-            mAuth.signOut();
-            LoginManager.getInstance().logOut();
-        }
-        finish();
     }
 
     public void animateFab(int position) {

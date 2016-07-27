@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +27,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+
 public class EbaySearchActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
@@ -45,24 +44,22 @@ public class EbaySearchActivity extends BaseActivity {
     public static final String OPERATION_NAME = "findItemsByKeywords";
     public static final String GLOBAL_ID = "EBAY-US";
     public final static int REQUEST_DELAY = 3000;
-    public final static int MAX_RESULTS = 20;
+    public final static int MAX_RESULTS = 25;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ebay_search);
 
-        // Set the toolbar of the add gifts activity
+        /** Setup Toolbar and ActionBar. */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // add back arrow to toolbar
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        // Set onClickListener for the image button to find the products by keyword.
+        /** Set onClickListener for the image button to find the products by keyword. */
         ImageView searchImageView = (ImageView) findViewById(R.id.search);
 
         searchImageView.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +78,7 @@ public class EbaySearchActivity extends BaseActivity {
                     e.printStackTrace();
                 }
 
-                // Request a string response from the provided URL.
+                /** Request a string response from the provided URL. */
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
                             @Override
@@ -106,7 +103,7 @@ public class EbaySearchActivity extends BaseActivity {
                     }
                 });
 
-                // Add a request (in this example, called stringRequest) to your RequestQueue.
+                /** Add a request (in this example, called stringRequest) to your RequestQueue. */
                 MySingleton.getInstance(EbaySearchActivity.this).addToRequestQueue(stringRequest);
             }
         });
@@ -151,7 +148,7 @@ public class EbaySearchActivity extends BaseActivity {
 
         Intent intent = EbaySearchActivity.this.getIntent();
         String dueDate = intent.getStringExtra("due_date");
-//        String title = intent.getStringExtra("title");
+        String title = intent.getStringExtra("title");
         String reason = intent.getStringExtra("reason");
         String description = intent.getStringExtra("description");
         String postTime = intent.getStringExtra("post_time");
@@ -176,35 +173,6 @@ public class EbaySearchActivity extends BaseActivity {
 
     private void print(String name, String value) {
         System.out.println(name + "::" + value);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if(id == R.id.action_refresh){
-            finish();
-            startActivity(getIntent());
-        }
-        if(id == android.R.id.home){
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
 

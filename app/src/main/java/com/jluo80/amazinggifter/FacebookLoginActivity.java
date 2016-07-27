@@ -273,6 +273,7 @@ public class FacebookLoginActivity extends BaseActivity {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(FacebookLoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+
                         }
 
                         hideProgressDialog();
@@ -280,29 +281,13 @@ public class FacebookLoginActivity extends BaseActivity {
                 });
     }
 
-    public void signOut() {
-        mAuth.signOut();
-        LoginManager.getInstance().logOut();
-        updateUI(null);
-    }
-
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
             findViewById(R.id.button_facebook_login).setVisibility(View.VISIBLE);
-//            findViewById(R.id.button_facebook_signout).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.button_facebook_login).setVisibility(View.VISIBLE);
-//            findViewById(R.id.button_facebook_signout).setVisibility(View.GONE);
         }
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.button_facebook_signout:
-//                signOut();
-//                break;
-//        }
-//    }
 }

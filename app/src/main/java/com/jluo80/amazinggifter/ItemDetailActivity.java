@@ -5,24 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Set;
 
-
-public class ItemDetailActivity extends AppCompatActivity {
+public class ItemDetailActivity extends BaseActivity {
 
     NetworkImageView itemPicture;
     TextView itemName;
@@ -39,11 +32,11 @@ public class ItemDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
 
-        /** Set the toolbar of the add gifts activity. */
+        /** Setup Toolbar and ActionBar. */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /** add back arrow to toolbar. */
+        /** Add back arrow to toolbar. */
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -120,7 +113,6 @@ public class ItemDetailActivity extends AppCompatActivity {
                                     mDatabase.child("user/" + receiverId + "/my_gift/from_friends").child(uniqueKey).setValue(true);
                                 }
                                 Intent intent = new Intent(ItemDetailActivity.this, MainScreenActivity.class);
-//                                intent.putExtra("from", TAG);
                                 startActivity(intent);
                                 finish();
                             }
@@ -131,61 +123,12 @@ public class ItemDetailActivity extends AppCompatActivity {
                             }
                         });
 
-                // create alert dialog
+                /** Create alert dialog. */
                 AlertDialog alertDialog = alertDialogBuilder.create();
 
-                // show it
+                /** Show it. */
                 alertDialog.show();
-//                /** Save Gift data to Firebase. */
-//                mDatabase = FirebaseDatabase.getInstance().getReference();
-//                String uniqueKey = mDatabase.child("gift").push().getKey();
-//                mDatabase.child("gift").child(uniqueKey).child("category").setValue(category);
-//                mDatabase.child("gift").child(uniqueKey).child("due_date").setValue(dueDate);
-//                mDatabase.child("gift").child(uniqueKey).child("initiator_id").setValue(initiatorId);
-//                mDatabase.child("gift").child(uniqueKey).child("item_id").setValue(itemId);
-//                mDatabase.child("gift").child(uniqueKey).child("item_url").setValue(itemUrl);
-//                mDatabase.child("gift").child(uniqueKey).child("name").setValue(name);
-//                mDatabase.child("gift").child(uniqueKey).child("picture_url").setValue(pictureUrl);
-//                mDatabase.child("gift").child(uniqueKey).child("post_time").setValue(postTime);
-//                mDatabase.child("gift").child(uniqueKey).child("price").setValue(Double.parseDouble(price));
-//                mDatabase.child("gift").child(uniqueKey).child("progress").setValue(Double.parseDouble(progress));
-//                mDatabase.child("gift").child(uniqueKey).child("reason").setValue(reason);
-//                mDatabase.child("gift").child(uniqueKey).child("receiver_id").setValue(receiverId);
-//
-//                mDatabase.child("user/" + initiatorId + "/my_gift/wish_list").child(uniqueKey).setValue(true);
-//                Intent intent = new Intent(ItemDetailActivity.this, MainScreenActivity.class);
-//                intent.putExtra("from", TAG);
-//                startActivity(intent);
-//                finish();
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if(id == R.id.action_refresh){
-            finish();
-            startActivity(getIntent());
-        }
-        if(id == android.R.id.home){
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

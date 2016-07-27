@@ -5,29 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class FriendGiftActivity extends AppCompatActivity {
+
+public class FriendGiftActivity extends BaseActivity {
 
     private static final String TAG = FriendGiftActivity.class.getName();
     private DatabaseReference mDatabase;
@@ -63,8 +58,6 @@ public class FriendGiftActivity extends AppCompatActivity {
             }
         });
 
-
-//        final ArrayList<Gift> mGiftArray = new ArrayList<>();
 
         mAdapter = new FriendGiftRecyclerAdapter(this, mGiftMap);
 
@@ -238,39 +231,5 @@ public class FriendGiftActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         mAdapter.notifyDataSetChanged();
-    }
-
-    public String getCurrentDate() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("MM/dd/yy");
-        return mdformat.format(calendar.getTime());
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if(id == R.id.action_refresh){
-            finish();
-            startActivity(getIntent());
-        }
-        if(id == android.R.id.home){
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

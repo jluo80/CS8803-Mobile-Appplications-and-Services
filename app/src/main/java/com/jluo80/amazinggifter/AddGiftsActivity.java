@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,26 +14,23 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Set;
 
-public class AddGiftsActivity extends AppCompatActivity {
+
+public class AddGiftsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Set the content of the activity to use the activity_add_gifts.xml layout file
         setContentView(R.layout.activity_add_gifts);
 
-        // Set the toolbar of the add gifts activity
+        /** Setup Toolbar and ActionBar. */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // add back arrow to toolbar
+        /** Add back arrow to toolbar. */
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -111,54 +105,5 @@ public class AddGiftsActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void showDatePickerDialog(View v) {
-        DialogFragment datePickerFragment = new DatePickerFragment();
-        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    public String getCurrentDateAndTime() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("MM-dd-yyyy HH:mm");
-        return mdformat.format(calendar.getTime());
-    }
-
-    public String getCurrentDate() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("MM/dd/yy");
-        return mdformat.format(calendar.getTime());
-    }
-
-    private boolean isEmpty(String content) {
-        return content.trim().length() == 0;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if(id == R.id.action_refresh){
-            finish();
-            startActivity(getIntent());
-        }
-        if(id == android.R.id.home){
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
