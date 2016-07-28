@@ -16,7 +16,7 @@
                 android:icon="@drawable/ic_cake_black_24dp"
                 android:title="@string/nav_item_birthday" />
             <item
-                android:id="@+id/navigation_item_home"
+                android:id="@+id/navigation_item_address"
                 android:icon="@drawable/ic_place_black_24dp"
                 android:title="@string/nav_item_home" />
         </menu>

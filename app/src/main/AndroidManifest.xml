@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".AmazingGifterApplication"
+        android:name=".ui.basic.AmazingGifterApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
@@ -28,7 +28,7 @@
 
         <!-- MainActivity -->
         <activity
-            android:name=".FacebookLoginActivity"
+            android:name=".ui.activity.FacebookLoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,14 +50,14 @@
             android:authorities="com.facebook.app.FacebookContentProvider1036730073091285"
             android:exported="true" />
 
-        <activity android:name=".AddGiftsActivity" />
-        <activity android:name=".EbaySearchActivity" />
-        <activity android:name=".BaseActivity" />
-        <activity android:name=".MainScreenActivity" />
-        <activity android:name=".ItemDetailActivity" />
-        <activity android:name=".ContributionActivity" />
-        <activity android:name=".FriendGiftActivity" />
-        <activity android:name=".ContributorActivity"/>
+        <activity android:name=".ui.activity.AddGiftsActivity" />
+        <activity android:name=".ui.activity.EbaySearchActivity" />
+        <activity android:name=".ui.basic.BaseActivity" />
+        <activity android:name=".ui.activity.MainScreenActivity" />
+        <activity android:name=".ui.activity.ItemDetailActivity" />
+        <activity android:name=".ui.activity.ContributionActivity" />
+        <activity android:name=".ui.activity.FriendGiftActivity" />
+        <activity android:name=".ui.activity.ContributorActivity"/>
     </application>
 
 </manifest>
