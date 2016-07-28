@@ -67,7 +67,6 @@ public class BaseActivity extends AppCompatActivity {
         return mdformat.format(calendar.getTime());
     }
 
-
     public Long dateDiff(String str) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         Date dueDate = null;

@@ -17,9 +17,11 @@ import com.jluo80.amazinggifter.model.Gift;
 import com.jluo80.amazinggifter.utils.MySingleton;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -88,9 +90,10 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
         /** Progress bar setup. */
         DecimalFormat df = new DecimalFormat("#.#");
         viewHolder.progressBar.setProgress((int)(progress / price * 100));
-        viewHolder.currentTotal.setText(df.format(progress / price * 100) + "%");
 
-        /** Gift title and gift price setup*/
+        /** Gift status detail. */
+        viewHolder.currentTotal.setText(df.format(progress / price * 100) + "%");
+        viewHolder.daysToGo.setText(dateDiff(dueDate) + " days to go");
         viewHolder.reason.setText(reason);
         viewHolder.dueDate.setText(dueDate);
 
@@ -138,6 +141,7 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
         NetworkImageView giftPicture;
         ProgressBar progressBar;
         TextView currentTotal;
+        TextView daysToGo;
         TextView reason;
         TextView dueDate;
         TextView giftStatus;
@@ -150,6 +154,7 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
             currentPrice = (TextView) itemView.findViewById(R.id.current_price);
             giftPicture = (NetworkImageView) itemView.findViewById(R.id.gift_picture);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progress);
+            daysToGo = (TextView) itemView.findViewById(R.id.days_to_go);
             currentTotal = (TextView) itemView.findViewById(R.id.current_total);
             reason = (TextView) itemView.findViewById(R.id.reason);
             dueDate = (TextView) itemView.findViewById(R.id.due_date);
@@ -162,9 +167,22 @@ public class MyGiftRecyclerAdapter extends RecyclerView.Adapter<MyGiftRecyclerAd
         Iterator it = hashMap.entrySet().iterator();
         while(it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
-//            Log.e(TAG + "jluo7", entry.toString());
             arrayList.add((Gift)entry.getValue());
         }
         return arrayList;
+    }
+
+    public Long dateDiff(String str) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        Date dueDate = null;
+        try {
+            dueDate = dateFormat.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date currentDate = new Date();
+        long diffTime = dueDate.getTime() - currentDate.getTime();
+        long diffDays = diffTime / (1000 * 60 * 60 * 24);
+        return diffDays;
     }
 }

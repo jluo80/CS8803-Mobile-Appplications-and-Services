@@ -91,7 +91,7 @@
     <string name="nav_item_name">Name</string>
     <string name="nav_item_email">E-mail</string>
     <string name="nav_item_birthday">Birthday</string>
-    <string name="nav_item_home">Lawrenceville, GA</string>
+    <string name="nav_item_shipping_address">Shipping Address</string>
     <string name="nav_sub_menu_setting">Setting</string>
     <string name="nav_sub_menu_about_me">About Me</string>
     <string name="nav_sub_menu_refresh">Refresh</string>

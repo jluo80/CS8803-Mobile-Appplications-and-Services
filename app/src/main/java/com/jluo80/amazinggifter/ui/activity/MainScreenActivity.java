@@ -130,7 +130,7 @@ public class MainScreenActivity extends BaseActivity {
 
                 if (menuItem.getItemId() == R.id.navigation_item_address) {
                     mDrawerLayout.closeDrawers();
-                    intent = new Intent(MainScreenActivity.this, AddGiftsActivity.class);
+                    intent = new Intent(MainScreenActivity.this, ShippingAddressActivity.class);
                     startActivity(intent);
                     return true;
                 }

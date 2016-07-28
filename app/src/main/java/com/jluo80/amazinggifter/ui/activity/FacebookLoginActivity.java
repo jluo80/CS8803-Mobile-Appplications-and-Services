@@ -182,14 +182,7 @@ public class FacebookLoginActivity extends BaseActivity {
                                 mDatabase.child("user").child(id).child("email").setValue(email);
                                 mDatabase.child("user").child(id).child("birthday").setValue(birthday);
                                 mDatabase.child("user").child(id).child("picture_url").setValue(profileImageUrl);
-                                mDatabase.child("user").child(id).child("address_first").setValue("");
-                                mDatabase.child("user").child(id).child("address_second").setValue("");
-                                mDatabase.child("user").child(id).child("city").setValue("");
-                                mDatabase.child("user").child(id).child("country").setValue("");
                                 mDatabase.child("user").child(id).child("payment").setValue("");
-                                mDatabase.child("user").child(id).child("phone").setValue("");
-                                mDatabase.child("user").child(id).child("state").setValue("");
-                                mDatabase.child("user").child(id).child("zipcode").setValue("");
 
                                 /** Pass basic User data to MainScreenActivity(SummaryFragment).*/
                                 Intent intent = new Intent(FacebookLoginActivity.this, MainScreenActivity.class);

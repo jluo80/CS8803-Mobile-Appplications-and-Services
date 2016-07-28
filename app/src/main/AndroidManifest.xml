@@ -57,7 +57,9 @@
         <activity android:name=".ui.activity.ItemDetailActivity" />
         <activity android:name=".ui.activity.ContributionActivity" />
         <activity android:name=".ui.activity.FriendGiftActivity" />
-        <activity android:name=".ui.activity.ContributorActivity"/>
+        <activity android:name=".ui.activity.ContributorActivity" />
+        <activity android:name=".ui.activity.ShippingAddressActivity" />
+        <activity android:name=".ui.activity.ShippingAddressModifyActivity" />
     </application>
 
 </manifest>

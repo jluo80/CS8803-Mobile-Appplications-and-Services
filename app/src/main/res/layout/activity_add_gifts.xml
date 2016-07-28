@@ -31,44 +31,143 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="#ffff">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/due_date"
+                android:textSize="16dp"
+                android:textColor="@color/content_text_color" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:text="Set due date"
+                android:onClick="showDatePickerDialog"
+                android:background="@drawable/button_shape"/>
+
+            <TextView
+                android:id="@+id/select_date"
+                android:hint="dd/mm/yy"
+                android:textColorHint="@color/content_text_hint_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/content_text_color" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dad8d8"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#ffff">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffff"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/content_text_color"
+                    android:gravity="left"/>
+
+                <EditText
+                    android:id="@+id/title_edit_text"
+                    android:hint="set up event title"
+                    android:textColorHint="@color/content_text_hint_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/content_text_color"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffff"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/reason"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="left" />
+
+                <Spinner
+                    android:id="@+id/reason_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:popupBackground="#ffff" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp"
-                android:background="#ffff">
+                android:background="#ffff"
+                android:padding="20dp">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/due_date"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/description"
                     android:textSize="16dp"
-                    android:textColor="@color/content_text_color" />
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/content_text_color"
+                    android:gravity="left" />
 
-                <Button
-                    android:layout_width="110dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="right"
-                    android:text="Set due date"
-                    android:onClick="showDatePickerDialog"
-                    android:background="@drawable/button_shape"/>
-
-                <TextView
-                    android:id="@+id/select_date"
-                    android:hint="dd/mm/yy"
-                    android:textColorHint="@color/content_text_hint_color"
-                    android:layout_width="match_parent"
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:textColor="@color/content_text_color" />
+                    android:textColor="@color/content_text_color"
+                    android:enabled="true"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:minLines="4"
+                    android:maxLines="6"
+                    android:scrollbars="vertical"
+                    android:background="@android:drawable/edit_text"/>
             </LinearLayout>
 
             <View
@@ -80,124 +179,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="#2c3039">
+                android:background="#ffff">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:background="#ffff"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/title"
-                        android:textSize="16dp"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/content_text_color"
-                        android:gravity="left"/>
-
-                    <EditText
-                        android:id="@+id/title_edit_text"
-                        android:hint="set up event title"
-                        android:textColorHint="@color/content_text_hint_color"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/content_text_color"/>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#dad8d8"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="#ffff"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/reason"
-                        android:textSize="16dp"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="left" />
-
-                    <Spinner
-                        android:id="@+id/reason_spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:popupBackground="#ffff" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#dad8d8"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="#ffff"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/description"
-                        android:textSize="16dp"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/content_text_color"
-                        android:gravity="left" />
-
-                    <EditText
-                        android:id="@+id/description"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/content_text_color"
-                        android:enabled="true"
-                        android:gravity="top"
-                        android:inputType="textMultiLine"
-                        android:minLines="4"
-                        android:maxLines="6"
-                        android:scrollbars="vertical"
-                        android:background="@android:drawable/edit_text"/>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#dad8d8"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="#ffff">
-
-                    <Button
-                        android:id="@+id/ebaySearchButton"
-                        android:layout_width="200dp"
-                        android:layout_height="40dp"
-                        android:text="@string/search_from_ebay"
-                        android:layout_marginTop="16dp"
-                        android:textColor="#ffff"
-                        android:background="@drawable/button_shape"
-                        android:textSize="16dp"
-                        android:layout_gravity="center" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/ebaySearchButton"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:text="@string/search_from_ebay"
+                    android:layout_marginTop="16dp"
+                    android:textColor="#ffff"
+                    android:background="@drawable/button_shape"
+                    android:textSize="16dp"
+                    android:layout_gravity="center" />
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
-
+    </LinearLayout>
 </LinearLayout>
 
 

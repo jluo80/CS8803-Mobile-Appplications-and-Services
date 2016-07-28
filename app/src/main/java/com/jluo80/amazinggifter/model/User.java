@@ -6,14 +6,15 @@ package com.jluo80.amazinggifter.model;
 public class User {
     private String facebookId;
     private String name;
-    private String email;
-    private String birthday;
     private String profilePictureUrl;
     private String coverPictureUrl;
     private String mobile;
     private String addressFirst;
     private String addressSecond;
-    private String location;
+    private String birthday;
+    private String city;
+    private String country;
+    private String email;
 
 
     public User() {
@@ -96,11 +97,11 @@ public class User {
         this.addressSecond = addressSecond;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCity() {
+        return city;
     }
 
-    public void setLocation(String city) {
-        this.location = location;
+    public void setCity(String city) {
+        this.city = city;
     }
 }
