@@ -1,5 +1,5 @@
 # Amazing Gifter
-![](https://github.com/jluo80/CS8803-Mobile-Appplications-and-Services/raw/master/app/src/main/res/drawable/amazing_gifter_banner.PNG)
+![](https://firebasestorage.googleapis.com/v0/b/amazinggifter-prealpha.appspot.com/o/amazing_gifter_banner.PNG?alt=media&token=a6f63360-fff9-4b00-98b5-f87f72976657)
 
 ### CS8803 Mobile Applications and Services Project - Summer semester 2016
 #### Team: Tidehunters
