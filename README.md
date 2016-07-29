@@ -17,7 +17,7 @@ Our goal is to build an application that can help people to send and receive an 
 ## Overall Architecture
 Our project’s overall architecture can be explained explicitly according to the following figure. Speaking generally, the architecture consists of three technical parts.
 CS8803-Mobile-Appplications-and-Services/
-![](https://github.com/jluo80/CS8803-Mobile-Appplications-and-Services/raw/master/architecture.png)
+![](https://firebasestorage.googleapis.com/v0/b/amazinggifter-prealpha.appspot.com/o/Application%20architecture.png?alt=media&token=29761283-82cd-4d06-be67-54e2cdb704bb)
 
 0. As to frontend part, it includes two major mainstream mobile phone platforms which are native Android and iOS. Those two frequently-used platforms cover most of the mobile application users which can help our business establish a wide range of user groups.
 
