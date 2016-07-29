@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jluo80.amazinggifter.R;
 import com.jluo80.amazinggifter.model.Gift;
+import com.jluo80.amazinggifter.ui.basic.BaseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -156,8 +157,9 @@ public class MyGiftFragment extends Fragment {
                         });
 
                         String end = gift.getDue_date();
-                        String start = getCurrentDate();
-                        if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
+                        int datToGo = (int) BaseActivity.dateDiff(end);
+
+                        if(gift.getProgress() <= gift.getPrice() && datToGo >= 0) {
                             mGiftMap.put(uniqueKey, gift);
                             mAdapter.notifyDataSetChanged();
                         }

@@ -24,6 +24,10 @@ import android.view.MenuItem;
 import android.view.View;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.jluo80.amazinggifter.R;
 import com.jluo80.amazinggifter.ui.basic.BaseActivity;
 import com.jluo80.amazinggifter.utils.MySingleton;
@@ -34,27 +38,30 @@ public class MainScreenActivity extends BaseActivity {
     private static final String TAG = MainScreenActivity.class.getName();
     private DrawerLayout mDrawerLayout;
     private FloatingActionButton fab;
-
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("Test Refresh Problem", "MainScreenActivity onCreate");
 
+//        FacebookSdk.sdkInitialize(getApplication().getApplicationContext());
+//        mAuth = FirebaseAuth.getInstance();
+
         /** After finishing all the activities except for the first activity, MainScreenActivity.
          * Then we need to finish the MainScreenActivity's individually by the below code in
          * MainScreenActivity's onCreate. */
 
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-
-            /** The killProcess and System.exit(0) can only kill the current activity. */
-            /** Without using these, the application will still run in the background,
-             * when you try to login again, there will be "Permission Denied" Firebase
-             * database error so that you can't get any response data. */
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(0);
-        }
+//        if (getIntent().getBooleanExtra("EXIT", false)) {
+//            finish();
+//
+//            /** The killProcess and System.exit(0) can only kill the current activity. */
+//            /** Without using these, the application will still run in the background,
+//             * when you try to login again, there will be "Permission Denied" Firebase
+//             * database error so that you can't get any response data. */
+//            android.os.Process.killProcess(android.os.Process.myPid());
+//            System.exit(0);
+//        }
 
         setContentView(R.layout.activity_main_screen);
         /** Setup Toolbar and ActionBar. */
@@ -286,5 +293,16 @@ public class MainScreenActivity extends BaseActivity {
                 fab.hide();
                 break;
         }
+    }
+
+    public void facebookLogout() {
+        FacebookSdk.sdkInitialize(getApplication().getApplicationContext());
+        if (AccessToken.getCurrentAccessToken() != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
+            FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
+        }
+        finish();
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
     }
 }

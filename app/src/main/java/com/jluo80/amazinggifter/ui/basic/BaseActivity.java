@@ -67,7 +67,7 @@ public class BaseActivity extends AppCompatActivity {
         return mdformat.format(calendar.getTime());
     }
 
-    public Long dateDiff(String str) {
+    public static long dateDiff(String str) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         Date dueDate = null;
         try {
@@ -98,6 +98,7 @@ public class BaseActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT", true);
         startActivity(intent);
+        finish();
     }
 
     /** Inflate the menu; this adds items to the action bar if it is present. */
@@ -133,7 +134,7 @@ public class BaseActivity extends AppCompatActivity {
                  *
                  * Basically, onBackPressed() method works the same as finish() if you didn't
                  * overwrite the method. */
-                onBackPressed();
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

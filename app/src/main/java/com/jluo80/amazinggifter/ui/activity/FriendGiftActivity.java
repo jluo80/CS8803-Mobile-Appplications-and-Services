@@ -178,8 +178,9 @@ public class FriendGiftActivity extends BaseActivity {
                         });
 
                         String end = gift.getDue_date();
-                        String start = getCurrentDate();
-                        if(gift.getProgress() <= gift.getPrice() && end.compareTo(start) >= 0) {
+                        int datToGo = (int) dateDiff(end);
+
+                        if(gift.getProgress() <= gift.getPrice() && datToGo >= 0) {
                             mGiftMap.put(uniqueKey, gift);
                             mAdapter.notifyDataSetChanged();
                         }

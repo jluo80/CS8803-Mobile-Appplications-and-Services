@@ -31,7 +31,6 @@ import java.util.Map;
 public class FriendGiftRecyclerAdapter extends RecyclerView.Adapter<FriendGiftRecyclerAdapter.ViewHolder> {
 
     private Context mContext;
-//    private ArrayList<Gift> mGifts;
     private HashMap<String, Gift> mGifts;
     private ImageLoader mImageLoader;
 
@@ -68,6 +67,7 @@ public class FriendGiftRecyclerAdapter extends RecyclerView.Adapter<FriendGiftRe
         double price = gift.getPrice();
         double progress = gift.getProgress();
         String reason = gift.getReason();
+        Log.e("HELP", reason);
 
         if(price == progress) {
             viewHolder.giftStatus.setBackgroundResource(R.color.received);
